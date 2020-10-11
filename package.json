@@ -1,0 +1,31 @@
+{
+    "name": "@nick-mazuk/components",
+    "version": "0.1.0",
+    "description": "",
+    "main": "index.js",
+    "dependencies": {
+        "classnames": "^2.2.6"
+    },
+    "devDependencies": {
+        "@nick-mazuk/eslint-config": "^0.2.0",
+        "@nick-mazuk/tsconfig": "^0.1.1",
+        "@types/classnames": "^2.2.10",
+        "@types/react": "^16.9.52",
+        "eslint": "^7.11.0",
+        "husky": "^4.3.0",
+        "typescript": "^4.0.3"
+    },
+    "scripts": {
+        "eslint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
+        "check-types": "tsc --noemit",
+        "lint": "npm run eslint && npm run check-types"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "npx lint"
+        }
+    },
+    "keywords": [],
+    "author": "",
+    "license": "MIT"
+}
