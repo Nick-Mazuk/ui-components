@@ -1,6 +1,6 @@
-import { Info } from 'elements/info'
-import { Text } from 'elements/text'
-import { Tooltip } from 'elements/tooltip'
+import { Info } from '../../../elements/info'
+import { Text } from '../../../elements/text'
+import { Tooltip } from '../../../elements/tooltip'
 
 type Props = {
     children?: never

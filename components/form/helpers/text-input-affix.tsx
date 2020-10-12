@@ -1,10 +1,10 @@
 import classNames from 'classnames'
 
-import type { Sizes } from 'components/form/helpers/text-input-base'
-import { SIZE_MAP } from 'components/form/helpers/text-input-base'
-import type { Icon } from 'elements/icon'
-import type { WithClickCallback } from 'hoc/with-click'
-import { WithClick } from 'hoc/with-click'
+import type { Icon } from '../../../elements/icon'
+import { WithClick } from '../../../hoc/with-click'
+import type { WithClickCallback } from '../../../hoc/with-click'
+import { SIZE_MAP } from './text-input-base'
+import type { Sizes } from './text-input-base'
 
 // eslint-disable-next-line import/exports-last -- used in text-input-base
 export type AffixContent = string | Icon

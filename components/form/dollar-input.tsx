@@ -1,7 +1,7 @@
-import type { FormSync } from 'components/form/'
-import type { AffixContent } from 'components/form/helpers/text-input-affix'
-import type { Sizes } from 'components/form/helpers/text-input-base'
-import { NumberInput } from 'components/form/number-input'
+import type { FormSync } from '.'
+import type { AffixContent } from './helpers/text-input-affix'
+import type { Sizes } from './helpers/text-input-base'
+import { NumberInput } from './number-input'
 
 type Props = {
     children?: never

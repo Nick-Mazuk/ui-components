@@ -1,7 +1,8 @@
 import classNames from 'classnames'
 
 import type CSS from 'csstype'
-import type { LinkType } from 'elements/link'
+
+import type { LinkType } from './link'
 
 type SupportedChildren = string | number | LinkType
 type Tags = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span'

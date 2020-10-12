@@ -1,7 +1,7 @@
-import type { TextChildren } from 'elements/text'
-import { Text } from 'elements/text'
-import type { Buttons } from 'marketing/components/cta-buttons'
-import { CtaButtons } from 'marketing/components/cta-buttons'
+import type { TextChildren } from '../../../elements/text'
+import { Text } from '../../../elements/text'
+import type { Buttons } from '../../components/cta-buttons'
+import { CtaButtons } from '../../components/cta-buttons'
 
 type Colors = 'primary' | 'error' | 'success' | 'warning' | 'gray' | 'highlight'
 type ColoredTitle = { text: string; color: string }[]

@@ -1,9 +1,9 @@
 import classNames from 'classnames'
 
-import type { Icon } from 'elements/icon'
-import { ArrowRight } from 'elements/icon'
-import { Link } from 'elements/link'
-import { Text } from 'elements/text'
+import type { Icon } from '../../elements/icon'
+import { ArrowRight } from '../../elements/icon'
+import { Link } from '../../elements/link'
+import { Text } from '../../elements/text'
 
 type Style = 'primary' | 'success' | 'error' | 'warning' | 'highlight' | 'gray'
 

@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 
 import classNames from 'classnames'
 
-import { X } from 'elements/icon'
+import { X } from '../../elements/icon'
 
 type Size = 'small' | 'default'
 

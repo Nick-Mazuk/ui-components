@@ -1,7 +1,7 @@
-import type { FormSync } from 'components/form'
-import type { Sizes } from 'components/form/helpers/text-input-base'
-import { TextInput } from 'components/form/text-input'
-import { Search } from 'elements/icon'
+import type { FormSync } from '.'
+import { Search } from '../../elements/icon'
+import type { Sizes } from './helpers/text-input-base'
+import { TextInput } from './text-input'
 
 type Props = {
     children?: never

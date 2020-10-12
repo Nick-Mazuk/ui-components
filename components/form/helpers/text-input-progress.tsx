@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 
-import { Text } from 'elements/text'
+import { Text } from '../../../elements/text'
 
 type Props = {
     children?: never

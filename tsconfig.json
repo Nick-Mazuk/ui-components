@@ -21,8 +21,7 @@
         "resolveJsonModule": true,
         "isolatedModules": true,
         "jsx": "preserve",
-        "jsxFactory": "createElement",
-        "baseUrl": "."
+        "jsxFactory": "createElement"
     },
     "include": [
         "**/*.ts",

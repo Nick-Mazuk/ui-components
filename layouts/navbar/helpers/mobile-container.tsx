@@ -2,10 +2,10 @@ import type { ReactNode } from 'react'
 
 import classNames from 'classnames'
 
-import { Box } from 'elements/box'
-import { X } from 'elements/icon'
-import { Text } from 'elements/text'
-import { WithClick } from 'hoc/with-click'
+import { Box } from '../../../elements/box'
+import { X } from '../../../elements/icon'
+import { Text } from '../../../elements/text'
+import { WithClick } from '../../../hoc/with-click'
 
 export type Props = {
     children?: ReactNode | ReactNode[]

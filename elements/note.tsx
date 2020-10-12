@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 
-import type { TextChildren } from 'elements/text'
-import { Text } from 'elements/text'
+import type { TextChildren } from './text'
+import { Text } from './text'
 
 type Variants = { default: string; fill: string; contrast: string }
 type Types = 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'error'

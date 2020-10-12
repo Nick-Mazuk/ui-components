@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 
-import { Text } from 'elements/text'
+import { Text } from './text'
 
 type Sizes = 'small' | 'default' | 'large'
 

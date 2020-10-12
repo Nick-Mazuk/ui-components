@@ -1,5 +1,5 @@
-import { Error } from 'elements/error'
-import { Success } from 'elements/success'
+import { Error } from '../../../elements/error'
+import { Success } from '../../../elements/success'
 
 type Props = {
     children?: never

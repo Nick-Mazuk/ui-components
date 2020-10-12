@@ -1,4 +1,4 @@
-import { Text } from 'elements/text'
+import { Text } from '../../../elements/text'
 
 export const JumpToContent = (): JSX.Element => {
     return (

@@ -1,7 +1,7 @@
-import type { Colors } from 'elements/button'
-import { Button } from 'elements/button'
-import type { Icon } from 'elements/icon'
-import { ArrowRight } from 'elements/icon'
+import type { Colors } from '../../elements/button'
+import { Button } from '../../elements/button'
+import type { Icon } from '../../elements/icon'
+import { ArrowRight } from '../../elements/icon'
 
 type ButtonProps = {
     value: string

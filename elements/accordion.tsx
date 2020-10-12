@@ -4,10 +4,11 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import classNames from 'classnames'
 
 import { ease } from '@nick-mazuk/lib/animation'
-import { ChevronDown } from 'elements/icon'
-import { Text } from 'elements/text'
 import { motion } from 'framer-motion'
-import { WithClick } from 'hoc/with-click'
+
+import { WithClick } from '../hoc/with-click'
+import { ChevronDown } from './icon'
+import { Text } from './text'
 
 type Props = {
     children: ReactNode | ReactNode[]

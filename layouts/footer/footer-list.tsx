@@ -2,10 +2,10 @@ import { useCallback, useState } from 'react'
 
 import classNames from 'classnames'
 
-import { ChevronDown } from 'elements/icon'
-import { Link } from 'elements/link'
-import { Text } from 'elements/text'
-import { WithClick } from 'hoc/with-click'
+import { ChevronDown } from '../../elements/icon'
+import { Link } from '../../elements/link'
+import { Text } from '../../elements/text'
+import { WithClick } from '../../hoc/with-click'
 
 type Props = {
     title: string

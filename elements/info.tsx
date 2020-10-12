@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 
-import { Information } from 'elements/icon'
+import { Information } from './icon'
 
 type Sizes = 'small' | 'default' | 'large'
 

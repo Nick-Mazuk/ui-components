@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
 
-import type { ClearFunction, FormDataValue, FormSync } from 'components/form'
-import type { AffixContent } from 'components/form/helpers/text-input-affix'
-import type { Autocomplete, Keyboard, Sizes, Type } from 'components/form/helpers/text-input-base'
-import { TextInputBase } from 'components/form/helpers/text-input-base'
-import type { WithClickCallback } from 'hoc/with-click'
 import slugify from 'slugify'
+
+import type { ClearFunction, FormDataValue, FormSync } from '.'
+import type { WithClickCallback } from '../../hoc/with-click'
+import type { AffixContent } from './helpers/text-input-affix'
+import type { Autocomplete, Keyboard, Sizes, Type } from './helpers/text-input-base'
+import { TextInputBase } from './helpers/text-input-base'
 
 /* props - 
    coolness - persist, suggestion text, autocomplete

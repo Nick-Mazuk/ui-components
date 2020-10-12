@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 
-import { Image } from 'elements/image'
+import { Image } from './image'
 
 type Size = 'smaller' | 'small' | 'default' | 'large' | 'larger' | 'largest'
 

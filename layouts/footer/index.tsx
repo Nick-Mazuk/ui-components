@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react'
 
-import type { Icon } from 'elements/icon'
-import { Link } from 'elements/link'
-import { Text } from 'elements/text'
+import type { Icon } from '../../elements/icon'
+import { Link } from '../../elements/link'
+import { Text } from '../../elements/text'
 
 type Props = {
     copyright: string

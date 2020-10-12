@@ -1,13 +1,7 @@
-import type { FormSync } from 'components/form'
-import type { Sizes } from 'components/form/helpers/text-input-base'
-import type {
-    Formatter,
-    Parser,
-    Progress,
-    Updater,
-    ValidationRules,
-} from 'components/form/text-input'
-import { TextInput } from 'components/form/text-input'
+import type { FormSync } from '.'
+import type { Sizes } from './helpers/text-input-base'
+import type { Formatter, Parser, Progress, Updater, ValidationRules } from './text-input'
+import { TextInput } from './text-input'
 
 type Props = {
     children?: never

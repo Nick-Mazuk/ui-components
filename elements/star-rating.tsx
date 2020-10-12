@@ -2,8 +2,8 @@ import { useState } from 'react'
 
 import classNames from 'classnames'
 
-import { Star } from 'elements/icon'
-import { WithClick } from 'hoc/with-click'
+import { WithClick } from '../hoc/with-click'
+import { Star } from './icon'
 
 type Props = {
     rating: number

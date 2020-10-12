@@ -1,9 +1,10 @@
-import type { FormSync } from 'components/form'
-import type { Sizes } from 'components/form/helpers/text-input-base'
-import { TextInput } from 'components/form/text-input'
-import { Mail } from 'elements/icon'
 import isEmail from 'validator/lib/isEmail'
 import normalizeEmail from 'validator/lib/normalizeEmail'
+
+import type { FormSync } from '.'
+import { Mail } from '../../elements/icon'
+import type { Sizes } from './helpers/text-input-base'
+import { TextInput } from './text-input'
 
 type Props = {
     children?: never

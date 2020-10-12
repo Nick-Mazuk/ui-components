@@ -1,7 +1,8 @@
 import classNames from 'classnames'
 
 import { endWithPunctuation } from '@nick-mazuk/lib/text-styling'
-import { AlertCircle } from 'elements/icon'
+
+import { AlertCircle } from './icon'
 
 type Sizes = 'small' | 'default' | 'large'
 

@@ -1,9 +1,9 @@
 import { useCallback } from 'react'
 
-import type { FormSync } from 'components/form'
-import type { AffixContent } from 'components/form/helpers/text-input-affix'
-import type { Sizes } from 'components/form/helpers/text-input-base'
-import { TextInput } from 'components/form/text-input'
+import type { FormSync } from '.'
+import type { AffixContent } from './helpers/text-input-affix'
+import type { Sizes } from './helpers/text-input-base'
+import { TextInput } from './text-input'
 
 type Props = {
     children?: never

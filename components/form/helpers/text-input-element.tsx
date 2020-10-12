@@ -1,6 +1,6 @@
 import type { InputHTMLAttributes } from 'react'
 
-import type { Type } from 'components/form/helpers/text-input-base'
+import type { Type } from './text-input-base'
 
 // eslint-disable-next-line import/exports-last -- used in text-input-base
 export type InputProps = React.DetailedHTMLProps<

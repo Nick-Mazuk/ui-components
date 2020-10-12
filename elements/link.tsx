@@ -4,7 +4,7 @@ import classNames from 'classnames'
 
 import Link from 'next/link'
 
-import { WEIGHT_MAP } from 'elements/text'
+import { WEIGHT_MAP } from './text'
 
 type Properties = {
     href: string

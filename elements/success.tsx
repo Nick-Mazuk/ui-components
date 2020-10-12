@@ -1,7 +1,8 @@
 import classNames from 'classnames'
 
 import { endWithPunctuation } from '@nick-mazuk/lib/text-styling'
-import { CheckCircle } from 'elements/icon'
+
+import { CheckCircle } from './icon'
 
 type Sizes = 'small' | 'default' | 'large'
 

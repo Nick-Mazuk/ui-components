@@ -1,4 +1,4 @@
-import { WithClick } from 'hoc/with-click'
+import { WithClick } from '../../../hoc/with-click'
 
 type HamburgerProps = {
     toggle: () => void

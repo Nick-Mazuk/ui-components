@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 
 import classNames from 'classnames'
 
-import { SIZE_MAP, WEIGHT_MAP } from 'elements/text'
+import { SIZE_MAP, WEIGHT_MAP } from './text'
 
 type Colors = 'default' | 'white' | 'primary' | 'error' | 'warning' | 'success' | 'highlight'
 type Positions = 'left' | 'right' | 'top' | 'bottom'

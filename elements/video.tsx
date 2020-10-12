@@ -1,4 +1,4 @@
-import { Ratio } from 'elements/ratio'
+import { Ratio } from './ratio'
 
 type Properties = {
     children: never

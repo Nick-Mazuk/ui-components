@@ -1,5 +1,5 @@
-import { Link } from 'elements/link'
-import { Text } from 'elements/text'
+import { Link } from '../../../elements/link'
+import { Text } from '../../../elements/text'
 
 export type BrandProps = {
     content: string

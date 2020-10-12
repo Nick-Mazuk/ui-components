@@ -2,9 +2,9 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 import classNames from 'classnames'
 
-import type { Ratios } from 'elements/ratio'
-import { Ratio } from 'elements/ratio'
-import { Skeleton } from 'elements/skeleton'
+import type { Ratios } from './ratio'
+import { Ratio } from './ratio'
+import { Skeleton } from './skeleton'
 
 type Props = {
     src: string

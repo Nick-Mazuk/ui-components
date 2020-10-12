@@ -1,8 +1,9 @@
-import type { FormSync } from 'components/form'
-import type { Sizes } from 'components/form/helpers/text-input-base'
-import { TextInput } from 'components/form/text-input'
-import { User } from 'elements/icon'
 import { parseFullName } from 'parse-full-name'
+
+import type { FormSync } from '.'
+import { User } from '../../elements/icon'
+import type { Sizes } from './helpers/text-input-base'
+import { TextInput } from './text-input'
 
 type Props = {
     children?: never

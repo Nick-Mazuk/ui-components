@@ -3,11 +3,11 @@ import { useCallback, useState } from 'react'
 
 import classNames from 'classnames'
 
-import type { BrandProps } from 'layouts/navbar/helpers/brand'
-import { Brand } from 'layouts/navbar/helpers/brand'
-import { Hamburger } from 'layouts/navbar/helpers/hamburger'
-import { JumpToContent } from 'layouts/navbar/helpers/jump-to-content'
-import { MobileContainer } from 'layouts/navbar/helpers/mobile-container'
+import type { BrandProps } from './helpers/brand'
+import { Brand } from './helpers/brand'
+import { Hamburger } from './helpers/hamburger'
+import { JumpToContent } from './helpers/jump-to-content'
+import { MobileContainer } from './helpers/mobile-container'
 
 type Props = {
     children?: never

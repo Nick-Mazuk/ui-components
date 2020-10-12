@@ -3,8 +3,9 @@ import { useCallback } from 'react'
 import classNames from 'classnames'
 
 import { sentenceCase } from '@nick-mazuk/lib/text-styling'
-import type { Icon } from 'elements/icon'
-import { Link } from 'elements/link'
+
+import type { Icon } from './icon'
+import { Link } from './link'
 
 type Styles = 'filled' | 'outlined' | 'text'
 type Sizes = 'small' | 'default' | 'large'

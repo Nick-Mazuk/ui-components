@@ -2,8 +2,8 @@ import classNames from 'classnames'
 
 import { useRouter } from 'next/router'
 
-import { Link } from 'elements/link'
-import { Text } from 'elements/text'
+import { Link } from '../../elements/link'
+import { Text } from '../../elements/text'
 
 type Props = {
     text: string
