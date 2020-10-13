@@ -55,7 +55,6 @@ export const EmailInput = (props: Props): JSX.Element => {
             readonly={props.readonly}
             disabled={props.disabled}
             prefix={props.hideIcon === true ? '' : <Mail />}
-            successMessage='Email looks valid'
             requiredMessage={props.requiredMessage ?? 'Enter your email'}
             validationRules={[
                 {

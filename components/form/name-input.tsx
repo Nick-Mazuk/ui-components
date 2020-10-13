@@ -52,7 +52,6 @@ export const NameInput = (props: Props): JSX.Element => {
             readonly={props.readonly}
             disabled={props.disabled}
             prefix={props.hideIcon === true ? '' : <User />}
-            successMessage='hello world'
             requiredMessage={props.requiredMessage ?? 'Enter your name'}
             parser={parser}
             formSync={props.formSync}
