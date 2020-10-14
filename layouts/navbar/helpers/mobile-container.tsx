@@ -27,7 +27,7 @@ export const MobileContainer = ({
         }
     )
     const buttonClasses = classNames(
-        'fixed top-0 left-0 w-screen h-screen cursor-default opacity-0 sm:hidden',
+        'fixed top-0 left-0 w-screen h-screen cursor-default opacity-50 bg-black sm:hidden',
         {
             hidden: !active,
         }
@@ -39,7 +39,7 @@ export const MobileContainer = ({
                 <div>
                     <Box style='white' shadow='large'>
                         <div className='flex items-center justify-between mb-4'>
-                            <Text h6 as='p' color='text-gray-400'>
+                            <Text h6 as='p' color='text-gray'>
                                 {title}
                             </Text>
                             <WithClick callback={toggle} className='p-4 -m-4 text-gray'>
