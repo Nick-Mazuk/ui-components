@@ -199,6 +199,13 @@ export const AlertTriangle = (properties: IconProps): JSX.Element => {
     )
 }
 
+export const ArrowDown = (properties: IconProps): JSX.Element => {
+    return icon('M19 12l-7 7-7-7 M12 5v14', {
+        stroke: true,
+        width: properties.width,
+    })
+}
+
 export const ArrowLeft = (properties: IconProps): JSX.Element => {
     return icon('M19 12H5 M12 19l-7-7 7-7', {
         stroke: true,
@@ -208,6 +215,13 @@ export const ArrowLeft = (properties: IconProps): JSX.Element => {
 
 export const ArrowRight = (properties: IconProps): JSX.Element => {
     return icon('M5 12h14 M12 5l7 7-7 7', {
+        stroke: true,
+        width: properties.width,
+    })
+}
+
+export const ArrowUp = (properties: IconProps): JSX.Element => {
+    return icon('M12 19V5 M5 12l7-7 7 7', {
         stroke: true,
         width: properties.width,
     })
