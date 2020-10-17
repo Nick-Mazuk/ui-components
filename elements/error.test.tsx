@@ -37,3 +37,21 @@ test('displays custom label', () => {
             .text()
     ).toEqual('Invalid password: error.')
 })
+
+test('ends with proper punctuation', () => {
+    expect(
+        shallow(<Error label=''>error.</Error>)
+            .find('p')
+            .text()
+    ).toEqual('error.')
+    expect(
+        shallow(<Error label=''>error!</Error>)
+            .find('p')
+            .text()
+    ).toEqual('error!')
+    expect(
+        shallow(<Error label=''>error?</Error>)
+            .find('p')
+            .text()
+    ).toEqual('error?')
+})

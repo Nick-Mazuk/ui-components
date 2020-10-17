@@ -39,7 +39,7 @@ const SIZES_MAP: Record<Sizes, Sizing> = {
 
 export const RealTime = ({
     size = 'default',
-    label = 'Updating Live',
+    label = 'Updating live',
 }: Properties): JSX.Element => {
     const containerClasses = classNames('flex items-baseline', SIZES_MAP[size].container)
 

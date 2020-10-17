@@ -44,11 +44,7 @@ export const Success = ({ children, label, size = 'default' }: Props): JSX.Eleme
                 <CheckCircle />
             </span>
             <p className='ml-2'>
-                {label && (
-                    <>
-                        <span className='font-bold'>{label}:</span>&nbsp;
-                    </>
-                )}
+                {label && <span className='font-bold'>{label}: </span>}
                 {endWithPunctuation(children)}
             </p>
         </div>
