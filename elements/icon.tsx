@@ -20,7 +20,7 @@ Helper functions and type definitions are located at the bottom of this file
 
 */
 
-type iconFuncProps = {
+type iconFunctionProps = {
     stroke?: boolean
     fill?: boolean
     width?: string
@@ -35,7 +35,7 @@ type FillableIconProps = {
     fill?: boolean
 } & IconProps
 
-const icon = (path: string, properties?: iconFuncProps) => {
+const icon = (path: string, properties?: iconFunctionProps) => {
     if (properties?.width && !properties.width.match(/^w-(\d{1,2}|px)$/u)) {
         throw new Error(
             'Icon width must be a static Tailwind CSS width class (e.g., w-4 not w-full).'

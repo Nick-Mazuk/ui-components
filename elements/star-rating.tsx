@@ -21,19 +21,19 @@ export const StarRating = ({ rating, reviews, editable = false }: Props): JSX.El
     }
 
     const stars = []
-    for (let i = 0; i < STAR_COUNT; i++) {
+    for (let index = 0; index < STAR_COUNT; index++) {
         const starClasses = classNames({
-            'text-gray-300 dark:text-gray-d300': currentRating <= i,
-            'text-warning-200 dark:text-warning-d700': currentRating > i,
+            'text-gray-300 dark:text-gray-d300': currentRating <= index,
+            'text-warning-200 dark:text-warning-d700': currentRating > index,
             'cursor-pointer': editable,
         })
         stars.push(
             <WithClick
-                key={`${i}${i <= currentRating}`}
+                key={`${index}${index <= currentRating}`}
                 className={starClasses}
                 // eslint-disable-next-line react/jsx-no-bind -- need the callback to include the star number
                 callback={() => {
-                    updateStarRating(i + 1)
+                    updateStarRating(index + 1)
                 }}
             >
                 <Star width='w-6' fill />

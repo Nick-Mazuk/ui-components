@@ -44,7 +44,7 @@ export const Error = ({ children, label = 'Error', size = 'default' }: Props): J
                 <AlertCircle />
             </span>
             <p className='ml-2'>
-                <span className='font-bold'>{label}:</span>&nbsp;
+                {label !== '' && <span className='font-bold'>{label}: </span>}
                 {endWithPunctuation(children)}
             </p>
         </div>

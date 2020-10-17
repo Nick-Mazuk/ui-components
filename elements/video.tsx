@@ -24,7 +24,7 @@ type YouTubeProperties = {
 }
 
 export const YouTube = ({ id, title, noRatio }: YouTubeProperties): JSX.Element => {
-    const iFrame = (
+    const indexFrame = (
         <iframe
             src={`https://www.youtube.com/embed/${id}?autoplay=1`}
             srcDoc={`<style>*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=https://www.youtube.com/embed/${id}?autoplay=1><img src=https://i.ytimg.com/vi/${id}/maxresdefault.jpg alt='${title}'><span>▶</span></a>`}
@@ -37,10 +37,10 @@ export const YouTube = ({ id, title, noRatio }: YouTubeProperties): JSX.Element 
         />
     )
 
-    if (noRatio === true) return iFrame
+    if (noRatio === true) return indexFrame
     return (
         <Ratio as='figure' ratio='16x9'>
-            {iFrame}
+            {indexFrame}
         </Ratio>
     )
 }
