@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme'
 
-import { Success } from './success'
+import { Success } from '../success'
 
 test('renders without crashing', () => {
     const wrapper = shallow(<Success>success message</Success>)

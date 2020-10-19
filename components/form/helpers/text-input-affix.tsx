@@ -25,9 +25,10 @@ export const Affix = ({ content, size, onClick, type }: Props): JSX.Element => {
         'hover:text-primary transition-colo duration-150': onClick,
     })
 
-    let contentElement = <span className={SIZE_MAP[size].icon}>{content}</span>
-    // eslint-disable-next-line react/jsx-no-useless-fragment -- necessary to turn into a reactNode
-    if (typeof content === 'string') contentElement = <>{content}</>
+    let contentElement: JSX.Element | string = (
+        <span className={SIZE_MAP[size].icon}>{content}</span>
+    )
+    if (typeof content === 'string') contentElement = content
 
     if (onClick) {
         return (

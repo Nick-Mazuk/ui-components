@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme'
 
-import { Feedback } from './text-input-feedback'
+import { Feedback } from '../text-input-feedback'
 
 test('renders without crashing', () => {
     const wrapper = shallow(<Feedback error='' success='' />)

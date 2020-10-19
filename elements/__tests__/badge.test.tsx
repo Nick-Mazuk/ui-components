@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme'
 
-import { Badge } from './badge'
+import { Badge } from '../badge'
 
 test('renders without crashing', () => {
     expect(shallow(<Badge>Badge</Badge>).isEmptyRender()).toEqual(false)

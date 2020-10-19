@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme'
 
-import { LabelGroup } from './text-input-label-group'
+import { LabelGroup } from '../text-input-label-group'
 
 test('renders without crashing', () => {
     const wrapper = shallow(<LabelGroup label='label' info='info' />)

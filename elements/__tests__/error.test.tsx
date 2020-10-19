@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme'
 
-import { Error } from './error'
+import { Error } from '../error'
 
 test('renders without crashing', () => {
     const wrapper = shallow(<Error>error</Error>)

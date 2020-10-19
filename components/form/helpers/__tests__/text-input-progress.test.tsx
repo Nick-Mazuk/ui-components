@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme'
 
-import { Progress } from './text-input-progress'
+import { Progress } from '../text-input-progress'
 
 test('renders without crashing', () => {
     const wrapper = shallow(<Progress text='' invalid={false} />)

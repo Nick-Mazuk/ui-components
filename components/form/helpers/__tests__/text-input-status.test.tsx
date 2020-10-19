@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme'
 
-import { Status } from './text-input-status'
+import { Status } from '../text-input-status'
 
 test('renders without crashing', () => {
     const wrapper = shallow(<Status readonly optional />)

@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme'
 
-import { RealTime } from './real-time'
+import { RealTime } from '../real-time'
 
 test('renders without crashing', () => {
     const wrapper = shallow(<RealTime />)

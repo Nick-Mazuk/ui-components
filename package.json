@@ -11,7 +11,8 @@
         "eslint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
         "check-types": "tsc --noemit",
         "lint": "npm run eslint && npm run check-types",
-        "test": "jest --watch"
+        "test": "jest",
+        "test:watch": "npm run test -- --watch"
     },
     "jest": {
         "collectCoverage": true,
@@ -23,7 +24,8 @@
         ],
         "transformIgnorePatterns": [
             "node_modules*@nick-mazuk*"
-        ]
+        ],
+        "globalSetup": "jest-chance"
     },
     "type": "module",
     "devDependencies": {
@@ -31,7 +33,7 @@
         "@babel/preset-env": "^7.12.1",
         "@babel/preset-react": "^7.12.1",
         "@babel/preset-typescript": "^7.12.1",
-        "@nick-mazuk/eslint-config": "^0.3.2",
+        "@nick-mazuk/eslint-config": "^0.3.5",
         "@nick-mazuk/lib": "^0.1.1",
         "@nick-mazuk/tsconfig": "^0.1.1",
         "@types/classnames": "^2.2.10",
@@ -52,6 +54,7 @@
         "framer-motion": "^2.8.0",
         "husky": "^4.3.0",
         "jest": "^26.5.3",
+        "jest-chance": "^0.1.8",
         "next": "^9.5.5",
         "react": "^16.14.0",
         "react-dom": "^16.14.0",
