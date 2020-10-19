@@ -105,7 +105,7 @@ type Props = {
     suffixOnClick?: WithClickCallback
     keyboard?: Keyboard
     autoComplete?: Autocomplete
-    onChange?: (
+    onChange: (
         event: React.FormEvent<HTMLInputElement> | React.FormEvent<HTMLTextAreaElement>
     ) => void
     onFocus?: (
