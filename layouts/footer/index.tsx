@@ -1,24 +1,28 @@
 import type { ReactNode } from 'react'
+import { Children } from 'react'
+
+import classNames from 'classnames'
 
 import type { Icon } from '../../elements/icon'
 import { Link } from '../../elements/link'
 import { Text } from '../../elements/text'
 
 type Props = {
+    children?: ReactNode | ReactNode[]
     copyright: string
     className?: string
     icons?: { icon: Icon; href: string; name: string }[]
-    children: ReactNode | ReactNode[]
 }
 
 export const Footer = ({ copyright, className = '', icons, children }: Props): JSX.Element => {
+    const childrenContainerClasses = classNames('pb-12', {
+        'md:pb-4 md:grid md:grid-flow-col md:w-full md:gap-8': Children.count(children) !== 0,
+    })
     return (
         <footer className={`${className} mt-auto pt-8 dark:bg-black`}>
             <div className='py-12 bg-gray-10'>
                 <div className='wrapper'>
-                    <div className='pb-12 md:pb-4 md:grid md:grid-flow-col md:w-full md:gap-8'>
-                        {children}
-                    </div>
+                    <div className={childrenContainerClasses}>{children}</div>
                     <div className='flex flex-col items-center md:flex-row md:justify-between'>
                         <div className='order-2 select-none md:order-none'>
                             <Text tiny color='text-gray dark:text-gray-d'>
