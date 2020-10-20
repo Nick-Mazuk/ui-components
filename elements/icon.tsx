@@ -331,7 +331,7 @@ export const Edit3 = (properties: IconProps): JSX.Element => {
     )
 }
 
-export const ExternalLink = (properties: IconProps): JSX.Element => {
+export const ExternalUrl = (properties: IconProps): JSX.Element => {
     return icon('M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6 M15 3h6v6 M10 14L21 3', {
         stroke: true,
         width: properties.width,
@@ -381,20 +381,6 @@ export const Information = (properties: IconProps): JSX.Element => {
 
 export const InformationCircle = (properties: IconProps): JSX.Element => {
     return icon('M12 16v-4 M12 8h.01 M2,12a10,10 0 1,0 20,0a10,10 0 1,0 -20,0', {
-        stroke: true,
-        width: properties.width,
-    })
-}
-
-export const Link = (properties: IconProps): JSX.Element => {
-    return icon(
-        'M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71 M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71',
-        { stroke: true, width: properties.width }
-    )
-}
-
-export const Link2 = (properties: IconProps): JSX.Element => {
-    return icon('M15 7h3a5 5 0 015 5 5 5 0 01-5 5h-3m-6 0H6a5 5 0 01-5-5 5 5 0 015-5h3 M8 12h8', {
         stroke: true,
         width: properties.width,
     })
@@ -535,6 +521,20 @@ export const Tool = (properties: FillableIconProps): JSX.Element => {
             width: properties.width,
         }
     )
+}
+
+export const Url = (properties: IconProps): JSX.Element => {
+    return icon(
+        'M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71 M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71',
+        { stroke: true, width: properties.width }
+    )
+}
+
+export const Url2 = (properties: IconProps): JSX.Element => {
+    return icon('M15 7h3a5 5 0 015 5 5 5 0 01-5 5h-3m-6 0H6a5 5 0 01-5-5 5 5 0 015-5h3 M8 12h8', {
+        stroke: true,
+        width: properties.width,
+    })
 }
 
 // user icon comes from hero icons: https://heroicons.com/
