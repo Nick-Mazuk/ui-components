@@ -15,6 +15,7 @@ type Props = {
     right?: ReactNode | ReactNode[]
     mobile: ReactNode | ReactNode[]
     small?: boolean
+    fullWidth?: boolean
 }
 
 const getLinksClasses = (active: boolean): string => {
@@ -26,7 +27,13 @@ const getLinksClasses = (active: boolean): string => {
     )
 }
 
-export const Navbar = ({ right, mobile, small = false, brand }: Props): JSX.Element => {
+export const Navbar = ({
+    right,
+    mobile,
+    small = false,
+    brand,
+    fullWidth = false,
+}: Props): JSX.Element => {
     const [active, setActive] = useState(false)
 
     const toggleActiveState = useCallback((): void => {
@@ -38,6 +45,7 @@ export const Navbar = ({ right, mobile, small = false, brand }: Props): JSX.Elem
     const navClasses = classNames('relative wrapper flex items-center', {
         'h-16': !small,
         'h-12 text-sm': small,
+        'max-w-none': fullWidth,
     })
 
     return (
