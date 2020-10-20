@@ -3,7 +3,7 @@ import isURL from 'validator/lib/isURL'
 
 import type { FormSync } from '.'
 import type { Icon } from '../../elements/icon'
-import { Link } from '../../elements/icon'
+import { Url } from '../../elements/icon'
 import type { Sizes } from './helpers/text-input-base'
 import { TextInput } from './text-input'
 
@@ -30,7 +30,7 @@ type Props = {
 
 export const UrlInput = (props: Props): JSX.Element => {
     const label = props.label ?? 'URL'
-    const icon = props.icon ?? <Link />
+    const icon = props.icon ?? <Url />
     return (
         <TextInput
             id={props.id}
