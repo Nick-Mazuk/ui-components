@@ -504,6 +504,28 @@ export const Star = (properties: FillableIconProps): JSX.Element => {
     )
 }
 
+export const ThumbsDown = (properties: FillableIconProps): JSX.Element => {
+    return icon(
+        'M10 15v4a3 3 0 003 3l4-9V2H5.72a2 2 0 00-2 1.7l-1.38 9a2 2 0 002 2.3zm7-13h2.67A2.31 2.31 0 0122 4v7a2.31 2.31 0 01-2.33 2H17',
+        {
+            stroke: true,
+            fill: properties.fill,
+            width: properties.width,
+        }
+    )
+}
+
+export const ThumbsUp = (properties: FillableIconProps): JSX.Element => {
+    return icon(
+        'M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3zM7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3',
+        {
+            stroke: true,
+            fill: properties.fill,
+            width: properties.width,
+        }
+    )
+}
+
 export const Tool = (properties: FillableIconProps): JSX.Element => {
     return icon(
         'M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z',
