@@ -181,7 +181,7 @@ const getButtonClasses = (
     size: Sizes
 ): string => {
     return classNames(
-        'transition-all active:scale-105 transform duration-150 box-border items-center inline-block font-medium leading-1 tracking-wide text-center whitespace-no-wrap rounded focus:outline-none',
+        'transition-all active:scale-105 transform duration-150 box-border items-center inline-block font-medium leading-3 tracking-wide text-center whitespace-no-wrap rounded focus:outline-none',
         {
             'cursor-pointer': state !== 'disabled',
             'cursor-not-allowed pointer-events-none': state === 'disabled',
