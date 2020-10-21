@@ -29,6 +29,7 @@ type Props = {
     color?: Colors
     autoCapitalization?: boolean
     download?: boolean
+    square?: boolean
 
     disabled?: boolean
     loading?: boolean
@@ -99,6 +100,7 @@ const STYLES_MAP: Record<Styles, ButtonStyling> = {
 
 type SizeProperties = {
     sizing: string
+    squareSizing: string
     before: string
     after: string
     glue: {
@@ -120,6 +122,7 @@ type SizeProperties = {
 const SIZE_MAP: Record<Sizes, SizeProperties> = {
     small: {
         sizing: 'px-4 py-3 text-sm min-w-16',
+        squareSizing: 'px-3 py-3 text-sm',
         before: 'w-5 mr-1 -my-2 -ml-1',
         after: 'w-5 ml-1 -my-2 -mr-1',
         glue: {
@@ -137,6 +140,7 @@ const SIZE_MAP: Record<Sizes, SizeProperties> = {
     },
     default: {
         sizing: 'px-6 py-4 text-base min-w-24',
+        squareSizing: 'px-4 py-4 text-base',
         before: 'w-6 mr-2 -my-2 -ml-2',
         after: 'w-6 ml-2 -my-2 -mr-2',
         glue: {
@@ -154,6 +158,7 @@ const SIZE_MAP: Record<Sizes, SizeProperties> = {
     },
     large: {
         sizing: 'px-8 py-5 text-lg min-w-24',
+        squareSizing: 'px-5 py-5 text-lg',
         before: 'w-8 mr-4 -my-4 -ml-2',
         after: 'w-8 ml-4 -my-4 -mr-2',
         glue: {
@@ -196,7 +201,7 @@ const getButtonClasses = (
             : STYLES_MAP[props.style ?? 'filled'].enabled[color],
 
         // for sizing
-        SIZE_MAP[size].sizing,
+        SIZE_MAP[size][props.square ? 'squareSizing' : 'sizing'],
 
         // for glue
         glueClasses
