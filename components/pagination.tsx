@@ -80,8 +80,8 @@ export const Pagination = ({
     surroundCurrent = 1,
 }: Props): JSX.Element => {
     const middleButtons = getMiddleButtons({ current, pageCount, onPageChange, surroundCurrent })
-    const handleGoToStart = useCallback(() => onPageChange(1), [onPageChange])
-    const handleGoToEnd = useCallback(() => onPageChange(pageCount), [onPageChange, pageCount])
+    const handleGoToStart = useCallback(() => onPageChange(current - 1), [current, onPageChange])
+    const handleGoToEnd = useCallback(() => onPageChange(current + 1), [current, onPageChange])
     return (
         <div className='grid grid-flow-col gap-4'>
             {current !== 1 && (
