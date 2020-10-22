@@ -35,6 +35,7 @@ type Props = {
     color?: string
     uppercase?: boolean
     truncate?: boolean | number
+    balanced?: boolean
 }
 
 type FontWeights = 'normal' | 'semibold' | 'bold' | 'black'
