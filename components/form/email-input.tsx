@@ -15,6 +15,7 @@ type Props = {
     placeholder?: string
     defaultValue?: string
     help?: string
+    info?: string
     size?: Sizes
     optional?: boolean
     readonly?: boolean
@@ -52,6 +53,7 @@ export const EmailInput = (props: Props): JSX.Element => {
             placeholder={props.placeholder}
             defaultValue={props.defaultValue}
             help={props.help}
+            info={props.info}
             size={props.size}
             optional={props.optional}
             readonly={props.readonly}
