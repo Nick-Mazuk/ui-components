@@ -73,12 +73,6 @@ const getMiddleButtons = (props: MiddleButtonProps): JSX.Element[] => {
     return middleButtons
 }
 
-/*  <Text color='text-gray'>…</Text>
-   <PaginationButton value={4} active={false} onClick={props.onPageChange} />
-   <PaginationButton value={props.current} active onClick={props.onPageChange} />
-   <PaginationButton value={6} active={false} onClick={props.onPageChange} />
-   <Text color='text-gray'>…</Text> */
-
 export const Pagination = ({
     current,
     pageCount,
