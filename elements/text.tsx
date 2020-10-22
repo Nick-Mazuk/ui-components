@@ -36,6 +36,7 @@ type Props = {
     uppercase?: boolean
     truncate?: boolean | number
     balanced?: boolean
+    noWrap?: boolean
 }
 
 type FontWeights = 'normal' | 'semibold' | 'bold' | 'black'
@@ -130,6 +131,7 @@ const getTextClasses = (tag: Tags, props: Props): string => {
             'sr-only': props.hidden,
             'text-center': props.center,
             'uppercase tracking-wider': props.uppercase,
+            'whitespace-no-wrap': props.noWrap,
         },
         props.color ?? ''
     )
