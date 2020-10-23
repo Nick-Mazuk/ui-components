@@ -199,6 +199,33 @@ export const AlertTriangle = (props: IconProps): JSX.Element => {
     )
 }
 
+export const AlignCenter = (props: IconProps): JSX.Element => {
+    return icon('M18 10H6 M21 6H3 M21 14H3 M18 18H6', {
+        stroke: true,
+        width: props.width,
+    })
+}
+
+export const AlignJustify = (props: IconProps): JSX.Element => {
+    return icon('M21 10H3 M21 6H3 M21 14H3 M21 18H3', {
+        stroke: true,
+        width: props.width,
+    })
+}
+export const AlignLeft = (props: IconProps): JSX.Element => {
+    return icon('M17 10H3 M21 6H3 M21 14H3 M17 18H3', {
+        stroke: true,
+        width: props.width,
+    })
+}
+
+export const AlignRight = (props: IconProps): JSX.Element => {
+    return icon('M21 10H7 M21 6H3 M21 14H3 M21 18H7', {
+        stroke: true,
+        width: props.width,
+    })
+}
+
 export const ArrowDown = (props: IconProps): JSX.Element => {
     return icon('M19 12l-7 7-7-7 M12 5v14', {
         stroke: true,
@@ -242,6 +269,13 @@ export const BellOff = (props: IconProps): JSX.Element => {
             width: props.width,
         }
     )
+}
+
+export const Bold = (props: IconProps): JSX.Element => {
+    return icon('M6 4h8a4 4 0 014 4 4 4 0 01-4 4H6z M6 12h9a4 4 0 014 4 4 4 0 01-4 4H6z', {
+        stroke: true,
+        width: props.width,
+    })
 }
 
 export const Check = (props: IconProps): JSX.Element => {
@@ -389,6 +423,26 @@ export const Headphones = (props: IconProps): JSX.Element => {
     )
 }
 
+export const HeadingLarge = (props: IconProps): JSX.Element => {
+    return icon(
+        'M0.75,0.75L4.75,0.75 M12.75,0.75L16.75,0.75 M0.75,16.75L4.75,16.75 M12.75,16.75L16.75,16.75 M2.75,0.75L2.75,16.75 M14.75,0.75L14.75,16.75 M2.75,8.75L14.75,8.75',
+        {
+            stroke: true,
+            width: props.width,
+        }
+    )
+}
+
+export const HeadingSmall = (props: IconProps): JSX.Element => {
+    return icon(
+        'M7,10L9.5,10 M14.5,10L17,10 M7,20L9.5,20 M14.5,20L17,20 M8.25,10L8.25,20 M15.75,10L15.75,20 M8.25,15L15.75,15',
+        {
+            stroke: true,
+            width: props.width,
+        }
+    )
+}
+
 export const Information = (props: IconProps): JSX.Element => {
     return icon('M12 16v-4 M12 8h.01', {
         stroke: true,
@@ -398,6 +452,20 @@ export const Information = (props: IconProps): JSX.Element => {
 
 export const InformationCircle = (props: IconProps): JSX.Element => {
     return icon('M12 16v-4 M12 8h.01 M2,12a10,10 0 1,0 20,0a10,10 0 1,0 -20,0', {
+        stroke: true,
+        width: props.width,
+    })
+}
+
+export const Italic = (props: IconProps): JSX.Element => {
+    return icon('M19 4h-9 M14 20H5 M15 4L9 20', {
+        stroke: true,
+        width: props.width,
+    })
+}
+
+export const ListBulleted = (props: IconProps): JSX.Element => {
+    return icon('M8 6h13 M8 12h13 M8 18h13 M3 6h.01 M3 12h.01 M3 18h.01', {
         stroke: true,
         width: props.width,
     })
@@ -472,6 +540,16 @@ export const Plus = (props: IconProps): JSX.Element => {
     })
 }
 
+export const Save = (props: IconProps): JSX.Element => {
+    return icon(
+        'M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z M17 21v-8H7v8 M7 3v5h8',
+        {
+            stroke: true,
+            width: props.width,
+        }
+    )
+}
+
 export const Search = (props: IconProps): JSX.Element => {
     return icon('M11 17.25a6.25 6.25 0 110-12.5 6.25 6.25 0 010 12.5z M16 16l4.5 4.5', {
         stroke: true,
@@ -484,6 +562,16 @@ export const Send = (props: IconProps): JSX.Element => {
         stroke: true,
         width: props.width,
     })
+}
+
+export const Settings = (props: IconProps): JSX.Element => {
+    return icon(
+        'M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z M9,12a3,3 0 1,0 6,0a3,3 0 1,0 -6,0',
+        {
+            stroke: true,
+            width: props.width,
+        }
+    )
 }
 
 export const Smartphone = (props: IconProps): JSX.Element => {
@@ -540,6 +628,31 @@ export const Tool = (props: FillableIconProps): JSX.Element => {
     )
 }
 
+export const Trash = (props: FillableIconProps): JSX.Element => {
+    return icon(
+        'M3 6h18 M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2 M10 11v6 M14 11v6',
+        {
+            stroke: true,
+            fill: props.fill,
+            width: props.width,
+        }
+    )
+}
+
+export const Type = (props: IconProps): JSX.Element => {
+    return icon('M4 7V4h16v3 M9 20h6 M12 4v16', {
+        stroke: true,
+        width: props.width,
+    })
+}
+
+export const Underline = (props: IconProps): JSX.Element => {
+    return icon('M6 3v7a6 6 0 006 6 6 6 0 006-6V3 M4 21h16', {
+        stroke: true,
+        width: props.width,
+    })
+}
+
 export const Url = (props: IconProps): JSX.Element => {
     return icon(
         'M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71 M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71',
@@ -559,6 +672,16 @@ export const Url2 = (props: IconProps): JSX.Element => {
 export const User = (props: IconProps): JSX.Element => {
     return icon(
         'M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z',
+        {
+            stroke: true,
+            width: props.width,
+        }
+    )
+}
+
+export const Video = (props: IconProps): JSX.Element => {
+    return icon(
+        'M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2 29 29 0 00.46-5.25 29 29 0 00-.46-5.33z M9.75 15.02l5.75-3.27-5.75-3.27v6.54z',
         {
             stroke: true,
             width: props.width,
