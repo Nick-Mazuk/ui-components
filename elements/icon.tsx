@@ -440,6 +440,16 @@ export const HeadingSmall = (props: IconProps): JSX.Element => {
     )
 }
 
+export const Image = (props: IconProps): JSX.Element => {
+    return icon(
+        'M21,5C21,3.896 20.104,3 19,3L5,3C3.896,3 3,3.896 3,5L3,19C3,20.104 3.896,21 5,21L19,21C20.104,21 21,20.104 21,19L21,5Z M21,15L16,10L5,21 M7,8.5a1.5,1.5 0 1,0 3,0a1.5,1.5 0 1,0 -3,0',
+        {
+            stroke: true,
+            width: props.width,
+        }
+    )
+}
+
 export const Information = (props: IconProps): JSX.Element => {
     return icon('M12 16v-4 M12 8h.01', {
         stroke: true,
