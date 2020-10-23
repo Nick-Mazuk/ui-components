@@ -424,13 +424,10 @@ export const Headphones = (props: IconProps): JSX.Element => {
 }
 
 export const HeadingLarge = (props: IconProps): JSX.Element => {
-    return icon(
-        'M0.75,0.75L4.75,0.75 M12.75,0.75L16.75,0.75 M0.75,16.75L4.75,16.75 M12.75,16.75L16.75,16.75 M2.75,0.75L2.75,16.75 M14.75,0.75L14.75,16.75 M2.75,8.75L14.75,8.75',
-        {
-            stroke: true,
-            width: props.width,
-        }
-    )
+    return icon('M4,4L8,4 M16,4L20,4 M4,20L8,20 M16,20L20,20 M6,4L6,20 M18,4L18,20 M6,12L18,12', {
+        stroke: true,
+        width: props.width,
+    })
 }
 
 export const HeadingSmall = (props: IconProps): JSX.Element => {
