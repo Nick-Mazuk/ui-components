@@ -25,6 +25,7 @@ type iconFunctionProps = {
     fill?: boolean
     width?: string
     viewBox?: string
+    thinStroke?: string
 }
 
 type IconProps = {
@@ -52,6 +53,8 @@ const icon = (path: string, props?: iconFunctionProps) => {
         pathProps.strokeWidth = '2'
         pathProps.className += ' stroke-current'
     }
+    const thinStrokeProps = pathProps
+    thinStrokeProps.strokeWidth = '0.75'
     return (
         <svg
             viewBox={props?.viewBox ?? '0 0 24 24'}
@@ -60,6 +63,7 @@ const icon = (path: string, props?: iconFunctionProps) => {
             shapeRendering='geometricPrecision'
         >
             <path d={path} {...pathProps} />
+            {props?.thinStroke && <path d={props.thinStroke} {...thinStrokeProps} />}
         </svg>
     )
 }
@@ -475,6 +479,15 @@ export const ListBulleted = (props: IconProps): JSX.Element => {
     return icon('M8 6h13 M8 12h13 M8 18h13 M3 6h.01 M3 12h.01 M3 18h.01', {
         stroke: true,
         width: props.width,
+    })
+}
+
+export const ListNumbered = (props: IconProps): JSX.Element => {
+    return icon('M8.503,6L21.503,6 M8.503,12L21.503,12 M8.503,18L21.503,18', {
+        stroke: true,
+        width: props.width,
+        thinStroke:
+            'M3.508,4.5L3.508,7.5 M4.513,16.5L4.513,19.5 M4.53,10.5L2.497,13.5 M2.513,10.5L4.513,10.5 M2.513,13.5L4.513,13.5 M2.513,19.5L4.513,19.5 M3.513,18L4.513,18 M2.513,16.5L4.513,16.5',
     })
 }
 
