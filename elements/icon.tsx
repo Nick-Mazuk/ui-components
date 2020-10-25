@@ -53,7 +53,7 @@ const icon = (path: string, props?: iconFunctionProps) => {
         pathProps.strokeWidth = '2'
         pathProps.className += ' stroke-current'
     }
-    const thinStrokeProps = pathProps
+    const thinStrokeProps = { ...pathProps }
     thinStrokeProps.strokeWidth = '0.75'
     return (
         <svg
