@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { Fragment, useCallback } from 'react'
 
 import { Button } from '../elements/button'
 import { ChevronLeft, ChevronRight } from '../elements/icon'
@@ -95,7 +95,9 @@ export const Pagination = ({
                 />
             )}
             <PaginationButton value={1} active={current === 1} onClick={onPageChange} />
-            {middleButtons}
+            {middleButtons.map((button, index) => {
+                return <Fragment key={index}>{button}</Fragment>
+            })}
             {pageCount !== 1 && (
                 <PaginationButton
                     value={pageCount}
