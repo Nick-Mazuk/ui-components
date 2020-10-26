@@ -13,7 +13,7 @@ export const TextContent = ({
     fullwidth = false,
     responsive = false,
 }: Properties): JSX.Element => {
-    const classes = classNames('mx-auto prose sm:prose-lg lg:prose-xl', {
+    const classes = classNames('mx-auto w-full prose sm:prose-lg lg:prose-xl', {
         'max-w-none': fullwidth,
         'prose-text-base sm:prose-text-base lg:prose-text-base': !responsive,
     })

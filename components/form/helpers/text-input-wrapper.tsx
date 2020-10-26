@@ -15,7 +15,7 @@ export const TextInputWrapper = ({
 }: Props): JSX.Element => {
     const wrapperClasses = classNames(
         'flex items-center',
-        'rounded overflow-hidden w-full',
+        'rounded overflow-hidden',
         'transition-all duration-150 relative',
         {
             'text-gray-200 focus-within:text-gray bg-white': !disabled,
