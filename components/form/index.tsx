@@ -49,8 +49,8 @@ type OnSuccess = (response: SubmitResponse) => void
 
 type Props = {
     children: (formSync: FormSync) => ReactNode | ReactNode[]
-    method: Methods
-    action: string
+    method?: Methods
+    action?: string
     clearOnSubmit?: boolean
     onError?: OnError
     onSuccess?: OnSuccess
@@ -75,11 +75,11 @@ const validateInputs = (formData: FormData): boolean => {
 }
 
 const submitForm = (
-    method: Methods,
-    action: string,
     formData: FormData,
     onSuccess: OnSuccess,
     onError: OnError,
+    method?: Methods,
+    action?: string,
     token?: string
 ): void => {
     const data: Record<string, FormDataValue> = {}
@@ -88,18 +88,22 @@ const submitForm = (
             data[inputName] = formData[inputName].data
     }
     if (token) data.captchaToken = token
-    fetch(action, {
-        method: method,
-        body: JSON.stringify(data),
-    })
-        .then(async (response) => {
-            const json = await response.json()
-            onSuccess({ response: json, status: response.status, data: data })
-            return { data: json, status: response.status }
+    if (method && action) {
+        fetch(action, {
+            method: method,
+            body: JSON.stringify(data),
         })
-        .catch((error) => {
-            onError(error)
-        })
+            .then(async (response) => {
+                const json = await response.json()
+                onSuccess({ response: json, status: response.status, data: data })
+                return { data: json, status: response.status }
+            })
+            .catch((error) => {
+                onError(error)
+            })
+    } else {
+        onSuccess({ response: data, status: 200, data: data })
+    }
 }
 
 // eslint-disable-next-line max-lines-per-function -- long because it has several short hooks
@@ -147,11 +151,11 @@ export const Form = (props: Props): JSX.Element => {
                     return
                 }
                 submitForm(
-                    props.method,
-                    props.action,
                     formData,
                     handleSuccessfulSubmit,
-                    handleErrorSubmit
+                    handleErrorSubmit,
+                    props.method,
+                    props.action
                 )
             }
         },
@@ -169,11 +173,11 @@ export const Form = (props: Props): JSX.Element => {
         (token: string) => {
             setState('submitting')
             submitForm(
-                props.method,
-                props.action,
                 formData,
                 handleSuccessfulSubmit,
                 handleErrorSubmit,
+                props.method,
+                props.action,
                 token
             )
         },

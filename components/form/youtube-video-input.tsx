@@ -1,4 +1,4 @@
-import { isYouTubeVideoUrl, isYouTubeChannelUrl, getYouTubeVideoId } from '@nick-mazuk/lib/youtube'
+import { isYouTubeVideoUrl, getYouTubeVideoId } from '@nick-mazuk/lib/youtube'
 import isURL from 'validator/lib/isURL'
 
 import type { FormSync } from '.'
@@ -49,10 +49,6 @@ export const YouTubeVideoInput = (props: Props): JSX.Element => {
                 {
                     assert: (value: string) => isURL(value, { protocols: ['http', 'https'] }),
                     error: `Enter a valid url`,
-                },
-                {
-                    assert: (value: string) => isYouTubeChannelUrl(value),
-                    error: 'Cannot be a channel url',
                 },
                 {
                     assert: (value: string) => !isYouTubeVideoUrl(value),
