@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 
 import slugify from 'slugify'
 
-import type { ClearFunction, FormDataValue, FormSync } from '.'
+import type { ClearFunction, FormDataValue, FormSync, ValidateFunction } from '.'
 import type { WithClickCallback } from '../../hoc/with-click'
 import type { AffixContent } from './helpers/text-input-affix'
 import type { Autocomplete, Keyboard, Sizes, Type } from './helpers/text-input-base'
@@ -108,7 +108,7 @@ const syncWithForm = (
     name: string,
     value: string,
     parser: Parser | undefined,
-    updateValidation: (newValue?: string) => boolean,
+    updateValidation: ValidateFunction,
     clear: ClearFunction
 ): void => {
     if (formSync) formSync.updateForm(name, parseValue(value, parser), updateValidation, clear)
@@ -139,8 +139,8 @@ export const TextInput = (props: Props): JSX.Element => {
         setErrorMessage('')
     }, [updateValue])
 
-    const updateValidation = useCallback(
-        (inputValue?: string): boolean => {
+    const updateValidation: ValidateFunction = useCallback(
+        (inputValue) => {
             const newValue = inputValue ?? value
             const [isValid, message] = validate(
                 newValue,

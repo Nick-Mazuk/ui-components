@@ -2,11 +2,12 @@ import type { ReactNode } from 'react'
 import { useCallback, useMemo, useRef, useState } from 'react'
 
 import HCaptcha from '@hcaptcha/react-hcaptcha'
+import type { Node } from 'slate/dist/interfaces/node'
 
 type State = 'ready' | 'submitted' | 'submitting' | 'error'
 
 // eslint-disable-next-line import/exports-last -- used in many input component files
-export type FormDataValue = string | Record<string, string>
+export type FormDataValue = string | Record<string, string> | Node[]
 
 /* eslint-disable import/exports-last -- used in text-input component */
 export type ClearFunction = () => void

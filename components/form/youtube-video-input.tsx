@@ -59,7 +59,7 @@ export const YouTubeVideoInput = (props: Props): JSX.Element => {
                     error: 'Enter a valid video url',
                 },
             ]}
-            formatter={getYouTubeVideoId}
+            parser={getYouTubeVideoId}
             keyboard='url'
             formSync={props.formSync}
         />
