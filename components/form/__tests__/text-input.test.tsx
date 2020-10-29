@@ -24,7 +24,7 @@ test('renders without crashing', () => {
 describe('make sure either label, id, or name is defined', () => {
     test('throw error if all are undefined', () => {
         expect(() => {
-            render(<TextInput type='text' />)
+            shallow(<TextInput type='text' />)
         }).toThrow()
     })
 })
@@ -536,11 +536,39 @@ describe('success message is shown when field is valid', () => {
    
     */
 
+describe('onUpdate works as expected', () => {
+    test('onUpdate only runs when the input should update', () => {
+        const mock = jest.fn((value: string) => value.toUpperCase())
+        render(<TextInput type='text' label='Name' onUpdate={mock} />)
+        const input = screen.getByRole('textbox')
+        userEvent.type(input, 'hello world')
+        expect(input).toHaveValue('HELLO WORLD')
+        expect(input).toHaveFocus()
+        expect(mock).toHaveBeenCalledTimes(11)
+    })
+    test.todo('onUpdate can modify values as the user types')
+})
+
+describe('validation rules works as expected', () => {
+    test.todo('validation rules shows an error when they fail')
+    test.todo('error messages display in order')
+})
+
+describe('formatter works as expected', () => {
+    test.todo('formatter runs on blur')
+    test.todo('formatter updates the value')
+})
+
+describe('progress works as expected', () => {
+    test.todo('progress is called every keystroke')
+    test.todo('progress element is updated every keystroke')
+})
+
 /* 
    
    
    
-   test interaction with formSync
+   test interaction with formSync -- parser
    
    
    

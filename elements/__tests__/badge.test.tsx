@@ -7,7 +7,7 @@ test('renders without crashing', () => {
     expect(baseElement).not.toBeEmptyDOMElement()
 })
 
-const texts = [' ', 'Badge', 'badge', 'two words']
+const texts = ['Badge', 'badge', 'two words']
 it.each(texts)('text "%s" is children', (text) => {
     render(<Badge>{text}</Badge>)
     expect(screen.getByTestId('badge')).toHaveTextContent(text)

@@ -52,6 +52,6 @@ describe('renders tooltip', () => {
     })
     test("tooltip doesn't exist when info isn't provided", () => {
         render(<LabelGroup label='label' info='' />)
-        expect(screen.getByTestId('tooltip')).toBeFalsy()
+        expect(screen.queryByTestId('tooltip')).toBeFalsy()
     })
 })
