@@ -122,7 +122,7 @@ export const TextInput = (props: Props): JSX.Element => {
     const [valid, setValid] = useState(true)
     const [showSuccess, setShowSuccess] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
-    const [progress, setProgress] = useState(getProgress(defaultValue))
+    const [progress, setProgress] = useState(getProgress(defaultValue, props.progress))
 
     const updateValue = useCallback(
         (newValue: string): void => {

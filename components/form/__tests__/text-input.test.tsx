@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { shallow } from 'enzyme'
 
 import { User } from '../../../elements/icon'
-import type { Autocomplete } from '../helpers/text-input-base'
+import type { Autocomplete, Type } from '../helpers/text-input-base'
 import { TextInput } from '../text-input'
 
 test('renders without crashing', () => {
@@ -81,21 +81,7 @@ describe('"type" prop is passed down', () => {
         '%s type',
         (type) => {
             expect(
-                shallow(
-                    <TextInput
-                        type={
-                            type as
-                                | 'text'
-                                | 'email'
-                                | 'number'
-                                | 'password'
-                                | 'search'
-                                | 'textarea'
-                                | 'url'
-                        }
-                        name='text-input'
-                    />
-                )
+                shallow(<TextInput type={type as Type} name='text-input' />)
                     .find('TextInputBase')
                     .prop('type')
             ).toBe(type)
@@ -546,22 +532,90 @@ describe('onUpdate works as expected', () => {
         expect(input).toHaveFocus()
         expect(mock).toHaveBeenCalledTimes(11)
     })
-    test.todo('onUpdate can modify values as the user types')
 })
 
 describe('validation rules works as expected', () => {
-    test.todo('validation rules shows an error when they fail')
-    test.todo('error messages display in order')
+    test('validation rules shows an error when they fail, and errors display in order', () => {
+        const rules = [
+            {
+                assert: (value: string) => value.length > 10,
+                error: 'must be longer than 10 characters',
+            },
+            {
+                assert: (value: string) => Boolean(value.match(/^\S+$/u)),
+                error: 'cannot include spaces',
+            },
+            {
+                assert: (value: string) => value.length < 20,
+                error: 'must be less than 20 characters',
+            },
+        ]
+        render(<TextInput type='text' label='Name' validationRules={rules} />)
+        const input = screen.getByRole('textbox')
+        userEvent.type(input, 'hello')
+        expect(input).toHaveFocus()
+        expect(screen.queryByText('Error:')).toBeFalsy()
+        userEvent.tab()
+        expect(input).not.toHaveFocus()
+        expect(screen.getByText('Error:')).toBeTruthy()
+        expect(screen.getByText('must be longer than 10 characters.')).toBeTruthy()
+
+        userEvent.type(input, ' world')
+        userEvent.tab()
+        expect(screen.getByText('cannot include spaces.')).toBeTruthy()
+
+        userEvent.type(input, 'some more things to make it long')
+        userEvent.tab()
+        expect(screen.getByText('cannot include spaces.')).toBeTruthy()
+
+        userEvent.clear(input)
+        // eslint-disable-next-line no-secrets/no-secrets -- just a normal string
+        userEvent.type(input, 'reallyLongThingThatHasNoSpaces')
+        userEvent.tab()
+        expect(screen.getByText('must be less than 20 characters.')).toBeTruthy()
+
+        userEvent.clear(input)
+        userEvent.type(input, 'thisHasNoSpaces')
+        userEvent.tab()
+        expect(screen.queryByText('Error:')).toBeFalsy()
+    })
 })
 
 describe('formatter works as expected', () => {
-    test.todo('formatter runs on blur')
-    test.todo('formatter updates the value')
+    test('formatter runs on blur', () => {
+        const mock = jest.fn((value: string) => value.toUpperCase())
+        render(<TextInput type='text' label='Name' formatter={mock} />)
+        const input = screen.getByRole('textbox')
+        userEvent.type(input, 'hello world')
+        expect(input).toHaveValue('hello world')
+        expect(input).toHaveFocus()
+        expect(mock).toHaveBeenCalledTimes(0)
+
+        userEvent.tab()
+        expect(input).toHaveValue('HELLO WORLD')
+        expect(input).not.toHaveFocus()
+        expect(mock).toHaveBeenCalledTimes(1)
+
+        userEvent.click(input)
+        expect(mock).toHaveBeenCalledTimes(1)
+    })
 })
 
 describe('progress works as expected', () => {
-    test.todo('progress is called every keystroke')
-    test.todo('progress element is updated every keystroke')
+    test('progress is called every keystroke', () => {
+        const mock = jest.fn((value: string) => `${value.length} / 23`)
+        render(<TextInput type='text' label='Name' progress={mock} />)
+        expect(screen.getByText('0 / 23')).toBeTruthy()
+        expect(mock).toHaveBeenCalledTimes(1)
+
+        const input = screen.getByRole('textbox')
+        userEvent.type(input, 'hello world')
+
+        expect(screen.getByText('11 / 23')).toBeTruthy()
+
+        userEvent.tab()
+        expect(screen.getByText('11 / 23')).toBeTruthy()
+    })
 })
 
 /* 
