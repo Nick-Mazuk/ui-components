@@ -1,57 +1,35 @@
-import { shallow } from 'enzyme'
+import { render, screen } from '@testing-library/react'
 
 import { Success } from '../success'
 
 test('renders without crashing', () => {
-    const wrapper = shallow(<Success>success message</Success>)
-    expect(wrapper.isEmptyRender()).toEqual(false)
+    const { baseElement } = render(<Success>success message</Success>)
+    expect(baseElement).not.toBeEmptyDOMElement()
 })
 
-test('displays success message', () => {
-    expect(
-        shallow(<Success>success</Success>)
-            .find('p')
-            .text()
-    ).toEqual('success.')
-    expect(
-        shallow(<Success>your email is valid</Success>)
-            .find('p')
-            .text()
-    ).toEqual('your email is valid.')
-    expect(
-        shallow(<Success> </Success>)
-            .find('p')
-            .text()
-    ).toEqual(' .')
+const successes = ['success', 'your email is valid']
+test.each(successes)('displays success message "%s"', (success) => {
+    render(<Success>{success}</Success>)
+    expect(screen.getByText(`${success}.`)).toBeTruthy()
 })
 
-test('displays custom label', () => {
-    expect(
-        shallow(<Success label=''>success message</Success>)
-            .find('p')
-            .text()
-    ).toEqual('success message.')
-    expect(
-        shallow(<Success label='Username available'>grab it while you can</Success>)
-            .find('p')
-            .text()
-    ).toEqual('Username available: grab it while you can.')
+const labels = ['', 'Username available']
+test.each(labels)('displays custom label "%s"', (label) => {
+    render(<Success label={label}>success message</Success>)
+    if (label === '') expect(screen.queryByText(/:/u)).toBeFalsy()
+    else expect(screen.getByText(`${label}:`)).toBeTruthy()
 })
 
-test('ends with proper punctuation', () => {
-    expect(
-        shallow(<Success>success message.</Success>)
-            .find('p')
-            .text()
-    ).toEqual('success message.')
-    expect(
-        shallow(<Success label=''>success message!</Success>)
-            .find('p')
-            .text()
-    ).toEqual('success message!')
-    expect(
-        shallow(<Success label=''>success message?</Success>)
-            .find('p')
-            .text()
-    ).toEqual('success message?')
-})
+const successWithPunctuation = [
+    ['success', 'success.'],
+    ['success.', 'success.'],
+    ['success!', 'success!'],
+    ['success?', 'success?'],
+]
+test.each(successWithPunctuation)(
+    'ends with proper punctuation: "%s" should be "%s"',
+    (success, displayedSuccess) => {
+        render(<Success>{success}</Success>)
+        expect(screen.getByText(displayedSuccess)).toBeTruthy()
+    }
+)
