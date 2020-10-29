@@ -19,7 +19,7 @@ type Props = {
 export const TextInputElement = ({ type, props, value }: Props): JSX.Element => {
     if (type === 'textarea') {
         return (
-            <textarea rows={4} {...props}>
+            <textarea rows={4} {...props} data-testid='text-input-element'>
                 {value}
             </textarea>
         )
