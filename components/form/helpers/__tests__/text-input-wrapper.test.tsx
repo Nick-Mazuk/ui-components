@@ -1,4 +1,4 @@
-import { shallow } from 'enzyme'
+import { render, screen } from '@testing-library/react'
 
 import { TextInputWrapper } from '../text-input-wrapper'
 
@@ -7,52 +7,53 @@ const errorClass = 'shadow-input-error-border'
 const disabledClass = 'cursor-not-allowed'
 
 test('renders without crashing', () => {
-    const wrapper = shallow(
+    const { baseElement } = render(
         <TextInputWrapper hasError={false} disabled={false}>
             {' '}
         </TextInputWrapper>
     )
-    expect(wrapper.isEmptyRender()).toEqual(false)
+    expect(baseElement).not.toBeEmptyDOMElement()
 })
 
 describe('styled correctly for disabled and error', () => {
     test('has default styles', () => {
-        const wrapper = shallow(
+        render(
             <TextInputWrapper hasError={false} disabled={false}>
                 {' '}
             </TextInputWrapper>
         )
-        expect(wrapper.hasClass(defaultClass)).toEqual(true)
-        expect(wrapper.hasClass(errorClass)).toEqual(false)
-        expect(wrapper.hasClass(disabledClass)).toEqual(false)
+        expect(screen.getByTestId('text-input-wrapper')).toHaveClass(defaultClass)
+        expect(screen.getByTestId('text-input-wrapper')).not.toHaveClass(errorClass)
+        expect(screen.getByTestId('text-input-wrapper')).not.toHaveClass(disabledClass)
     })
-    test('has disabled styles', () => {
-        let wrapper = shallow(
+    test("has disabled styles when there's no error", () => {
+        render(
             <TextInputWrapper hasError={false} disabled>
                 {' '}
             </TextInputWrapper>
         )
-        expect(wrapper.hasClass(defaultClass)).toEqual(false)
-        expect(wrapper.hasClass(errorClass)).toEqual(false)
-        expect(wrapper.hasClass(disabledClass)).toEqual(true)
-
-        wrapper = shallow(
+        expect(screen.getByTestId('text-input-wrapper')).not.toHaveClass(defaultClass)
+        expect(screen.getByTestId('text-input-wrapper')).not.toHaveClass(errorClass)
+        expect(screen.getByTestId('text-input-wrapper')).toHaveClass(disabledClass)
+    })
+    test("has disabled styles when there's is an error", () => {
+        render(
             <TextInputWrapper hasError disabled>
                 {' '}
             </TextInputWrapper>
         )
-        expect(wrapper.hasClass(defaultClass)).toEqual(false)
-        expect(wrapper.hasClass(errorClass)).toEqual(false)
-        expect(wrapper.hasClass(disabledClass)).toEqual(true)
+        expect(screen.getByTestId('text-input-wrapper')).not.toHaveClass(defaultClass)
+        expect(screen.getByTestId('text-input-wrapper')).not.toHaveClass(errorClass)
+        expect(screen.getByTestId('text-input-wrapper')).toHaveClass(disabledClass)
     })
     test('has error styles', () => {
-        const wrapper = shallow(
+        render(
             <TextInputWrapper hasError disabled={false}>
                 {' '}
             </TextInputWrapper>
         )
-        expect(wrapper.hasClass(defaultClass)).toEqual(false)
-        expect(wrapper.hasClass(errorClass)).toEqual(true)
-        expect(wrapper.hasClass(disabledClass)).toEqual(false)
+        expect(screen.getByTestId('text-input-wrapper')).not.toHaveClass(defaultClass)
+        expect(screen.getByTestId('text-input-wrapper')).toHaveClass(errorClass)
+        expect(screen.getByTestId('text-input-wrapper')).not.toHaveClass(disabledClass)
     })
 })
