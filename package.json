@@ -33,7 +33,7 @@
         "@babel/preset-env": "^7.12.1",
         "@babel/preset-react": "^7.12.1",
         "@babel/preset-typescript": "^7.12.1",
-        "@nick-mazuk/eslint-config": "^0.3.5",
+        "@nick-mazuk/eslint-config": "^0.4.1",
         "@nick-mazuk/lib": "^0.2.2",
         "@nick-mazuk/tsconfig": "^0.1.1",
         "@testing-library/react": "^11.1.0",
