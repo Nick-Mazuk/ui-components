@@ -623,18 +623,11 @@ describe('progress works as expected', () => {
    
    
    
-   test interaction with formSync -- parser
+   test interaction with formSync
    
    
    
     */
-
-/* type UpdateForm = (
-       name: string,
-       data: FormDataValue,
-       validate: ValidateFunction,
-       clear: ClearFunction
-   ) => void */
 
 describe('formSync works', () => {
     test('input is synced and parsed', () => {
