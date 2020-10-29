@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { mount } from 'enzyme'
+import userEvent from '@testing-library/user-event'
 
 import { Mail, User } from '../../../../elements/icon'
 import { Affix } from '../text-input-affix'
@@ -14,7 +14,7 @@ const textContent = [
     ['"¥" text', '¥'],
 ]
 
-const contentArray = [...iconContent, ...textContent]
+const contentItems = [...iconContent, ...textContent]
 
 test('renders without crashing', () => {
     const testFunction = jest.fn()
@@ -25,19 +25,19 @@ test('renders without crashing', () => {
 })
 
 describe('renders text and icons as content', () => {
-    test.each(contentArray)(
+    test.each(contentItems)(
         'renders content %s directly when onClick is undefined',
-        async (_, content) => {
+        (_, content) => {
             render(<Affix content={content} size='default' type='prefix' onClick={undefined} />)
-            if (typeof content === 'string') expect(await screen.findByText(content)).toBeTruthy()
-            else expect(await screen.findByTestId('text-input-affix')).not.toBeEmptyDOMElement()
+            if (typeof content === 'string') expect(screen.getByText(content)).toBeTruthy()
+            else expect(screen.getByTestId('text-input-affix')).not.toBeEmptyDOMElement()
         }
     )
-    test.each(contentArray)('renders %s when onClick is defined', async (_, content) => {
+    test.each(contentItems)('renders %s when onClick is defined', (_, content) => {
         const testFunction = jest.fn()
         render(<Affix content={content} size='default' type='prefix' onClick={testFunction} />)
-        if (typeof content === 'string') expect(await screen.findByText(content)).toBeTruthy()
-        else expect(await screen.findByTestId('text-input-affix')).not.toBeEmptyDOMElement()
+        if (typeof content === 'string') expect(screen.getByText(content)).toBeTruthy()
+        else expect(screen.getByTestId('text-input-affix')).not.toBeEmptyDOMElement()
     })
 })
 
@@ -47,18 +47,23 @@ describe('onClick event works', () => {
         expect(screen.queryByRole('button')).toBeFalsy()
     })
 
+    it('When onClick is defined, it should have a role of button', () => {
+        const testFunction = jest.fn()
+        render(<Affix content='$' size='default' type='prefix' onClick={testFunction} />)
+        expect(screen.queryByRole('button')).toBeTruthy()
+    })
+
     it('function runs when clicked', () => {
         const testFunction = jest.fn()
         render(<Affix content='$' size='default' type='prefix' onClick={testFunction} />)
-        screen.findByRole('button')
-        expect(testFunction).toHaveBeenCalled()
+        userEvent.click(screen.getByRole('button'))
+        expect(testFunction).toHaveBeenCalledTimes(1)
     })
 
-    it('function runs only once when clicked', () => {
+    it.each(contentItems)('if content is %s, clicking still works', (_, content) => {
         const testFunction = jest.fn()
-        mount(<Affix content='$' size='default' type='prefix' onClick={testFunction} />).simulate(
-            'click'
-        )
+        render(<Affix content={content} size='default' type='prefix' onClick={testFunction} />)
+        userEvent.click(screen.getByRole('button'))
         expect(testFunction).toHaveBeenCalledTimes(1)
     })
 })

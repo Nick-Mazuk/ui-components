@@ -7,8 +7,8 @@ import type { Autocomplete } from '../helpers/text-input-base'
 import { TextInput } from '../text-input'
 
 test('renders without crashing', () => {
-    const { container } = render(<TextInput type='text' name='text-input' />)
-    expect(container).not.toBeEmptyDOMElement()
+    const { baseElement } = render(<TextInput type='text' name='text-input' />)
+    expect(baseElement).not.toBeEmptyDOMElement()
 })
 
 /* 
