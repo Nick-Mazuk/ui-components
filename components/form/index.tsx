@@ -115,8 +115,8 @@ export const Form = (props: Props): JSX.Element => {
         return {}
     }, [])
 
-    const updateForm = useCallback(
-        (name: string, data: FormDataValue, validate: ValidateFunction, clear: ClearFunction) => {
+    const updateForm: UpdateForm = useCallback(
+        (name, data, validate, clear) => {
             formData[name] = { data: data, validate: validate, clear: clear }
             setState('ready')
         },

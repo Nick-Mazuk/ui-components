@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { shallow } from 'enzyme'
 
+import type { FormSync } from '..'
 import { User } from '../../../elements/icon'
 import type { Autocomplete, Type } from '../helpers/text-input-base'
 import { TextInput } from '../text-input'
@@ -627,3 +628,49 @@ describe('progress works as expected', () => {
    
    
     */
+
+/* type UpdateForm = (
+       name: string,
+       data: FormDataValue,
+       validate: ValidateFunction,
+       clear: ClearFunction
+   ) => void */
+
+describe('formSync works', () => {
+    test('input is synced and parsed', () => {
+        const formSync: FormSync = {
+            state: 'ready',
+            updateForm: jest.fn(),
+        }
+        const parser = jest.fn((value: string) => value.toUpperCase())
+        render(
+            <TextInput
+                type='text'
+                label='Name'
+                name='form-sync-name'
+                parser={parser}
+                formSync={formSync}
+            />
+        )
+        expect(formSync.updateForm).toHaveBeenCalledTimes(1)
+        expect(formSync.updateForm).toHaveBeenCalledWith(
+            'form-sync-name',
+            '',
+            expect.any(Function),
+            expect.any(Function)
+        )
+
+        const input = screen.getByRole('textbox')
+        userEvent.type(input, 'hello world')
+
+        userEvent.tab()
+
+        expect(formSync.updateForm).toHaveBeenCalledTimes(2)
+        expect(formSync.updateForm).toHaveBeenCalledWith(
+            'form-sync-name',
+            'HELLO WORLD',
+            expect.any(Function),
+            expect.any(Function)
+        )
+    })
+})
