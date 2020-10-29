@@ -1,56 +1,37 @@
-import { shallow } from 'enzyme'
+import { render, screen } from '@testing-library/react'
 
 import { Progress } from '../text-input-progress'
 
 test('renders without crashing', () => {
-    const wrapper = shallow(<Progress text='' invalid={false} />)
-    expect(wrapper.isEmptyRender()).toEqual(false)
+    const { baseElement } = render(<Progress text='' invalid={false} />)
+    expect(baseElement).not.toBeEmptyDOMElement()
 })
 
+test("is empty when there's no text", () => {
+    const { container } = render(<Progress text='' invalid />)
+    expect(container).toBeEmptyDOMElement()
+})
+
+const contents = ['22 / 23', 'One character left']
+
 describe('renders the progress text', () => {
-    test('progress is rendered when provided', () => {
-        expect(
-            shallow(<Progress text='22 / 23' invalid={false} />)
-                .find('Text')
-                .prop('children')
-        ).toEqual('22 / 23')
-        expect(
-            shallow(<Progress text='One character left' invalid={false} />)
-                .find('Text')
-                .prop('children')
-        ).toEqual('One character left')
-        expect(
-            shallow(<Progress text='22 / 23' invalid />)
-                .find('Text')
-                .prop('children')
-        ).toEqual('22 / 23')
-        expect(
-            shallow(<Progress text='One character left' invalid />)
-                .find('Text')
-                .prop('children')
-        ).toEqual('One character left')
+    test.each(contents)('progress "%s" is rendered when provided', (content) => {
+        render(<Progress text={content} invalid={false} />)
+        expect(screen.getByText(content)).toBeTruthy()
     })
-    test('progress is not rendered when not provided', () => {
-        expect(
-            shallow(<Progress text='' invalid={false} />)
-                .children()
-                .exists()
-        ).toEqual(false)
-        expect(
-            shallow(<Progress text='' invalid />)
-                .children()
-                .exists()
-        ).toEqual(false)
+    test.each(contents)('progress "%s" is rendered when provided and invalid', (content) => {
+        render(<Progress text={content} invalid />)
+        expect(screen.getByText(content)).toBeTruthy()
     })
 })
 
 describe('text is correct color', () => {
-    test('text has text-error when invalid', () => {
-        expect(shallow(<Progress text='24 / 89' invalid />).hasClass('text-error')).toEqual(true)
+    test.each(contents)('text has text-error when invalid', (content) => {
+        const { container } = render(<Progress text={content} invalid />)
+        expect(container.querySelector('div')).toHaveClass('text-error')
     })
-    test('text is normal color when valid', () => {
-        expect(shallow(<Progress text='24 / 89' invalid={false} />).hasClass('text-error')).toEqual(
-            false
-        )
+    test.each(contents)('text has normal color when valid', (content) => {
+        const { container } = render(<Progress text={content} invalid={false} />)
+        expect(container.querySelector('div')).not.toHaveClass('text-error')
     })
 })
