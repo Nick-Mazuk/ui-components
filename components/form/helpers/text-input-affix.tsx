@@ -26,7 +26,9 @@ export const Affix = ({ content, size, onClick, type }: Props): JSX.Element => {
     })
 
     let contentElement: JSX.Element | string = (
-        <span className={SIZE_MAP[size].icon}>{content}</span>
+        <span className={SIZE_MAP[size].icon} data-testid='text-input-affix'>
+            {content}
+        </span>
     )
     if (typeof content === 'string') contentElement = content
 

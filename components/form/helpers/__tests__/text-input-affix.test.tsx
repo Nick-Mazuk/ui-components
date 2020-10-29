@@ -1,99 +1,56 @@
-import { render } from '@testing-library/react'
-import { mount, shallow } from 'enzyme'
+import { render, screen } from '@testing-library/react'
+import { mount } from 'enzyme'
 
-import { Apple, Mail, User } from '../../../../elements/icon'
+import { Mail, User } from '../../../../elements/icon'
 import { Affix } from '../text-input-affix'
 
-const icons = [
-    ['apple', <Apple key='apple' />],
-    ['mail', <Mail key='mail' />],
-    ['user', <User key='user' />],
+const iconContent = [
+    ['"mail" icon', <Mail key='mail' />],
+    ['"user" icon', <User key='user' />],
 ]
+
+const textContent = [
+    ['"$" text', '$'],
+    ['"¥" text', '¥'],
+]
+
+const contentArray = [...iconContent, ...textContent]
 
 test('renders without crashing', () => {
     const testFunction = jest.fn()
-    const { container } = render(
+    const { baseElement } = render(
         <Affix content='' size='default' type='prefix' onClick={testFunction} />
     )
-    expect(container).not.toBeEmptyDOMElement()
+    expect(baseElement).not.toBeEmptyDOMElement()
 })
 
-describe('renders text as content', () => {
-    test('renders text directly when onClick is undefined', () => {
-        expect(
-            shallow(<Affix content='$' size='default' type='prefix' onClick={undefined} />).text()
-        ).toEqual('$')
-    })
-    test('renders text when onClick is defined', () => {
+describe('renders text and icons as content', () => {
+    test.each(contentArray)(
+        'renders content %s directly when onClick is undefined',
+        async (_, content) => {
+            render(<Affix content={content} size='default' type='prefix' onClick={undefined} />)
+            if (typeof content === 'string') expect(await screen.findByText(content)).toBeTruthy()
+            else expect(await screen.findByTestId('text-input-affix')).not.toBeEmptyDOMElement()
+        }
+    )
+    test.each(contentArray)('renders %s when onClick is defined', async (_, content) => {
         const testFunction = jest.fn()
-        expect(
-            shallow(<Affix content='$' size='default' type='prefix' onClick={testFunction} />)
-                .find('WithClick')
-                .prop('children')
-        ).toEqual('$')
-    })
-})
-
-describe('renders icon as content', () => {
-    test('renders icon directly when onClick is undefined', () => {
-        expect(
-            shallow(<Affix content={<User />} size='default' type='prefix' onClick={undefined} />)
-                .find('User')
-                .exists()
-        ).toEqual(true)
-        expect(
-            shallow(<Affix content={<Mail />} size='default' type='prefix' onClick={undefined} />)
-                .find('Mail')
-                .exists()
-        ).toEqual(true)
-        expect(
-            shallow(<Affix content={<Apple />} size='default' type='prefix' onClick={undefined} />)
-                .find('Apple')
-                .exists()
-        ).toEqual(true)
-    })
-    test('renders icon when onClick is defined', () => {
-        const testFunction = jest.fn()
-        expect(
-            mount(<Affix content={<User />} size='default' type='prefix' onClick={testFunction} />)
-                .find('User')
-                .exists()
-        ).toEqual(true)
-        expect(
-            mount(<Affix content={<Mail />} size='default' type='prefix' onClick={testFunction} />)
-                .find('Mail')
-                .exists()
-        ).toEqual(true)
-        expect(
-            mount(<Affix content={<Apple />} size='default' type='prefix' onClick={testFunction} />)
-                .find('Apple')
-                .exists()
-        ).toEqual(true)
+        render(<Affix content={content} size='default' type='prefix' onClick={testFunction} />)
+        if (typeof content === 'string') expect(await screen.findByText(content)).toBeTruthy()
+        else expect(await screen.findByTestId('text-input-affix')).not.toBeEmptyDOMElement()
     })
 })
 
 describe('onClick event works', () => {
-    test('When onClick is undefined, there should be no click', () => {
-        expect(
-            shallow(<Affix content='$' size='default' type='prefix' onClick={undefined} />)
-                .find('WithClick')
-                .exists()
-        ).toEqual(false)
-    })
-
     it('When onClick is undefined, nothing should happen when clicked', () => {
-        expect(
-            mount(<Affix content='$' size='default' type='prefix' onClick={undefined} />).simulate(
-                'click'
-            )
-        ).toEqual({})
+        render(<Affix content='$' size='default' type='prefix' onClick={undefined} />)
+        expect(screen.queryByRole('button')).toBeFalsy()
     })
 
     it('function runs when clicked', () => {
         const testFunction = jest.fn()
-        mount(<Affix content='$' size='default' type='prefix' onClick={testFunction} />).simulate(
-            'click'
-        )
+        render(<Affix content='$' size='default' type='prefix' onClick={testFunction} />)
+        screen.findByRole('button')
         expect(testFunction).toHaveBeenCalled()
     })
 
