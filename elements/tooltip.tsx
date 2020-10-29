@@ -64,6 +64,7 @@ export const Tooltip = ({
             style={{ lineHeight: 0 }}
             tabIndex={0}
             role='button'
+            data-testid='tooltip'
         >
             <div className={tooltipContainerClasses}>
                 <div className={tooltipClasses}>{content}</div>
