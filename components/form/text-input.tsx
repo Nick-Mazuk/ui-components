@@ -181,8 +181,10 @@ export const TextInput = (props: Props): JSX.Element => {
     )
 
     const handleChange = useCallback(
-        (event: React.FormEvent<HTMLInputElement> | React.FormEvent<HTMLTextAreaElement>): void => {
-            const newValue = getUpdatedValue(event.currentTarget.value, value, props.onUpdate)
+        (
+            event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
+        ): void => {
+            const newValue = getUpdatedValue(event.target.value, value, props.onUpdate)
             updateValue(newValue)
             if (!valid) updateValidation(newValue)
         },
@@ -193,7 +195,7 @@ export const TextInput = (props: Props): JSX.Element => {
         (
             event: React.FocusEvent<HTMLInputElement> | React.FocusEvent<HTMLTextAreaElement>
         ): void => {
-            const newValue = event.currentTarget.value
+            const newValue = event.target.value
             const isValid = updateValidation(newValue)
             if (isValid) {
                 setShowSuccess(true)

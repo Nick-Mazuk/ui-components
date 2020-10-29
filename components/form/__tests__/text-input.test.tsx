@@ -1,3 +1,4 @@
+import { render } from '@testing-library/react'
 import { shallow } from 'enzyme'
 
 import { User } from '../../../elements/icon'
@@ -5,8 +6,7 @@ import type { Autocomplete } from '../helpers/text-input-base'
 import { TextInput } from '../text-input'
 
 test('renders without crashing', () => {
-    const wrapper = shallow(<TextInput type='text' name='text-input' />)
-    expect(wrapper.isEmptyRender()).toEqual(false)
+    expect(render(<TextInput type='text' name='text-input' />)).toBeTruthy()
 })
 
 /* 
@@ -22,7 +22,7 @@ test('renders without crashing', () => {
 describe('make sure either label, id, or name is defined', () => {
     test('throw error if all are undefined', () => {
         expect(() => {
-            shallow(<TextInput type='text' />)
+            render(<TextInput type='text' />)
         }).toThrow()
     })
 })

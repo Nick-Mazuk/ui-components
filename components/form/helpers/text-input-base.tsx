@@ -106,7 +106,7 @@ type Props = {
     keyboard?: Keyboard
     autoComplete?: Autocomplete
     onChange: (
-        event: React.FormEvent<HTMLInputElement> | React.FormEvent<HTMLTextAreaElement>
+        event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
     ) => void
     onFocus?: (
         event: React.FocusEvent<HTMLInputElement> | React.FocusEvent<HTMLTextAreaElement>
