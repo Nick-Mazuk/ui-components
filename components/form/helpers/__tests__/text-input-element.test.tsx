@@ -1,56 +1,21 @@
+import { render, screen } from '@testing-library/react'
 import { shallow } from 'enzyme'
 import { chance } from 'jest-chance'
 
+import type { Type } from '../text-input-base'
 import { TextInputElement } from '../text-input-element'
 
 test('renders without crashing', () => {
-    const wrapper = shallow(<TextInputElement type='text' value='' props={{}} />)
-    expect(wrapper.isEmptyRender()).toEqual(false)
+    const { baseElement } = render(<TextInputElement type='text' value='' props={{}} />)
+    expect(baseElement).not.toBeEmptyDOMElement()
 })
 
-// eslint-disable-next-line max-lines-per-function -- still readable
+const inputTypes = ['text', 'email', 'number', 'password', 'search', 'url']
+
 describe('displays correct tag: input or textarea', () => {
-    test('displays input element for text type', () => {
-        expect(
-            shallow(<TextInputElement type='text' value='' props={{}} />)
-                .find('input')
-                .exists()
-        ).toEqual(true)
-    })
-    test('displays input element for number type', () => {
-        expect(
-            shallow(<TextInputElement type='number' value='' props={{}} />)
-                .find('input')
-                .exists()
-        ).toEqual(true)
-    })
-    test('displays input element for email type', () => {
-        expect(
-            shallow(<TextInputElement type='email' value='' props={{}} />)
-                .find('input')
-                .exists()
-        ).toEqual(true)
-    })
-    test('displays input element for password type', () => {
-        expect(
-            shallow(<TextInputElement type='password' value='' props={{}} />)
-                .find('input')
-                .exists()
-        ).toEqual(true)
-    })
-    test('displays input element for search type', () => {
-        expect(
-            shallow(<TextInputElement type='search' value='' props={{}} />)
-                .find('input')
-                .exists()
-        ).toEqual(true)
-    })
-    test('displays input element for url type', () => {
-        expect(
-            shallow(<TextInputElement type='url' value='' props={{}} />)
-                .find('input')
-                .exists()
-        ).toEqual(true)
+    test.each(inputTypes)('displays input element for "%s" type', (type) => {
+        render(<TextInputElement type={type as Type} value='' props={{ readOnly: true }} />)
+        expect(screen.getByTestId('text-input-element').getAttribute('type')).toEqual(type)
     })
     test('displays textarea element for textarea type', () => {
         expect(
@@ -62,47 +27,9 @@ describe('displays correct tag: input or textarea', () => {
 })
 
 describe('displays correct input type (e.g., text, email, etc.)', () => {
-    test('displays input element for text type', () => {
-        expect(
-            shallow(<TextInputElement type='text' value='' props={{}} />)
-                .find('input')
-                .prop('type')
-        ).toEqual('text')
-    })
-    test('displays input element for number type', () => {
-        expect(
-            shallow(<TextInputElement type='number' value='' props={{}} />)
-                .find('input')
-                .prop('type')
-        ).toEqual('number')
-    })
-    test('displays input element for email type', () => {
-        expect(
-            shallow(<TextInputElement type='email' value='' props={{}} />)
-                .find('input')
-                .prop('type')
-        ).toEqual('email')
-    })
-    test('displays input element for password type', () => {
-        expect(
-            shallow(<TextInputElement type='password' value='' props={{}} />)
-                .find('input')
-                .prop('type')
-        ).toEqual('password')
-    })
-    test('displays input element for search type', () => {
-        expect(
-            shallow(<TextInputElement type='search' value='' props={{}} />)
-                .find('input')
-                .prop('type')
-        ).toEqual('search')
-    })
-    test('displays input element for url type', () => {
-        expect(
-            shallow(<TextInputElement type='url' value='' props={{}} />)
-                .find('input')
-                .prop('type')
-        ).toEqual('url')
+    test.each(inputTypes)('displays input element for "%s" type', (type) => {
+        render(<TextInputElement type={type as Type} value='' props={{ readOnly: true }} />)
+        expect(screen.getByTestId('text-input-element').getAttribute('type')).toEqual(type)
     })
 })
 

@@ -24,7 +24,7 @@ export const TextInputElement = ({ type, props, value }: Props): JSX.Element => 
             </textarea>
         )
     }
-    return <input type={type} value={value} {...props} />
+    return <input type={type} value={value} {...props} data-testid='text-input-element' />
 }
 
 export type TextInputElement = ReturnType<typeof TextInputElement>
