@@ -1,802 +1,367 @@
 /* eslint-disable max-lines-per-function -- going to have lots of long, but still readable, functions */
 
-import { mount, render, shallow } from 'enzyme'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { chance } from 'jest-chance'
 
+import type { Autocomplete, Keyboard, Type } from '../text-input-base'
 import { TextInputBase } from '../text-input-base'
 
 const onChange = jest.fn()
 
 test('renders without crashing', () => {
-    const wrapper = shallow(
+    const { baseElement } = render(
         <TextInputBase type='text' name='name' id='id' value='value' onChange={onChange} />
     )
-    expect(wrapper.isEmptyRender()).toEqual(false)
+    expect(baseElement).not.toBeEmptyDOMElement()
 })
 
 describe('name and id work correctly', () => {
-    it('name is specified on the input element', () => {
-        expect(
-            mount(
-                <TextInputBase type='text' name='name' id='id' value='value' onChange={onChange} />
-            )
-                .find('input')
-                .prop('name')
-        ).toBe('name')
-        expect(
-            mount(<TextInputBase type='text' name='' id='id' value='value' onChange={onChange} />)
-                .find('input')
-                .prop('name')
-        ).toBe('')
-
-        const nameMock = chance.string()
-
-        expect(
-            mount(
-                <TextInputBase
-                    type='text'
-                    name={nameMock}
-                    id='id'
-                    value='value'
-                    onChange={onChange}
-                />
-            )
-                .find('input')
-                .prop('name')
-        ).toBe(nameMock)
+    const names = ['', 'name', 'current-password', chance.string()]
+    it.each(names)('name "%s" is specified on the input element', (name) => {
+        render(<TextInputBase type='text' name={name} id='id' value='value' onChange={onChange} />)
+        expect(screen.getByTestId('text-input-element').getAttribute('name')).toBe(name)
     })
-    it('id is specified on the input element', () => {
-        expect(
-            mount(
-                <TextInputBase type='text' name='name' id='id' value='value' onChange={onChange} />
-            )
-                .find('input')
-                .prop('id')
-        ).toBe('id')
-        expect(
-            mount(<TextInputBase type='text' name='name' id='' value='value' onChange={onChange} />)
-                .find('input')
-                .prop('id')
-        ).toBe('')
-
-        const idMock = chance.string()
-
-        expect(
-            mount(
-                <TextInputBase
-                    type='text'
-                    name='name'
-                    id={idMock}
-                    value='value'
-                    onChange={onChange}
-                />
-            )
-                .find('input')
-                .prop('id')
-        ).toBe(idMock)
+    const ids = ['', 'id', 'current-password', chance.string()]
+    it.each(ids)('id "%s" is specified on the input element', (id) => {
+        render(<TextInputBase type='text' name='name' id={id} value='value' onChange={onChange} />)
+        expect(screen.getByTestId('text-input-element').getAttribute('id')).toBe(id)
     })
 })
 
 describe('type works correctly', () => {
-    test('type is passed as a prop to the TextInputElement', () => {
-        expect(
-            shallow(
-                <TextInputBase type='text' name='name' id='id' value='value' onChange={onChange} />
-            )
-                .find('TextInputElement')
-                .prop('type')
-        ).toBe('text')
-        expect(
-            shallow(
-                <TextInputBase
-                    type='textarea'
-                    name='name'
-                    id='id'
-                    value='value'
-                    onChange={onChange}
-                />
-            )
-                .find('TextInputElement')
-                .prop('type')
-        ).toBe('textarea')
-        expect(
-            shallow(
-                <TextInputBase type='email' name='name' id='id' value='value' onChange={onChange} />
-            )
-                .find('TextInputElement')
-                .prop('type')
-        ).toBe('email')
-        expect(
-            shallow(
-                <TextInputBase type='url' name='name' id='id' value='value' onChange={onChange} />
-            )
-                .find('TextInputElement')
-                .prop('type')
-        ).toBe('url')
+    const types = ['text', 'email']
+    test.each(types)('type "%s" is passed as a prop to the TextInputElement', (type) => {
+        render(
+            <TextInputBase
+                type={type as Type}
+                name='name'
+                id='id'
+                value='value'
+                onChange={onChange}
+            />
+        )
+        expect(screen.getByRole('textbox').getAttribute('type')).toBe(type)
     })
 })
 
 describe('label is present', () => {
-    it('label is present when provided', () => {
-        expect(
-            render(
-                <TextInputBase
-                    type='url'
-                    name='name'
-                    id='id'
-                    value='value'
-                    label='label text'
-                    onChange={onChange}
-                />
-            ).html()
-        ).toMatch('label text')
-
-        const labelMock = chance.string().replace(/[\W]/gu, '')
-
-        expect(
-            render(
-                <TextInputBase
-                    type='url'
-                    name='name'
-                    id='id'
-                    value='value'
-                    label={labelMock}
-                    onChange={onChange}
-                />
-            ).html()
-        ).toMatch(labelMock)
-    })
-    test('label is not present when missing', () => {
-        expect(
-            shallow(
-                <TextInputBase
-                    type='url'
-                    name='name'
-                    id='id'
-                    value='value'
-                    label=''
-                    onChange={onChange}
-                />
-            )
-                .find('LabelGroup')
-                .prop('label')
-        ).toBe('')
-        expect(
-            shallow(
-                <TextInputBase type='url' name='name' id='id' value='value' onChange={onChange} />
-            )
-                .find('LabelGroup')
-                .prop('label')
-        ).toBeUndefined()
+    const labels = ['label', 'label text', chance.string().replace(/[\W]/gu, '')]
+    it.each(labels)('label "%s" is present when provided', (label) => {
+        render(
+            <TextInputBase
+                type='url'
+                name='name'
+                id='id'
+                value='value'
+                label={label}
+                onChange={onChange}
+            />
+        )
+        expect(screen.getByText(label)).toBeTruthy()
     })
 })
 
 describe('tooltip is present', () => {
-    it('tooltip is present when provided', () => {
-        expect(
-            render(
-                <TextInputBase
-                    type='url'
-                    name='name'
-                    id='id'
-                    value='value'
-                    info='info text'
-                    onChange={onChange}
-                />
-            ).html()
-        ).toMatch('info text')
-
-        const labelMock = chance.string().replace(/[\W]/gu, '')
-
-        expect(
-            render(
-                <TextInputBase
-                    type='url'
-                    name='name'
-                    id='id'
-                    value='value'
-                    info={labelMock}
-                    onChange={onChange}
-                />
-            ).html()
-        ).toMatch(labelMock)
+    const tooltips = ['info text', chance.string().replace(/[\W]/gu, '')]
+    it.each(tooltips)('tooltip "%s" is present when provided', (tooltip) => {
+        render(
+            <TextInputBase
+                type='url'
+                name='name'
+                id='id'
+                value='value'
+                info={tooltip}
+                onChange={onChange}
+            />
+        )
+        expect(screen.getByText(tooltip)).toBeTruthy()
     })
-    test('info is not present when missing', () => {
-        expect(
-            shallow(
-                <TextInputBase
-                    type='url'
-                    name='name'
-                    id='id'
-                    value='value'
-                    info=''
-                    onChange={onChange}
-                />
-            )
-                .find('LabelGroup')
-                .prop('info')
-        ).toBe('')
-        expect(
-            shallow(
-                <TextInputBase type='url' name='name' id='id' value='value' onChange={onChange} />
-            )
-                .find('LabelGroup')
-                .prop('info')
-        ).toBeUndefined()
+    it('tooltip is not present when not provided', () => {
+        render(<TextInputBase type='url' name='name' id='id' value='value' onChange={onChange} />)
+        expect(screen.queryByTestId('tooltip')).toBeFalsy()
     })
 })
 
-describe('optional/readonly work when present', () => {
+describe('optional works when present', () => {
     it('optional text is present when optional', () => {
-        expect(
-            render(
-                <TextInputBase
-                    type='url'
-                    name='name'
-                    id='id'
-                    value='value'
-                    optional
-                    onChange={onChange}
-                />
-            ).html()
-        ).toMatch('optional')
+        render(
+            <TextInputBase
+                type='url'
+                name='name'
+                id='id'
+                value='value'
+                optional
+                onChange={onChange}
+            />
+        )
+        expect(screen.getByText(/optional/u)).toBeTruthy()
     })
-    it('optional text is not present when readonly', () => {
-        expect(
-            render(
-                <TextInputBase
-                    type='url'
-                    name='name'
-                    id='id'
-                    value='value'
-                    optional
-                    readonly
-                    onChange={onChange}
-                />
-            )
-                .html()
-                ?.includes('optional')
-        ).toBe(false)
-    })
-    it('optional text is not present when required', () => {
-        expect(
-            render(
-                <TextInputBase type='url' name='name' id='id' value='value' onChange={onChange} />
-            )
-                .html()
-                ?.includes('optional')
-        ).toBe(false)
+    it('optional text is not present when not optional', () => {
+        render(<TextInputBase type='url' name='name' id='id' value='value' onChange={onChange} />)
+        expect(screen.queryByText(/optional/u)).toBeFalsy()
     })
     it("if hideOptionalLabel, don't show optional text", () => {
-        expect(
-            render(
-                <TextInputBase
-                    type='url'
-                    name='name'
-                    id='id'
-                    value='value'
-                    optional
-                    hideOptionalLabel
-                    onChange={onChange}
-                />
-            )
-                .html()
-                ?.includes('optional')
-        ).toBe(false)
-        expect(
-            render(
-                <TextInputBase
-                    type='url'
-                    name='name'
-                    id='id'
-                    value='value'
-                    hideOptionalLabel
-                    onChange={onChange}
-                />
-            )
-                .html()
-                ?.includes('optional')
-        ).toBe(false)
+        render(
+            <TextInputBase
+                type='url'
+                name='name'
+                id='id'
+                value='value'
+                optional
+                hideOptionalLabel
+                onChange={onChange}
+            />
+        )
+        expect(screen.queryByText(/optional/u)).toBeFalsy()
     })
-    it('readonly text is present when readonly', () => {
-        expect(
-            render(
-                <TextInputBase
-                    type='url'
-                    name='name'
-                    id='id'
-                    value='value'
-                    readonly
-                    onChange={onChange}
-                />
-            ).html()
-        ).toMatch('readonly')
+})
+
+describe('readonly works when present', () => {
+    it('readonly text and attribute are present when readonly', () => {
+        render(
+            <TextInputBase
+                type='url'
+                name='name'
+                id='id'
+                value='value'
+                readonly
+                onChange={onChange}
+            />
+        )
+        expect(screen.getByText(/readonly/u)).toBeTruthy()
+        expect(screen.getByRole('textbox').getAttribute('readonly')).not.toBeNull()
     })
-    it('readonly text is not present when not readonly', () => {
-        expect(
-            render(
-                <TextInputBase
-                    type='url'
-                    name='name'
-                    id='id'
-                    value='value'
-                    readonly={false}
-                    onChange={onChange}
-                />
-            )
-                .html()
-                ?.includes('readonly')
-        ).toBe(false)
-        expect(
-            render(
-                <TextInputBase type='url' name='name' id='id' value='value' onChange={onChange} />
-            )
-                .html()
-                ?.includes('readonly')
-        ).toBe(false)
+    it('readonly text and attribute are not present when not readonly', () => {
+        render(<TextInputBase type='url' name='name' id='id' value='value' onChange={onChange} />)
+        expect(screen.queryByText(/readonly/u)).toBeFalsy()
+        expect(screen.getByRole('textbox').getAttribute('readonly')).toBeNull()
     })
 })
 
 describe('help text appears properly', () => {
-    it('help text appears when provided', () => {
-        expect(
-            render(
-                <TextInputBase
-                    type='url'
-                    name='name'
-                    id='id'
-                    value='value'
-                    help='this is some help text'
-                    onChange={onChange}
-                />
-            )
-                .html()
-                ?.includes('this is some help text')
-        ).toBe(true)
-
-        const helpMock = chance.string().replace(/[\W]/gu, '')
-
-        expect(
-            render(
-                <TextInputBase
-                    type='url'
-                    name='name'
-                    id='id'
-                    value='value'
-                    help={helpMock}
-                    onChange={onChange}
-                />
-            )
-                .html()
-                ?.includes(helpMock)
-        ).toBe(true)
-    })
-    test('help text not present when not provided', () => {
-        expect(
-            shallow(
-                <TextInputBase
-                    type='url'
-                    name='name'
-                    id='id'
-                    value='value'
-                    help=''
-                    onChange={onChange}
-                />
-            )
-                .find('HelpText')
-                .prop('text')
-        ).toBe('')
-        expect(
-            shallow(
-                <TextInputBase type='url' name='name' id='id' value='value' onChange={onChange} />
-            )
-                .find('HelpText')
-                .prop('text')
-        ).toBeUndefined()
+    const help = ['this is some help text', chance.string().replace(/[\W]/gu, '')]
+    it.each(help)('help text "%s" appears when provided', (helpText) => {
+        render(
+            <TextInputBase
+                type='url'
+                name='name'
+                id='id'
+                value='value'
+                help={helpText}
+                onChange={onChange}
+            />
+        )
+        expect(screen.getByText(helpText)).toBeTruthy()
     })
 })
 
 describe('feedback text works correctly', () => {
-    it("error text is shown when there's an error", () => {
-        expect(
-            render(
-                <TextInputBase
-                    type='url'
-                    name='name'
-                    id='id'
-                    value='value'
-                    error='this is some error text'
-                    onChange={onChange}
-                />
-            )
-                .html()
-                ?.includes('this is some error text')
-        ).toBe(true)
-
-        const helpMock = chance.string().replace(/[\W]/gu, '')
-
-        expect(
-            render(
-                <TextInputBase
-                    type='url'
-                    name='name'
-                    id='id'
-                    value='value'
-                    error={helpMock}
-                    onChange={onChange}
-                />
-            )
-                .html()
-                ?.includes(helpMock)
-        ).toBe(true)
+    const errors = ['this is some error text.', `${chance.string().replace(/[\W]/gu, '')}.`]
+    it.each(errors)('error "%s" text is shown when there\'s an error', (error) => {
+        render(
+            <TextInputBase
+                type='url'
+                name='name'
+                id='id'
+                value='value'
+                error={error}
+                onChange={onChange}
+            />
+        )
+        expect(screen.getByText(error)).toBeTruthy()
     })
-    it("success text is shown when there's an success message", () => {
-        expect(
-            render(
-                <TextInputBase
-                    type='url'
-                    name='name'
-                    id='id'
-                    value='value'
-                    success='this is some success text'
-                    onChange={onChange}
-                />
-            )
-                .html()
-                ?.includes('this is some success text')
-        ).toBe(true)
-
-        const helpMock = chance.string().replace(/[\W]/gu, '')
-
-        expect(
-            render(
-                <TextInputBase
-                    type='url'
-                    name='name'
-                    id='id'
-                    value='value'
-                    success={helpMock}
-                    onChange={onChange}
-                />
-            )
-                .html()
-                ?.includes(helpMock)
-        ).toBe(true)
+    const successes = ['this is some success text.', `${chance.string().replace(/[\W]/gu, '')}.`]
+    it.each(successes)('success text "%s" is shown when there\'s an success message', (success) => {
+        render(
+            <TextInputBase
+                type='url'
+                name='name'
+                id='id'
+                value='value'
+                success={success}
+                onChange={onChange}
+            />
+        )
+        expect(screen.getByText(success)).toBeTruthy()
     })
     it("success text is not shown when there's an error", () => {
-        expect(
-            render(
-                <TextInputBase
-                    type='url'
-                    name='name'
-                    id='id'
-                    value='value'
-                    success='this is some success text'
-                    error='this is some error text'
-                    onChange={onChange}
-                />
-            )
-                .html()
-                ?.includes('this is some success text')
-        ).toBe(false)
-
-        const helpMock = chance.string().replace(/[\W]/gu, '')
-
-        expect(
-            render(
-                <TextInputBase
-                    type='url'
-                    name='name'
-                    id='id'
-                    value='value'
-                    success={helpMock}
-                    error='this is some error text'
-                    onChange={onChange}
-                />
-            )
-                .html()
-                ?.includes(helpMock)
-        ).toBe(false)
+        render(
+            <TextInputBase
+                type='url'
+                name='name'
+                id='id'
+                value='value'
+                success='this is some more success text'
+                error='this is some more error text'
+                onChange={onChange}
+            />
+        )
+        expect(screen.queryByText('this is some more success text.')).toBeFalsy()
+        expect(screen.getByText('this is some more error text.')).toBeTruthy()
     })
 })
 
 describe('progress works correctly', () => {
-    it('progress is shown when provided', () => {
-        expect(
-            render(
-                <TextInputBase
-                    type='url'
-                    name='name'
-                    id='id'
-                    value='value'
-                    progress='22 / 23'
-                    onChange={onChange}
-                />
-            )
-                .html()
-                ?.includes('22 / 23')
-        ).toBe(true)
-
-        const helpMock = chance.string().replace(/[\W]/gu, '')
-
-        expect(
-            render(
-                <TextInputBase
-                    type='url'
-                    name='name'
-                    id='id'
-                    value='value'
-                    progress={helpMock}
-                    onChange={onChange}
-                />
-            )
-                .html()
-                ?.includes(helpMock)
-        ).toBe(true)
+    const progresses = ['22 / 23', 'One character left', chance.string().replace(/[\W]/gu, '')]
+    it.each(progresses)('progress "%s" is shown when provided', (progress) => {
+        render(
+            <TextInputBase
+                type='url'
+                name='name'
+                id='id'
+                value='value'
+                progress={progress}
+                onChange={onChange}
+            />
+        )
+        expect(screen.getByText(progress)).toBeTruthy()
     })
 })
 
 describe('placeholder prop works correctly', () => {
-    it('input has placeholder prop when true', () => {
-        expect(
-            mount(
-                <TextInputBase
-                    type='text'
-                    name='name'
-                    id='id'
-                    value='value'
-                    placeholder='world'
-                    onChange={onChange}
-                />
-            )
-                .find('input')
-                .prop('placeholder')
-        ).toBe('world')
-
-        const placeholderMock = chance.string()
-
-        expect(
-            mount(
-                <TextInputBase
-                    type='text'
-                    name='name'
-                    id='id'
-                    value='value'
-                    placeholder={placeholderMock}
-                    onChange={onChange}
-                />
-            )
-                .find('input')
-                .prop('placeholder')
-        ).toBe(placeholderMock)
+    const placeholders = ['placeholder', '(###) ### - ####', chance.string()]
+    it.each(placeholders)('input has placeholder "%s" prop when true', (placeholder) => {
+        render(
+            <TextInputBase
+                type='text'
+                name='name'
+                id='id'
+                value='value'
+                placeholder={placeholder}
+                onChange={onChange}
+            />
+        )
+        expect(screen.getByRole('textbox').getAttribute('placeholder')).toBe(placeholder)
+    })
+    it("if placeholder is a string, it's rendered as undefined", () => {
+        render(
+            <TextInputBase
+                type='text'
+                name='name'
+                placeholder=''
+                id='id'
+                value='value'
+                onChange={onChange}
+            />
+        )
+        expect(screen.getByRole('textbox').getAttribute('placeholder')).toBeFalsy()
     })
     it('input does not have placeholder prop is not specified', () => {
-        expect(
-            mount(
-                <TextInputBase
-                    type='text'
-                    name='name'
-                    id='id'
-                    value='value'
-                    placeholder=''
-                    onChange={onChange}
-                />
-            )
-                .find('input')
-                .prop('placeholder')
-        ).toBeUndefined()
-        expect(
-            mount(
-                <TextInputBase type='text' name='name' id='id' value='value' onChange={onChange} />
-            )
-                .find('input')
-                .prop('placeholder')
-        ).toBeUndefined()
+        render(<TextInputBase type='text' name='name' id='id' value='value' onChange={onChange} />)
+        expect(screen.getByRole('textbox').getAttribute('placeholder')).toBeFalsy()
     })
 })
 
 describe('disabled prop works correctly', () => {
     it('input has disabled prop when true', () => {
-        expect(
-            mount(
-                <TextInputBase
-                    type='text'
-                    name='name'
-                    id='id'
-                    value='value'
-                    disabled
-                    onChange={onChange}
-                />
-            )
-                .find('input')
-                .prop('disabled')
-        ).toBe(true)
+        render(
+            <TextInputBase
+                type='text'
+                name='name'
+                id='id'
+                value='value'
+                disabled
+                onChange={onChange}
+            />
+        )
+        expect(screen.getByRole('textbox')).toBeDisabled()
     })
-    it('input does not have disabled prop when false', () => {
-        expect(
-            mount(
-                <TextInputBase
-                    type='text'
-                    name='name'
-                    id='id'
-                    value='value'
-                    disabled={false}
-                    onChange={onChange}
-                />
-            )
-                .find('input')
-                .prop('disabled')
-        ).toBeUndefined()
-        expect(
-            mount(
-                <TextInputBase type='text' name='name' id='id' value='value' onChange={onChange} />
-            )
-                .find('input')
-                .prop('disabled')
-        ).toBeUndefined()
+    it('input is not disabled prop when false', () => {
+        render(
+            <TextInputBase
+                type='text'
+                name='name'
+                id='id'
+                value='value'
+                disabled={false}
+                onChange={onChange}
+            />
+        )
+        expect(screen.getByRole('textbox')).toBeEnabled()
     })
-})
-
-describe('readonly prop works correctly', () => {
-    it('input has readonly prop when true', () => {
-        expect(
-            mount(
-                <TextInputBase
-                    type='text'
-                    name='name'
-                    id='id'
-                    value='value'
-                    readonly
-                    onChange={onChange}
-                />
-            )
-                .find('input')
-                .prop('readOnly')
-        ).toBe(true)
-    })
-    it('input does not have readonly prop when false', () => {
-        expect(
-            mount(
-                <TextInputBase
-                    type='text'
-                    name='name'
-                    id='id'
-                    value='value'
-                    readonly={false}
-                    onChange={onChange}
-                />
-            )
-                .find('input')
-                .prop('readOnly')
-        ).toBeUndefined()
-        expect(
-            mount(
-                <TextInputBase type='text' name='name' id='id' value='value' onChange={onChange} />
-            )
-                .find('input')
-                .prop('readOnly')
-        ).toBeUndefined()
+    it('input is not disabled prop when undefined', () => {
+        render(<TextInputBase type='text' name='name' id='id' value='value' onChange={onChange} />)
+        expect(screen.getByRole('textbox')).toBeEnabled()
     })
 })
 
 describe('autocomplete prop works correctly', () => {
-    it('input has autocomplete prop when defined', () => {
-        expect(
-            mount(
-                <TextInputBase
-                    type='text'
-                    name='name'
-                    id='id'
-                    value='value'
-                    autoComplete='off'
-                    onChange={onChange}
-                />
-            )
-                .find('input')
-                .prop('autoComplete')
-        ).toBe('off')
-        expect(
-            mount(
-                <TextInputBase
-                    type='text'
-                    name='name'
-                    id='id'
-                    value='value'
-                    autoComplete='on'
-                    onChange={onChange}
-                />
-            )
-                .find('input')
-                .prop('autoComplete')
-        ).toBe('on')
-        expect(
-            mount(
-                <TextInputBase
-                    type='text'
-                    name='name'
-                    id='id'
-                    value='value'
-                    autoComplete='current-password'
-                    onChange={onChange}
-                />
-            )
-                .find('input')
-                .prop('autoComplete')
-        ).toBe('current-password')
+    const autoCompletes = ['off', 'on', 'current-password']
+    it.each(autoCompletes)('input has autocomplete "%s" when defined', (autoComplete) => {
+        render(
+            <TextInputBase
+                type='text'
+                name='name'
+                id='id'
+                value='value'
+                autoComplete={autoComplete as Autocomplete}
+                onChange={onChange}
+            />
+        )
+        expect(screen.getByRole('textbox').getAttribute('autocomplete')).toBe(autoComplete)
     })
-    it('input does not have keyboard prop when undefined', () => {
-        expect(
-            mount(
-                <TextInputBase type='text' name='name' id='id' value='value' onChange={onChange} />
-            )
-                .find('input')
-                .prop('autoComplete')
-        ).toBeUndefined()
+    it('input does not have autocomplete prop when undefined', () => {
+        render(<TextInputBase type='text' name='name' id='id' value='value' onChange={onChange} />)
+        expect(screen.getByRole('textbox').getAttribute('autocomplete')).toBeFalsy()
     })
 })
 
 describe('keyboard prop works correctly', () => {
-    it('input has keyboard prop when defined', () => {
-        expect(
-            mount(
-                <TextInputBase
-                    type='text'
-                    name='name'
-                    id='id'
-                    value='value'
-                    keyboard='tel'
-                    onChange={onChange}
-                />
-            )
-                .find('input')
-                .prop('inputMode')
-        ).toBe('tel')
-        expect(
-            mount(
-                <TextInputBase
-                    type='text'
-                    name='name'
-                    id='id'
-                    value='value'
-                    keyboard='none'
-                    onChange={onChange}
-                />
-            )
-                .find('input')
-                .prop('inputMode')
-        ).toBe('none')
-        expect(
-            mount(
-                <TextInputBase
-                    type='text'
-                    name='name'
-                    id='id'
-                    value='value'
-                    keyboard='email'
-                    onChange={onChange}
-                />
-            )
-                .find('input')
-                .prop('inputMode')
-        ).toBe('email')
+    const keyboards = ['none', 'tel', 'email']
+    it.each(keyboards)('input has keyboard "%s" prop when defined', (keyboard) => {
+        render(
+            <TextInputBase
+                type='text'
+                name='name'
+                id='id'
+                value='value'
+                keyboard={keyboard as Keyboard}
+                onChange={onChange}
+            />
+        )
+        expect(screen.getByRole('textbox').getAttribute('inputmode')).toBe(keyboard)
     })
     it('input does not have keyboard prop when undefined', () => {
-        expect(
-            mount(
-                <TextInputBase type='text' name='name' id='id' value='value' onChange={onChange} />
-            )
-                .find('input')
-                .prop('inputMode')
-        ).toBeUndefined()
+        render(<TextInputBase type='text' name='name' id='id' value='value' onChange={onChange} />)
+        expect(screen.getByRole('textbox').getAttribute('inputmode')).toBeFalsy()
     })
 })
 
-describe('affixes display when provided', () => {})
+describe('affixes display when provided', () => {
+    const affixes = ['$', '¥']
+    it.each(affixes)('when prefix "%s" is provided, it\'s present', (affix) => {
+        render(
+            <TextInputBase
+                type='text'
+                name='name'
+                id='id'
+                value='value'
+                onChange={onChange}
+                prefix={affix}
+            />
+        )
+        expect(screen.getByText(affix)).toBeTruthy()
+    })
+    it.each(affixes)('when suffix "%s" is provided, it\'s present', (affix) => {
+        render(
+            <TextInputBase
+                type='text'
+                name='name'
+                id='id'
+                value='value'
+                onChange={onChange}
+                suffix={affix}
+            />
+        )
+        expect(screen.getByText(affix)).toBeTruthy()
+    })
+})
 
 describe('when affixes are clicked, the correct action happens', () => {
     it('when the prefix is clicked, the onClick runs', () => {
         const onClickPrefixMock = jest.fn()
-        shallow(
+        render(
             <TextInputBase
                 type='text'
                 name='name'
@@ -807,36 +372,12 @@ describe('when affixes are clicked, the correct action happens', () => {
                 prefixOnClick={onClickPrefixMock}
             />
         )
-            .find('Affix')
-            .at(0)
-            .simulate('click')
+        userEvent.click(screen.getByRole('button'))
         expect(onClickPrefixMock).toHaveBeenCalledTimes(1)
-    })
-    it('when the prefix is clicked, the suffix onClick is not run', () => {
-        const onClickPrefixMock = jest.fn()
-        const onClickSuffixMock = jest.fn()
-        shallow(
-            <TextInputBase
-                type='text'
-                name='name'
-                id='id'
-                value='value'
-                onChange={onChange}
-                prefix='$'
-                prefixOnClick={onClickPrefixMock}
-                suffix='.00'
-                suffixOnClick={onClickSuffixMock}
-            />
-        )
-            .find('Affix')
-            .at(0)
-            .simulate('click')
-        expect(onClickPrefixMock).toHaveBeenCalledTimes(1)
-        expect(onClickSuffixMock).toHaveBeenCalledTimes(0)
     })
     it('when the suffix is clicked, the onClick runs', () => {
         const onClickSuffixMock = jest.fn()
-        shallow(
+        render(
             <TextInputBase
                 type='text'
                 name='name'
@@ -847,15 +388,13 @@ describe('when affixes are clicked, the correct action happens', () => {
                 suffixOnClick={onClickSuffixMock}
             />
         )
-            .find('Affix')
-            .at(1)
-            .simulate('click')
+        userEvent.click(screen.getByRole('button'))
         expect(onClickSuffixMock).toHaveBeenCalledTimes(1)
     })
-    it('when the suffix is clicked, the prefix onClick is not run', () => {
+    it('when both are present, the right function is called', () => {
         const onClickPrefixMock = jest.fn()
         const onClickSuffixMock = jest.fn()
-        shallow(
+        render(
             <TextInputBase
                 type='text'
                 name='name'
@@ -868,10 +407,14 @@ describe('when affixes are clicked, the correct action happens', () => {
                 suffixOnClick={onClickSuffixMock}
             />
         )
-            .find('Affix')
-            .at(1)
-            .simulate('click')
-        expect(onClickPrefixMock).toHaveBeenCalledTimes(0)
+        const [prefix, suffix] = screen.getAllByRole('button')
+
+        userEvent.click(prefix)
+        expect(onClickPrefixMock).toHaveBeenCalledTimes(1)
+        expect(onClickSuffixMock).toHaveBeenCalledTimes(0)
+
+        userEvent.click(suffix)
+        expect(onClickPrefixMock).toHaveBeenCalledTimes(1)
         expect(onClickSuffixMock).toHaveBeenCalledTimes(1)
     })
 })
@@ -879,36 +422,16 @@ describe('when affixes are clicked, the correct action happens', () => {
 describe('function hooks work when called', () => {
     it('onChange is called when value changes for input', () => {
         const onChangeMock = jest.fn()
-        const newInput = chance.string()
-        const input = mount(
-            <TextInputBase type='text' name='name' id='id' value='value' onChange={onChangeMock} />
-        )
-        input.find('input').simulate('change', { target: { value: newInput } })
-        expect(onChangeMock).toHaveBeenCalled()
-        expect(onChangeMock).toHaveBeenCalledTimes(1)
-        expect(onChangeMock).toHaveBeenCalledWith(
-            expect.objectContaining({ target: { value: newInput } })
-        )
+        render(<TextInputBase type='text' name='name' id='id' value='' onChange={onChangeMock} />)
+
+        const input = screen.getByRole('textbox')
+        expect(input.getAttribute('value')).toBe('')
+        userEvent.type(input, 'value')
+        expect(onChangeMock).toHaveBeenCalledTimes(5)
     })
-    it('onBlur is called when blurred for input', () => {
-        const onBlurMock = jest.fn()
-        const input = mount(
-            <TextInputBase
-                type='text'
-                name='name'
-                id='id'
-                value='value'
-                onBlur={onBlurMock}
-                onChange={onChange}
-            />
-        )
-        input.find('input').simulate('blur')
-        expect(onBlurMock).toHaveBeenCalled()
-        expect(onBlurMock).toHaveBeenCalledTimes(1)
-    })
-    it('onBlur is called when focused for input', () => {
+    it('onFocus is called when focused for input', () => {
         const onFocusMock = jest.fn()
-        const input = mount(
+        render(
             <TextInputBase
                 type='text'
                 name='name'
@@ -918,8 +441,28 @@ describe('function hooks work when called', () => {
                 onChange={onChange}
             />
         )
-        input.find('input').simulate('focus')
-        expect(onFocusMock).toHaveBeenCalled()
+
+        const input = screen.getByRole('textbox')
+        expect(onFocusMock).toHaveBeenCalledTimes(0)
+        userEvent.click(input)
         expect(onFocusMock).toHaveBeenCalledTimes(1)
+    })
+    it('onBlur is called when blurred for input', () => {
+        const onBlurMock = jest.fn()
+        render(
+            <TextInputBase
+                type='text'
+                name='name'
+                id='id'
+                value='value'
+                onBlur={onBlurMock}
+                onChange={onChange}
+            />
+        )
+        const input = screen.getByRole('textbox')
+        userEvent.click(input)
+        expect(onBlurMock).toHaveBeenCalledTimes(0)
+        userEvent.tab()
+        expect(onBlurMock).toHaveBeenCalledTimes(1)
     })
 })
