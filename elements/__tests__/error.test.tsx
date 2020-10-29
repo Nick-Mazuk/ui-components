@@ -1,57 +1,35 @@
-import { shallow } from 'enzyme'
+import { render, screen } from '@testing-library/react'
 
 import { Error } from '../error'
 
 test('renders without crashing', () => {
-    const wrapper = shallow(<Error>error</Error>)
-    expect(wrapper.isEmptyRender()).toEqual(false)
+    const { baseElement } = render(<Error>error</Error>)
+    expect(baseElement).not.toBeEmptyDOMElement()
 })
 
-test('displays error message', () => {
-    expect(
-        shallow(<Error>error</Error>)
-            .find('p')
-            .text()
-    ).toEqual('Error: error.')
-    expect(
-        shallow(<Error>your password is incorrect</Error>)
-            .find('p')
-            .text()
-    ).toEqual('Error: your password is incorrect.')
-    expect(
-        shallow(<Error> </Error>)
-            .find('p')
-            .text()
-    ).toEqual('Error:  .')
+const errors = ['error', 'your password is incorrect']
+test.each(errors)('displays error "%s" message', (error) => {
+    render(<Error>{error}</Error>)
+    expect(screen.getByText(`${error}.`)).toBeTruthy()
 })
 
-test('displays custom label', () => {
-    expect(
-        shallow(<Error label=''>error</Error>)
-            .find('p')
-            .text()
-    ).toEqual('error.')
-    expect(
-        shallow(<Error label='Invalid password'>error</Error>)
-            .find('p')
-            .text()
-    ).toEqual('Invalid password: error.')
+const labels = ['', 'Invalid password']
+test.each(labels)('displays custom label "%s"', (label) => {
+    render(<Error label={label}>error message</Error>)
+    if (label === '') expect(screen.queryByText(/:/u)).toBeFalsy()
+    else expect(screen.getByText(`${label}:`)).toBeTruthy()
 })
 
-test('ends with proper punctuation', () => {
-    expect(
-        shallow(<Error label=''>error.</Error>)
-            .find('p')
-            .text()
-    ).toEqual('error.')
-    expect(
-        shallow(<Error label=''>error!</Error>)
-            .find('p')
-            .text()
-    ).toEqual('error!')
-    expect(
-        shallow(<Error label=''>error?</Error>)
-            .find('p')
-            .text()
-    ).toEqual('error?')
-})
+const errorsWithPunctuation = [
+    ['error', 'error.'],
+    ['error.', 'error.'],
+    ['error!', 'error!'],
+    ['error?', 'error?'],
+]
+test.each(errorsWithPunctuation)(
+    'ends with proper punctuation: "%s" should be "%s"',
+    (error, displayedError) => {
+        render(<Error>{error}</Error>)
+        expect(screen.getByText(displayedError)).toBeTruthy()
+    }
+)
