@@ -24,7 +24,7 @@ test('renders without crashing', () => {
 describe('make sure either label, id, or name is defined', () => {
     test('throw error if all are undefined', () => {
         expect(() => {
-            shallow(<TextInput type='text' />)
+            render(<TextInput type='text' />)
         }).toThrow()
     })
 })

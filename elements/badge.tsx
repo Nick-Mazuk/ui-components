@@ -81,7 +81,11 @@ export const Badge = ({
             uppercase: uppercase,
         }
     )
-    return <div className={badgeClasses}>{children}</div>
+    return (
+        <div className={badgeClasses} data-testid='badge'>
+            {children}
+        </div>
+    )
 }
 
 export type Badge = ReturnType<typeof Badge>

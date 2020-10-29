@@ -1,14 +1,14 @@
-import { shallow } from 'enzyme'
+import { render, screen } from '@testing-library/react'
 
 import { Badge } from '../badge'
 
 test('renders without crashing', () => {
-    expect(shallow(<Badge>Badge</Badge>).isEmptyRender()).toEqual(false)
+    const { baseElement } = render(<Badge>Badge</Badge>)
+    expect(baseElement).not.toBeEmptyDOMElement()
 })
 
-test('text is children', () => {
-    expect(shallow(<Badge> </Badge>).text()).toEqual(' ')
-    expect(shallow(<Badge>Badge</Badge>).text()).toEqual('Badge')
-    expect(shallow(<Badge>badge</Badge>).text()).toEqual('badge')
-    expect(shallow(<Badge>two words</Badge>).text()).toEqual('two words')
+const texts = [' ', 'Badge', 'badge', 'two words']
+it.each(texts)('text "%s" is children', (text) => {
+    render(<Badge>{text}</Badge>)
+    expect(screen.getByTestId('badge')).toHaveTextContent(text)
 })
