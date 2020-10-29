@@ -1,4 +1,5 @@
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { shallow } from 'enzyme'
 
 import { User } from '../../../elements/icon'
@@ -6,7 +7,8 @@ import type { Autocomplete } from '../helpers/text-input-base'
 import { TextInput } from '../text-input'
 
 test('renders without crashing', () => {
-    expect(render(<TextInput type='text' name='text-input' />)).toBeTruthy()
+    const { container } = render(<TextInput type='text' name='text-input' />)
+    expect(container).not.toBeEmptyDOMElement()
 })
 
 /* 
@@ -22,7 +24,7 @@ test('renders without crashing', () => {
 describe('make sure either label, id, or name is defined', () => {
     test('throw error if all are undefined', () => {
         expect(() => {
-            render(<TextInput type='text' />)
+            shallow(<TextInput type='text' />)
         }).toThrow()
     })
 })
@@ -449,25 +451,79 @@ describe('"suffixOnClick" prop is passed down', () => {
     */
 
 describe("typing into the input updates the input's value", () => {
-    it.todo('as a user types, the value shown in the input updates')
+    const inputs = ['', 'this is the input']
+    it.each(inputs)('as a user types "%s", the value shown in the input updates', async (input) => {
+        render(<TextInput type='text' label='text-input' />)
+        await userEvent.type(screen.getByRole('textbox'), input)
+        expect(screen.getByRole('textbox').getAttribute('value')).toBe(input)
+    })
 })
 
-/* const input = mount(<TextInput type='text' label='text-input' />).find('input')
-   expect(input.prop('value')).toBe('')
-   act(() => {
-       input.prop('onChange')({ currentTarget: { value: 'Hello' } })
-   })
-   expect(input.prop('value')).toBe('Hello') */
+describe('user can delete text', () => {
+    it('as a user deletes, the value shown in the input updates', async () => {
+        render(<TextInput type='text' label='text-input' defaultValue='starting value' />)
+        await userEvent.type(screen.getByRole('textbox'), '{backspace}')
+        expect(screen.getByRole('textbox').getAttribute('value')).toBe('starting valu')
+        await userEvent.type(screen.getByRole('textbox'), '{backspace}')
+        expect(screen.getByRole('textbox').getAttribute('value')).toBe('starting val')
+        await userEvent.type(screen.getByRole('textbox'), '{backspace}')
+        expect(screen.getByRole('textbox').getAttribute('value')).toBe('starting va')
+        await userEvent.type(screen.getByRole('textbox'), '{backspace}')
+        expect(screen.getByRole('textbox').getAttribute('value')).toBe('starting v')
+        await userEvent.type(screen.getByRole('textbox'), '{backspace}')
+        expect(screen.getByRole('textbox').getAttribute('value')).toBe('starting ')
+    })
+})
 
 describe('input is invalid when input is empty and field is required', () => {
-    test.todo('marked as invalid only onBlur')
-    test.todo('default required message is shown')
-    test.todo('custom required message is shown')
+    it('marked as invalid only onBlur', () => {
+        render(<TextInput type='text' label='Name' />)
+        expect(screen.getByTestId('text-input-wrapper')).not.toHaveClass(
+            'shadow-input-error-border'
+        )
+        userEvent.click(screen.getByRole('textbox'))
+        expect(screen.getByTestId('text-input-wrapper')).not.toHaveClass(
+            'shadow-input-error-border'
+        )
+        userEvent.tab()
+        expect(screen.getByTestId('text-input-wrapper')).toHaveClass('shadow-input-error-border')
+    })
+    test('custom required message is shown', () => {
+        render(<TextInput type='text' label='Name' requiredMessage='Name is required' />)
+        expect(screen.queryByText('Error:')).toBeFalsy()
+        expect(screen.queryByText('Name is required.')).toBeFalsy()
+        userEvent.click(screen.getByRole('textbox'))
+        expect(screen.queryByText('Error:')).toBeFalsy()
+        expect(screen.queryByText('Name is required.')).toBeFalsy()
+        userEvent.tab()
+        expect(screen.getByText('Error:')).toBeTruthy()
+        expect(screen.getByText('Name is required.')).toBeTruthy()
+    })
+    test('input is marked as valid after typing a valid input', async () => {
+        render(<TextInput type='text' label='Name' requiredMessage='Name is required' />)
+        userEvent.click(screen.getByRole('textbox'))
+        userEvent.tab()
+        expect(screen.getByText('Name is required.')).toBeTruthy()
+        await userEvent.type(screen.getByRole('textbox'), 's')
+        expect(screen.queryByText('Name is required.')).toBeFalsy()
+        expect(screen.getByRole('textbox')).toHaveFocus()
+    })
 })
 
 describe('success message is shown when field is valid', () => {
-    test.todo('custom success message is shown')
-    test.todo('success message is not shown if not provided')
+    test('custom success message is shown', async () => {
+        render(<TextInput type='text' label='Name' successMessage='That looks good!' />)
+        await userEvent.type(screen.getByRole('textbox'), 'some valid input')
+        userEvent.tab()
+        expect(screen.getByText('That looks good!')).toBeTruthy()
+        expect(screen.getByTestId('success')).toBeTruthy()
+    })
+    test('success message is not shown if not provided', async () => {
+        render(<TextInput type='text' label='Name' />)
+        await userEvent.type(screen.getByRole('textbox'), 'some valid input')
+        userEvent.tab()
+        expect(screen.queryByTestId('success')).toBeFalsy()
+    })
 })
 
 /* 

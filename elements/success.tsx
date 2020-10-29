@@ -39,7 +39,7 @@ export const Success = ({ children, label, size = 'default' }: Props): JSX.Eleme
     )
 
     return (
-        <div className={containerClasses}>
+        <div className={containerClasses} data-testid='success'>
             <span className={SIZE_MAP[size].icon}>
                 <CheckCircle />
             </span>

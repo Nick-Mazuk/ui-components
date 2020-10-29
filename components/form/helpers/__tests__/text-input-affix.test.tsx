@@ -1,14 +1,21 @@
+import { render } from '@testing-library/react'
 import { mount, shallow } from 'enzyme'
 
 import { Apple, Mail, User } from '../../../../elements/icon'
 import { Affix } from '../text-input-affix'
 
+const icons = [
+    ['apple', <Apple key='apple' />],
+    ['mail', <Mail key='mail' />],
+    ['user', <User key='user' />],
+]
+
 test('renders without crashing', () => {
     const testFunction = jest.fn()
-    const wrapper = shallow(
+    const { container } = render(
         <Affix content='' size='default' type='prefix' onClick={testFunction} />
     )
-    expect(wrapper.isEmptyRender()).toEqual(false)
+    expect(container).not.toBeEmptyDOMElement()
 })
 
 describe('renders text as content', () => {

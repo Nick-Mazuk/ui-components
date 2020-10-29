@@ -26,7 +26,11 @@ export const TextInputWrapper = ({
                 hasError && !disabled,
         }
     )
-    return <div className={wrapperClasses}>{children}</div>
+    return (
+        <div className={wrapperClasses} data-testid='text-input-wrapper'>
+            {children}
+        </div>
+    )
 }
 
 export type TextInputWrapper = ReturnType<typeof TextInputWrapper>
