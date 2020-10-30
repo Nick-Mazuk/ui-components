@@ -15,14 +15,18 @@ type Props = {
 
     placeholder?: string
     defaultValue?: string
+    help?: string
+    info?: string
     size?: Sizes
     optional?: boolean
+    hideOptionalLabel?: boolean
     readonly?: boolean
     disabled?: boolean
     icon?: Icon
 
     hideIcon?: boolean
     requiredMessage?: string
+    successMessage?: string
     disableAutocomplete?: boolean
 
     formSync?: FormSync
@@ -39,13 +43,16 @@ export const UrlInput = (props: Props): JSX.Element => {
             type='url'
             placeholder={props.placeholder}
             defaultValue={props.defaultValue}
+            help={props.help}
+            info={props.info}
             size={props.size}
             optional={props.optional}
+            hideOptionalLabel={props.hideOptionalLabel}
             readonly={props.readonly}
             disabled={props.disabled}
-            prefix={props.hideIcon === true ? '' : icon}
-            successMessage='URL looks valid'
+            prefix={props.hideIcon ? '' : icon}
             requiredMessage={props.requiredMessage ?? `Enter a ${label}`}
+            successMessage={props.successMessage ?? ''}
             validationRules={[
                 {
                     assert: (value: string) => isURL(value, { protocols: ['http', 'https'] }),

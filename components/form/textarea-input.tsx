@@ -10,11 +10,14 @@ type Props = {
     id?: string
 
     placeholder?: string
+    defaultValue?: string
+    help?: string
+    info?: string
     size?: Sizes
     optional?: boolean
+    hideOptionalLabel?: boolean
     disabled?: boolean
     readonly?: boolean
-    defaultValue?: string
 
     successMessage?: string
     requiredMessage?: string
@@ -35,8 +38,12 @@ export const TextAreaInput = (props: Props): JSX.Element => {
             name={props.name}
             type='textarea'
             placeholder={props.placeholder}
+            defaultValue={props.defaultValue}
+            help={props.help}
+            info={props.info}
             size={props.size}
             optional={props.optional}
+            hideOptionalLabel={props.hideOptionalLabel}
             readonly={props.readonly}
             disabled={props.disabled}
             autoComplete='off'
@@ -48,7 +55,6 @@ export const TextAreaInput = (props: Props): JSX.Element => {
             formatter={props.formatter}
             progress={props.progress}
             formSync={props.formSync}
-            defaultValue={props.defaultValue}
         />
     )
 }

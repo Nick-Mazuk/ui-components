@@ -10,9 +10,13 @@ type Props = {
     id?: string
 
     placeholder?: string
+    defaultValue?: string
+    help?: string
+    info?: string
     size?: Sizes
     optional?: boolean
     disabled?: boolean
+    hideIcon?: boolean
 
     formSync?: FormSync
 }
@@ -23,12 +27,15 @@ export const SearchInput = (props: Props): JSX.Element => {
         <TextInput
             id={props.id}
             label={label}
-            name={props.name}
+            name={props.name ?? 'search'}
             type='search'
             placeholder={props.placeholder ?? 'Search'}
+            defaultValue={props.defaultValue}
+            help={props.help}
+            info={props.info}
             size={props.size}
             disabled={props.disabled}
-            prefix={<Search />}
+            prefix={props.hideIcon ? '' : <Search />}
             autoComplete='off'
             keyboard='search'
             optional

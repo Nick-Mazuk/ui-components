@@ -13,13 +13,17 @@ type Props = {
 
     placeholder?: string
     defaultValue?: string
+    help?: string
+    info?: string
     size?: Sizes
     optional?: boolean
+    hideOptionalLabel?: boolean
     readonly?: boolean
     disabled?: boolean
 
     hideIcon?: boolean
     requiredMessage?: string
+    successMessage?: string
 
     formSync?: FormSync
 }
@@ -47,12 +51,16 @@ export const NameInput = (props: Props): JSX.Element => {
             type='text'
             placeholder={props.placeholder}
             defaultValue={props.defaultValue}
+            help={props.help}
+            info={props.info}
             size={props.size}
             optional={props.optional}
+            hideOptionalLabel={props.hideOptionalLabel}
             readonly={props.readonly}
             disabled={props.disabled}
-            prefix={props.hideIcon === true ? '' : <User />}
+            prefix={props.hideIcon ? '' : <User />}
             requiredMessage={props.requiredMessage ?? 'Enter your name'}
+            successMessage={props.successMessage ?? ''}
             parser={parser}
             formSync={props.formSync}
         />

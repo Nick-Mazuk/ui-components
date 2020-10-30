@@ -11,8 +11,11 @@ type Props = {
 
     placeholder?: string
     defaultValue?: string
+    help?: string
+    info?: string
     size?: Sizes
     optional?: boolean
+    hideOptionalLabel?: boolean
     readonly?: boolean
     disabled?: boolean
     decimals?: number
@@ -32,8 +35,11 @@ export const DollarInput = (props: Props): JSX.Element => {
             name={props.name}
             placeholder={props.placeholder}
             defaultValue={props.defaultValue}
+            help={props.help}
+            info={props.info}
             size={props.size}
             optional={props.optional}
+            hideOptionalLabel={props.hideOptionalLabel}
             readonly={props.readonly}
             disabled={props.disabled}
             successMessage={props.successMessage}

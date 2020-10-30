@@ -18,11 +18,13 @@ type Props = {
     info?: string
     size?: Sizes
     optional?: boolean
+    hideOptionalLabel?: boolean
     readonly?: boolean
     disabled?: boolean
 
     hideIcon?: boolean
     requiredMessage?: string
+    successMessage?: string
     disableAutocomplete?: boolean
 
     formSync?: FormSync
@@ -56,10 +58,12 @@ export const EmailInput = (props: Props): JSX.Element => {
             info={props.info}
             size={props.size}
             optional={props.optional}
+            hideOptionalLabel={props.hideOptionalLabel}
             readonly={props.readonly}
             disabled={props.disabled}
-            prefix={props.hideIcon === true ? '' : <Mail />}
+            prefix={props.hideIcon ? '' : <Mail />}
             requiredMessage={props.requiredMessage ?? 'Enter your email'}
+            successMessage={props.successMessage ?? ''}
             validationRules={[
                 {
                     assert: (value: string) => isEmail(value),

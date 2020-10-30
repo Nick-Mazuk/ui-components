@@ -1,5 +1,7 @@
 import { useCallback } from 'react'
 
+import { stringIsNumber, formatNumber, truncateDecimals } from '@nick-mazuk/lib/number-styling'
+
 import type { FormSync } from '.'
 import type { AffixContent } from './helpers/text-input-affix'
 import type { Sizes } from './helpers/text-input-base'
@@ -13,8 +15,11 @@ type Props = {
 
     placeholder?: string
     defaultValue?: string
+    help?: string
+    info?: string
     size?: Sizes
     optional?: boolean
+    hideOptionalLabel?: boolean
     readonly?: boolean
     disabled?: boolean
     decimals?: number
@@ -28,7 +33,7 @@ type Props = {
 }
 
 const parser = (number: string): string => {
-    return number.replaceAll(',', '')
+    return number.replace(/,/gu, '')
 }
 
 const onFormat = (number: string, decimals: number | undefined): string => {
@@ -39,14 +44,10 @@ const onFormat = (number: string, decimals: number | undefined): string => {
 }
 
 const onUpdate = (number: string, oldNumber: string, decimals: number | undefined): string => {
-    // eslint-disable-next-line unicorn/no-unsafe-regex -- no idea how to fix
-    if (number.match(/^([\d,]*\.?(\d*)?)?$/u)) {
-        const string = number.startsWith('.') ? `0${number}` : number
-        const parts = string.replaceAll(',', '').toString().split('.')
-        // eslint-disable-next-line unicorn/no-unsafe-regex -- no idea how to fix
-        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/gu, ',')
-        if (decimals && parts[1]) parts[1] = parts[1].slice(0, decimals)
-        return parts.join('.')
+    if (stringIsNumber(number)) {
+        let string = formatNumber(number)
+        if (decimals) string = truncateDecimals(string, decimals)
+        return string
     }
     return oldNumber
 }
@@ -74,8 +75,11 @@ export const NumberInput = (props: Props): JSX.Element => {
             type='text'
             placeholder={props.placeholder}
             defaultValue={props.defaultValue}
+            help={props.help}
+            info={props.info}
             size={props.size}
             optional={props.optional}
+            hideOptionalLabel={props.hideOptionalLabel}
             readonly={props.readonly}
             disabled={props.disabled}
             prefix={props.prefix}
