@@ -50,7 +50,7 @@ export const PasswordInput = (props: Props): JSX.Element => {
             suffixOnClick={toggleShowPassword}
             requiredMessage={props.requiredMessage ?? 'Enter your password'}
             successMessage={props.successMessage ?? ''}
-            autoComplete={props.disableAutocomplete ? '' : 'current-password'}
+            autoComplete={props.disableAutocomplete ? 'off' : 'current-password'}
             formSync={props.formSync}
         />
     )
