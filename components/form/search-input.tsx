@@ -1,3 +1,5 @@
+import { useCallback } from 'react'
+
 import type { FormSync } from '.'
 import { Search } from '../../elements/icon'
 import type { Sizes } from './helpers/text-input-base'
@@ -18,11 +20,22 @@ type Props = {
     disabled?: boolean
     hideIcon?: boolean
 
+    onChange?: (value: string) => void
+
     formSync?: FormSync
 }
 
 export const SearchInput = (props: Props): JSX.Element => {
     const { label } = props
+
+    const handleUpdate = useCallback(
+        (value: string) => {
+            if (props.onChange) props.onChange(value)
+            return value
+        },
+        [props]
+    )
+
     return (
         <TextInput
             id={props.id}
@@ -40,6 +53,7 @@ export const SearchInput = (props: Props): JSX.Element => {
             keyboard='search'
             optional
             hideOptionalLabel
+            onUpdate={handleUpdate}
             formSync={props.formSync}
         />
     )
