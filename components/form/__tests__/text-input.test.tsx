@@ -78,16 +78,14 @@ describe('"id" prop is passed down', () => {
 })
 
 describe('"type" prop is passed down', () => {
-    test.each(['text', 'email', 'number', 'password', 'search', 'textarea', 'url'])(
-        '%s type',
-        (type) => {
-            expect(
-                shallow(<TextInput type={type as Type} name='text-input' />)
-                    .find('TextInputBase')
-                    .prop('type')
-            ).toBe(type)
-        }
-    )
+    const types: Type[] = ['text', 'email', 'number', 'password', 'search', 'textarea', 'url']
+    test.each(types)('%s type', (type) => {
+        expect(
+            shallow(<TextInput type={type} name='text-input' />)
+                .find('TextInputBase')
+                .prop('type')
+        ).toBe(type)
+    })
 })
 
 describe('"placeholder" prop is passed down', () => {
@@ -336,16 +334,10 @@ describe('"keyboard" prop is passed down', () => {
 
 describe('"autoComplete" prop is passed down', () => {
     // eslint-disable-next-line prettier/prettier -- will be horrendous if each value is on its own line
-    test.each(['', 'off', 'on', 'name', 'honorific-prefix', 'given-name', 'additional-name', 'family-name', 'honorific-suffix', 'nickname', 'email', 'username', 'new-password', 'current-password', 'one-time-code', 'organization-title', 'organization', 'street-address', 'address-line1', 'address-line2', 'address-line3', 'address-level1', 'address-level2', 'address-level3', 'address-level4', 'country', 'country-name', 'postal-code', 'cc-name', 'cc-given-name', 'cc-additional-name', 'cc-family-name', 'cc-number', 'cc-exp', 'cc-exp-month', 'cc-exp-year', 'cc-csc', 'cc-type', 'transaction-currency', 'transaction-amount', 'language', 'bday', 'bday-day', 'bday-month', 'bday-year', 'sex', 'tel', 'tel-country-code', 'tel-national', 'tel-area-code', 'tel-local', 'tel-extension', 'impp', 'url', 'photo',
-    ])('autoComplete is "%p"', (autoComplete) => {
+    const autoCompletes: Autocomplete[] = ['', 'off', 'on', 'name', 'honorific-prefix', 'given-name', 'additional-name', 'family-name', 'honorific-suffix', 'nickname', 'email', 'username', 'new-password', 'current-password', 'one-time-code', 'organization-title', 'organization', 'street-address', 'address-line1', 'address-line2', 'address-line3', 'address-level1', 'address-level2', 'address-level3', 'address-level4', 'country', 'country-name', 'postal-code', 'cc-name', 'cc-given-name', 'cc-additional-name', 'cc-family-name', 'cc-number', 'cc-exp', 'cc-exp-month', 'cc-exp-year', 'cc-csc', 'cc-type', 'transaction-currency', 'transaction-amount', 'language', 'bday', 'bday-day', 'bday-month', 'bday-year', 'sex', 'tel', 'tel-country-code', 'tel-national', 'tel-area-code', 'tel-local', 'tel-extension', 'impp', 'url', 'photo',]
+    test.each(autoCompletes)('autoComplete is "%p"', (autoComplete) => {
         expect(
-            shallow(
-                <TextInput
-                    type='text'
-                    name='text-input'
-                    autoComplete={autoComplete as Autocomplete}
-                />
-            )
+            shallow(<TextInput type='text' name='text-input' autoComplete={autoComplete} />)
                 .find('TextInputBase')
                 .prop('autoComplete')
         ).toBe(autoComplete)
