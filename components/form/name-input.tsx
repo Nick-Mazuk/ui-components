@@ -1,4 +1,6 @@
 import { parseFullName } from 'parse-full-name'
+import isEmail from 'validator/lib/isEmail'
+import isURL from 'validator/lib/isURL'
 
 import type { FormSync } from '.'
 import { User } from '../../elements/icon'
@@ -61,6 +63,16 @@ export const NameInput = (props: Props): JSX.Element => {
             prefix={props.hideIcon ? '' : <User />}
             requiredMessage={props.requiredMessage ?? 'Enter your name'}
             successMessage={props.successMessage ?? ''}
+            validationRules={[
+                {
+                    assert: (value: string) => !isEmail(value),
+                    error: 'Cannot be an email',
+                },
+                {
+                    assert: (value: string) => !isURL(value),
+                    error: 'Cannot be a url',
+                },
+            ]}
             parser={parser}
             formSync={props.formSync}
         />
