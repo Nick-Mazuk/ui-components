@@ -1,6 +1,11 @@
 import { useCallback } from 'react'
 
-import { stringIsNumber, formatNumber, truncateDecimals } from '@nick-mazuk/lib/number-styling'
+import {
+    stringIsNumber,
+    formatNumber,
+    truncateDecimals,
+    addThousandsSeparators,
+} from '@nick-mazuk/lib/number-styling'
 
 import type { FormSync } from '.'
 import type { AffixContent } from './helpers/text-input-affix'
@@ -33,19 +38,17 @@ type Props = {
 }
 
 const parser = (number: string): string => {
-    return number.replace(/,/gu, '')
+    return formatNumber(number).replace(/,/gu, '')
 }
 
 const onFormat = (number: string, decimals: number | undefined): string => {
-    if (number.startsWith('.')) return `0${number}`
-    if (number.endsWith('.')) return number.slice(0, -1)
-    if (decimals && number.charAt(number.length - decimals) === '.') return `${number}0`
-    return number
+    if (decimals) return formatNumber(truncateDecimals(number, decimals))
+    return formatNumber(number)
 }
 
 const onUpdate = (number: string, oldNumber: string, decimals: number | undefined): string => {
     if (stringIsNumber(number)) {
-        let string = formatNumber(number)
+        let string = addThousandsSeparators(number)
         if (decimals) string = truncateDecimals(string, decimals)
         return string
     }
