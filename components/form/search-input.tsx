@@ -26,14 +26,14 @@ type Props = {
 }
 
 export const SearchInput = (props: Props): JSX.Element => {
-    const { label } = props
+    const { label, onChange } = props
 
     const handleUpdate = useCallback(
         (value: string) => {
-            if (props.onChange) props.onChange(value)
+            if (onChange) onChange(value)
             return value
         },
-        [props]
+        [onChange]
     )
 
     return (
