@@ -179,6 +179,7 @@ const getInputProps = (props: Props, size: Sizes): InputProps => {
         name: props.name,
         className: classes,
         onChange: props.onChange,
+        'aria-invalid': props.invalid,
     }
     if (props.readonly) inputProps.readOnly = true
     if (props.disabled) inputProps.disabled = true

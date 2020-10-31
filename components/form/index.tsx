@@ -30,6 +30,8 @@ type UpdateForm = (
     clear: ClearFunction
 ) => void
 
+type HandleSubmit = (data: Record<string, FormDataValue>) => void
+
 // eslint-disable-next-line import/exports-last -- used in every input component file
 export type FormSync = {
     state: State
@@ -55,6 +57,7 @@ type Props = {
     onError?: OnError
     onSuccess?: OnSuccess
     captcha?: string
+    handleSubmit?: HandleSubmit
 }
 
 const clearInputs = (formData: FormData): void => {
@@ -80,6 +83,7 @@ const submitForm = (
     onError: OnError,
     method?: Methods,
     action?: string,
+    handleSubmit?: HandleSubmit,
     token?: string
 ): void => {
     const data: Record<string, FormDataValue> = {}
@@ -101,8 +105,8 @@ const submitForm = (
             .catch((error) => {
                 onError(error)
             })
-    } else {
-        onSuccess({ response: data, status: 200, data: data })
+    } else if (handleSubmit) {
+        handleSubmit(data)
     }
 }
 
@@ -155,7 +159,8 @@ export const Form = (props: Props): JSX.Element => {
                     handleSuccessfulSubmit,
                     handleErrorSubmit,
                     props.method,
-                    props.action
+                    props.action,
+                    props.handleSubmit
                 )
             }
         },
@@ -165,6 +170,7 @@ export const Form = (props: Props): JSX.Element => {
             handleSuccessfulSubmit,
             props.action,
             props.captcha,
+            props.handleSubmit,
             props.method,
         ]
     )
@@ -178,10 +184,18 @@ export const Form = (props: Props): JSX.Element => {
                 handleErrorSubmit,
                 props.method,
                 props.action,
+                props.handleSubmit,
                 token
             )
         },
-        [formData, handleErrorSubmit, handleSuccessfulSubmit, props.action, props.method]
+        [
+            formData,
+            handleErrorSubmit,
+            handleSuccessfulSubmit,
+            props.action,
+            props.handleSubmit,
+            props.method,
+        ]
     )
 
     return (
