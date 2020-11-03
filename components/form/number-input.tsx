@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 
 import {
-    stringIsNumber,
+    isNumber,
     formatNumber,
     truncateDecimals,
     addThousandsSeparators,
@@ -47,7 +47,7 @@ const onFormat = (number: string, decimals: number | undefined): string => {
 }
 
 const onUpdate = (number: string, oldNumber: string, decimals: number | undefined): string => {
-    if (stringIsNumber(number)) {
+    if (isNumber(number)) {
         let string = addThousandsSeparators(number)
         if (decimals) string = truncateDecimals(string, decimals)
         return string

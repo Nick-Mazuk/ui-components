@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import type { FormSync } from '..'
+import { DateInput } from '../date-input'
 import { DollarInput } from '../dollar-input'
 import { EmailInput } from '../email-input'
 import { NameInput } from '../name-input'
@@ -41,6 +42,7 @@ type InputElement = (props: any) => JSX.Element
 type InputArray = [InputName, InputElement, ValidText, SpecialOptions]
 
 const Inputs: InputArray[] = [
+    ['date input', DateInput, 'October 27, 2021', { hasIcon: true }],
     ['dollar input', DollarInput, '1', {}],
     ['email input', EmailInput, 'example@email.com', { hasIcon: true }],
     ['name input', NameInput, 'Jane Smith', { hasIcon: true }],

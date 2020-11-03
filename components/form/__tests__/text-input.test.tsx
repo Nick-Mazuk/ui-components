@@ -621,6 +621,7 @@ describe('progress works as expected', () => {
    
     */
 
+// eslint-disable-next-line max-lines-per-function -- still readable
 describe('formSync works', () => {
     test('input is synced and parsed', () => {
         const formSync: FormSync = {
@@ -654,6 +655,30 @@ describe('formSync works', () => {
         expect(formSync.updateForm).toHaveBeenCalledWith(
             'form-sync-name',
             'HELLO WORLD',
+            expect.any(Function),
+            expect.any(Function)
+        )
+    })
+
+    test('if input has a default value, it should sync with the form immediately', () => {
+        const formSync: FormSync = {
+            state: 'ready',
+            updateForm: jest.fn(),
+        }
+        render(
+            <TextInput
+                type='text'
+                label='Name'
+                name='form-sync-name'
+                defaultValue='hello world'
+                formSync={formSync}
+            />
+        )
+
+        expect(formSync.updateForm).toHaveBeenCalledTimes(1)
+        expect(formSync.updateForm).toHaveBeenCalledWith(
+            'form-sync-name',
+            'hello world',
             expect.any(Function),
             expect.any(Function)
         )

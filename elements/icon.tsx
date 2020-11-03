@@ -289,6 +289,16 @@ export const Bold = (props: IconProps): JSX.Element => {
     })
 }
 
+export const Calendar = (props: IconProps): JSX.Element => {
+    return icon(
+        'M18.75,4.75C18.75,3.646 17.854,2.75 16.75,2.75L2.75,2.75C1.646,2.75 0.75,3.646 0.75,4.75L0.75,18.75C0.75,19.854 1.646,20.75 2.75,20.75L16.75,20.75C17.854,20.75 18.75,19.854 18.75,18.75L18.75,4.75Z M13.75,0.75L13.75,4.75 M5.75,0.75L5.75,4.75 M0.75,8.75L18.75,8.75',
+        {
+            stroke: true,
+            width: props.width,
+        }
+    )
+}
+
 export const Check = (props: IconProps): JSX.Element => {
     return icon('M20 6L9 17l-5-5', {
         stroke: true,

@@ -15,12 +15,13 @@ const countInvalidInputs = (inputs: HTMLElement[]): number => {
     return count
 }
 
-describe('user can interact with the form', () => {
+// eslint-disable-next-line max-lines-per-function -- just a multi-step test
+test('user can interact with the form', () => {
     const mockSuccess = jest.fn()
     const mockError = jest.fn()
     const mockSubmit = jest.fn()
-    const { container } = render(
-        <Form onSuccess={mockSuccess} onError={mockError} handleSubmit={mockSubmit}>
+    render(
+        <Form onSuccess={mockSuccess} onError={mockError} handleSubmit={mockSubmit} clearOnSubmit>
             {(formSync) => (
                 <>
                     <NameInput formSync={formSync} />
@@ -37,21 +38,55 @@ describe('user can interact with the form', () => {
     const buttons = screen.getAllByRole('button')
     const submitButton = buttons[buttons.length - 1]
 
-    test('form renders all input elements and buttons', () => {
-        expect(inputs).toHaveLength(4)
-        expect(submitButton.textContent).toBe('Submit')
+    // form renders all input elements and buttons'
+    expect(inputs).toHaveLength(4)
+    expect(submitButton.textContent).toBe('Submit')
+
+    // 'clicking submit causes inputs to validate and does not submit when invalid'
+    userEvent.click(submitButton)
+    expect(mockSuccess).toHaveBeenCalledTimes(0)
+    expect(mockError).toHaveBeenCalledTimes(0)
+    expect(mockSubmit).toHaveBeenCalledTimes(0)
+    expect(countInvalidInputs(inputs)).toBe(3)
+
+    // user can type valid inputs and fields are marked as valid
+    userEvent.type(inputs[0], 'John Smith')
+    userEvent.type(inputs[1], 'email@example.com')
+    userEvent.type(inputs[3], 'This is the message of the stuff')
+    userEvent.tab()
+
+    expect(mockSuccess).toHaveBeenCalledTimes(0)
+    expect(mockError).toHaveBeenCalledTimes(0)
+    expect(mockSubmit).toHaveBeenCalledTimes(0)
+    expect(countInvalidInputs(inputs)).toBe(0)
+
+    // user can submit the form
+    userEvent.click(submitButton)
+    expect(mockSuccess).toHaveBeenCalledTimes(0)
+    expect(mockError).toHaveBeenCalledTimes(0)
+    expect(mockSubmit).toHaveBeenCalledTimes(1)
+
+    // ensures handleSubmit has been called with the correct data
+    expect(mockSubmit).toHaveBeenLastCalledWith({
+        'full-name': {
+            first: 'John',
+            full: 'John Smith',
+            last: 'Smith',
+            middle: '',
+            nick: '',
+            suffix: '',
+            title: '',
+        },
+        email: 'email@example.com',
+        message: '',
+        content: 'This is the message of the stuff',
     })
 
-    test('clicking submit causes inputs to validate and does not submit when invalid', () => {
-        userEvent.click(submitButton)
-        expect(mockSuccess).toHaveBeenCalledTimes(0)
-        expect(mockError).toHaveBeenCalledTimes(0)
-        expect(mockSubmit).toHaveBeenCalledTimes(0)
-        expect(inputs).toBe(3)
-    })
-
-    test.todo("optional fields aren't validated")
-    test.todo('user can type valid inputs and fields are marked as valid')
+    // clears values after submit
+    expect(inputs[0]).toHaveValue('')
+    expect(inputs[1]).toHaveValue('')
+    expect(inputs[2]).toHaveValue('')
+    expect(inputs[3]).toHaveValue('')
 })
 
 describe('user can submit form', () => {
@@ -76,6 +111,7 @@ describe('submitting the form fails gracefully', () => {
     test.todo('handles internal server error')
     test.todo('handles invalid data error')
     test.todo('handles timeout error')
+    test.todo('handles non-existent endpoint')
 })
 
 describe('captcha works as expected', () => {

@@ -119,6 +119,8 @@ export const Form = (props: Props): JSX.Element => {
         return {}
     }, [])
 
+    const { onSuccess, onError } = props
+
     const updateForm: UpdateForm = useCallback(
         (name, data, validate, clear) => {
             formData[name] = { data: data, validate: validate, clear: clear }
@@ -131,17 +133,17 @@ export const Form = (props: Props): JSX.Element => {
         (data: SubmitResponse): void => {
             setState('submitted')
             clearInputs(formData)
-            if (props.onSuccess) props.onSuccess(data)
+            if (onSuccess) onSuccess(data)
         },
-        [formData, props]
+        [formData, onSuccess]
     )
 
     const handleErrorSubmit = useCallback(
         (error: unknown) => {
             setState('error')
-            if (props.onError) props.onError(error)
+            if (onError) onError(error)
         },
-        [props]
+        [onError]
     )
 
     const handleSubmit = useCallback(
