@@ -37,6 +37,8 @@ test.each(inputs)('"%s" is  parsed as "%s"', (number, parsedNumber) => {
     userEvent.type(input, number)
     userEvent.tab()
 
+    expect(screen.queryByText('Error:')).toBeFalsy()
+
     expect(formSync.updateForm).toHaveBeenLastCalledWith(
         'date',
         parsedNumber,
