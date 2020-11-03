@@ -17,7 +17,6 @@ type PageCombo = [number, number, number | undefined, (number | 'Previous' | 'Ne
 
 /* eslint-disable no-magic-numbers -- defining the magic numbers*/
 const pageCombos: PageCombo[] = [
-    [1, 1, undefined, [1], 0],
     [1, 10, undefined, [1, 2, 10, 'Next'], 1],
     [4, 10, undefined, ['Previous', 1, 3, 4, 5, 10, 'Next'], 2],
     [4, 4, undefined, ['Previous', 1, 3, 4], 1],
@@ -94,5 +93,29 @@ test.each(pageCombos)(
                 expect(mock).toHaveBeenLastCalledWith(current + 1)
             else expect(mock).toHaveBeenLastCalledWith(parseInt(button.textContent ?? '-1'))
         }
+    }
+)
+
+const invalidPageCombos: [number, number][] = [
+    [0, 0],
+    [1, 0],
+    [2, 0],
+    [3, 0],
+    [4, 0],
+    [-1, 0],
+    [0, -1],
+    [0, -2],
+    [0, -3],
+    [1.1, 10],
+    [1, 10.1],
+]
+
+test.each(invalidPageCombos)(
+    'invalid page combo current: "%s", pageCount: "%s", has empty renderer',
+    (current, pageCount) => {
+        const { container } = render(
+            <Pagination current={current} pageCount={pageCount} onPageChange={handlePageChange} />
+        )
+        expect(container).toBeEmptyDOMElement()
     }
 )
