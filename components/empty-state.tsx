@@ -33,33 +33,30 @@ const getCtaElements = (
     customCta: ReactNode | ReactNode[] | undefined
 ): ReactNode | ReactNode[] => {
     if (typeof customCta !== 'undefined') return customCta
-    const ctaElements: ReactNode[] = []
-    if (typeof cta !== 'undefined') {
-        ctaElements.push(
-            <Button
-                value={cta.value}
-                href={cta.href}
-                icon={cta.icon}
-                onClick={cta.onClick}
-                color='primary'
-            />
-        )
-    }
 
-    if (typeof secondaryCta !== 'undefined') {
-        ctaElements.push(
-            <Button
-                value={secondaryCta.value}
-                href={secondaryCta.href}
-                icon={secondaryCta.icon}
-                onClick={secondaryCta.onClick}
-                color='primary'
-                style='text'
-            />
-        )
-    }
-
-    return ctaElements
+    return (
+        <>
+            {typeof cta !== 'undefined' && (
+                <Button
+                    value={cta.value}
+                    href={cta.href}
+                    icon={cta.icon}
+                    onClick={cta.onClick}
+                    color='primary'
+                />
+            )}
+            {typeof secondaryCta !== 'undefined' && (
+                <Button
+                    value={secondaryCta.value}
+                    href={secondaryCta.href}
+                    icon={secondaryCta.icon}
+                    onClick={secondaryCta.onClick}
+                    color='primary'
+                    style='text'
+                />
+            )}
+        </>
+    )
 }
 /* eslint-enable react/jsx-handler-names -- just passing down the functions */
 
