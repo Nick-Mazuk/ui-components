@@ -20,37 +20,29 @@ export const MobileContainer = ({
     toggle,
     title = 'Navigation',
 }: Props): JSX.Element => {
-    const containerClasses = classNames(
-        'absolute pt-4 px-3 left-0 top-0 w-screen h-screen overflow-scroll sm:hidden',
-        {
-            hidden: !active,
-        }
-    )
+    const containerClasses = classNames('fixed pt-4 px-3 inset-0 overflow-scroll sm:hidden', {
+        hidden: !active,
+    })
     const buttonClasses = classNames(
-        'fixed top-0 left-0 w-screen h-screen cursor-default opacity-50 bg-black sm:hidden',
-        {
-            hidden: !active,
-        }
+        'h-screen absolute w-screen cursor-default opacity-50 bg-black'
     )
     return (
-        <>
+        <div className={containerClasses}>
             <button className={buttonClasses} onClick={toggle} />
-            <div className={containerClasses}>
-                <div>
-                    <Box style='white' shadow='large'>
-                        <div className='flex items-center justify-between mb-4'>
-                            <Text h6 as='p' color='text-gray'>
-                                {title}
-                            </Text>
-                            <WithClick callback={toggle} className='p-4 -m-4 text-gray'>
-                                <X width='w-5' />
-                            </WithClick>
-                        </div>
-                        {children}
-                    </Box>
-                </div>
+            <div className='relative'>
+                <Box style='white' shadow='large'>
+                    <div className='flex items-center justify-between mb-4'>
+                        <Text h6 as='p' color='text-gray'>
+                            {title}
+                        </Text>
+                        <WithClick callback={toggle} className='p-4 -m-4 text-gray'>
+                            <X width='w-5' />
+                        </WithClick>
+                    </div>
+                    {children}
+                </Box>
             </div>
-        </>
+        </div>
     )
 }
 

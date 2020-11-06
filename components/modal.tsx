@@ -84,7 +84,7 @@ export const Modal = ({
     onClose,
 }: Props): JSX.Element => {
     const buttonClasses = classNames(
-        'h-screen absolute w-screen cursor-default opacity-50  bg-black'
+        'h-screen absolute w-screen cursor-default opacity-50 bg-black'
     )
 
     // eslint-disable-next-line react/jsx-no-useless-fragment -- base case
