@@ -20,7 +20,7 @@ export const MobileContainer = ({
     toggle,
     title = 'Navigation',
 }: Props): JSX.Element => {
-    const containerClasses = classNames('fixed pt-4 px-3 inset-0 overflow-scroll sm:hidden', {
+    const containerClasses = classNames('fixed inset-0 sm:hidden', {
         hidden: !active,
     })
     const buttonClasses = classNames(
@@ -29,7 +29,7 @@ export const MobileContainer = ({
     return (
         <div className={containerClasses}>
             <button className={buttonClasses} onClick={toggle} />
-            <div className='relative'>
+            <div className='relative pt-4 px-3 overflow-scroll'>
                 <Box style='white' shadow='large'>
                     <div className='flex items-center justify-between mb-4'>
                         <Text h6 as='p' color='text-gray'>
