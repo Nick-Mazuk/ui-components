@@ -78,7 +78,10 @@ const validate = (
     requiredMessage: string | undefined,
     rules?: ValidationRules
 ): [boolean, string] => {
-    if (!optional && value.length === 0) return [false, requiredMessage ?? '']
+    if (value.length === 0) {
+        if (optional) return [true, '']
+        return [false, requiredMessage ?? '']
+    }
     for (const rule of rules ?? []) if (!rule.assert(value)) return [false, rule.error ?? '']
     return [true, '']
 }

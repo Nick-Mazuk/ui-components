@@ -164,6 +164,16 @@ test.each(Inputs.filter((array) => array[EXCEPTION_INDEX].optional !== false))(
 )
 
 test.each(Inputs.filter((array) => array[EXCEPTION_INDEX].optional !== false))(
+    '%s allows empty fields when optional',
+    (_, Input) => {
+        render(<Input optional />)
+        userEvent.click(screen.getByTestId('text-input-element'))
+        userEvent.tab()
+        expect(screen.queryByText('Error:')).toBeFalsy()
+    }
+)
+
+test.each(Inputs.filter((array) => array[EXCEPTION_INDEX].optional !== false))(
     "%s doesn't render optional when hidden",
     (_, Input) => {
         render(<Input optional hideOptionalLabel />)
