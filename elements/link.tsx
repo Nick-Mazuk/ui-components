@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { AnchorHTMLAttributes, ReactNode } from 'react'
 
 import classNames from 'classnames'
 
@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 import { WEIGHT_MAP } from './text'
 
-type Properties = {
+type Props = {
     href: string
     children: ReactNode | ReactNode[]
     title?: string
@@ -14,6 +14,7 @@ type Properties = {
     onClick?: () => void
     styled?: boolean
     download?: boolean
+    newTab?: boolean
 }
 
 const getStyles = (styled: boolean): string => {
@@ -29,23 +30,28 @@ const Linker = ({
     onClick,
     styled = false,
     download = false,
-}: Properties): JSX.Element => {
+    newTab = false,
+}: Props): JSX.Element => {
     const classes = classNames(className, getStyles(styled))
-    const anchorProperties: Record<string, unknown> = {
+    const anchorProps: AnchorHTMLAttributes<HTMLAnchorElement> = {
         title: title,
         className: classes,
         download: download,
     }
     if (onClick) {
-        anchorProperties.onClick = onClick
-        anchorProperties.onKeyPress = (event: React.KeyboardEvent): void => {
+        anchorProps.onClick = onClick
+        anchorProps.onKeyPress = (event: React.KeyboardEvent): void => {
             if (event.key === 'enter') onClick()
         }
+    }
+    if (newTab) {
+        anchorProps.target = '_blank'
+        anchorProps.rel = 'noreferrer'
     }
 
     return (
         <Link href={href}>
-            <a {...anchorProperties}>{children}</a>
+            <a {...anchorProps}>{children}</a>
         </Link>
     )
 }
