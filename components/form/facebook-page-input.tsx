@@ -1,14 +1,9 @@
-import {
-    isYouTubeVideoUrl,
-    getYouTubeChannelId,
-    isYouTubeChannelUrl,
-    isYouTubeUrl,
-} from '@nick-mazuk/lib/youtube'
+import { isFacebookUrl, isFacebookPageUrl } from '@nick-mazuk/lib/facebook'
 import isURL from 'validator/lib/isURL'
 
 import type { FormSync } from '.'
 import type { Icon } from '../../elements/icon'
-import { YouTube } from '../../elements/icon'
+import { Facebook } from '../../elements/icon'
 import type { Sizes } from './helpers/text-input-base'
 import { TextInput } from './text-input'
 
@@ -37,9 +32,9 @@ type Props = {
     formSync?: FormSync
 }
 
-export const YouTubeChannelInput = (props: Props): JSX.Element => {
-    const label = props.label ?? 'YouTube channel'
-    const icon = props.icon ?? <YouTube />
+export const FacebookPageInput = (props: Props): JSX.Element => {
+    const label = props.label ?? 'Facebook page'
+    const icon = props.icon ?? <Facebook />
     return (
         <TextInput
             id={props.id}
@@ -56,7 +51,7 @@ export const YouTubeChannelInput = (props: Props): JSX.Element => {
             readonly={props.readonly}
             disabled={props.disabled}
             prefix={props.hideIcon ? '' : icon}
-            requiredMessage={props.requiredMessage ?? `Enter a YouTube channel url`}
+            requiredMessage={props.requiredMessage ?? `Enter a Facebook page url`}
             successMessage={props.successMessage ?? ''}
             validationRules={[
                 {
@@ -64,23 +59,18 @@ export const YouTubeChannelInput = (props: Props): JSX.Element => {
                     error: `Enter a valid url`,
                 },
                 {
-                    assert: (value: string) => isYouTubeUrl(value),
-                    error: 'Must be a YouTube url',
+                    assert: (value: string) => isFacebookUrl(value),
+                    error: 'Must be a Facebook url',
                 },
                 {
-                    assert: (value: string) => !isYouTubeVideoUrl(value),
-                    error: 'Cannot be a video url',
-                },
-                {
-                    assert: (value: string) => isYouTubeChannelUrl(value),
-                    error: 'Enter a valid channel url',
+                    assert: (value: string) => isFacebookPageUrl(value),
+                    error: 'Enter a Facebook page url',
                 },
             ]}
-            parser={getYouTubeChannelId}
             keyboard='url'
             formSync={props.formSync}
         />
     )
 }
 
-export type YouTubeChannelInput = ReturnType<typeof YouTubeChannelInput>
+export type FacebookPageInput = ReturnType<typeof FacebookPageInput>

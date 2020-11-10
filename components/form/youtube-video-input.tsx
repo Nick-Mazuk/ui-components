@@ -38,7 +38,7 @@ type Props = {
 }
 
 export const YouTubeVideoInput = (props: Props): JSX.Element => {
-    const label = props.label ?? 'YouTube Video'
+    const label = props.label ?? 'YouTube video'
     const icon = props.icon ?? <YouTube />
     return (
         <TextInput

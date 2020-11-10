@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event'
 import type { FormSync } from '..'
 import { YouTubeChannelInput } from '../youtube-channel-input'
 
-const invalidVideos = [
+const invalidUrls = [
     'john smith',
     'invalidemail@',
     'invalid.com',
@@ -20,7 +20,7 @@ const invalidVideos = [
     'https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=1',
     'https://www.youtube.com/embed/dQw4w9WgXcQ',
 ]
-test.each(invalidVideos)('"%s" is marked as invalid', (email) => {
+test.each(invalidUrls)('"%s" is marked as invalid', (email) => {
     render(<YouTubeChannelInput />)
 
     const input = screen.getByTestId('text-input-element')
@@ -33,13 +33,13 @@ test.each(invalidVideos)('"%s" is marked as invalid', (email) => {
     expect(screen.getByText('Error:')).toBeTruthy()
 })
 
-const validVideos = [
+const validChannels = [
     ['youtube.com/user/channel_name', 'channel_name'],
     ['youtube.com/channel/UCUZHFZ9j', 'UCUZHFZ9j'],
     ['youtube.com/c/YouTubeCreators', 'YouTubeCreators'],
     ['youtube.com/YouTubeCreators', 'YouTubeCreators'],
 ]
-test.each(validVideos)('"%s" is marked as valid', (video) => {
+test.each(validChannels)('"%s" is marked as valid', (video) => {
     render(<YouTubeChannelInput />)
 
     const input = screen.getByTestId('text-input-element')
@@ -52,7 +52,7 @@ test.each(validVideos)('"%s" is marked as valid', (video) => {
     expect(screen.queryByText('Error:')).toBeFalsy()
 })
 
-test.each(validVideos)('"%s" is parsed as "%s"', (video, parsedChannel) => {
+test.each(validChannels)('"%s" is parsed as "%s"', (video, parsedChannel) => {
     const formSync: FormSync = {
         state: 'ready',
         updateForm: jest.fn(),

@@ -5,12 +5,14 @@ import type { FormSync } from '..'
 import { DateInput } from '../date-input'
 import { DollarInput } from '../dollar-input'
 import { EmailInput } from '../email-input'
+import { FacebookPageInput } from '../facebook-page-input'
 import { NameInput } from '../name-input'
 import { NewPasswordInput } from '../new-password-input'
 import { NumberInput } from '../number-input'
 import { PasswordInput } from '../password-input'
 import { SearchInput } from '../search-input'
 import { TextAreaInput } from '../textarea-input'
+import { TwitterProfileInput } from '../twitter-profile-input'
 import { UrlInput } from '../url-input'
 import { YouTubeChannelInput } from '../youtube-channel-input'
 import { YouTubeVideoInput } from '../youtube-video-input'
@@ -66,6 +68,8 @@ const Inputs: InputArray[] = [
     ['url input', UrlInput, 'https://example.com', { hasIcon: true }],
     ['youtube video input', YouTubeVideoInput, 'https://youtu.be/videoId', { hasIcon: true }],
     ['youtube channel input', YouTubeChannelInput, 'https://youtube.com/mkbhd', { hasIcon: true }],
+    ['facebook page input', FacebookPageInput, 'https://facebook.com/facebook', { hasIcon: true }],
+    ['twitter profile input', TwitterProfileInput, 'https://twitter.com/hello', { hasIcon: true }],
 ]
 
 const EXCEPTION_INDEX = 3
