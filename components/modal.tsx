@@ -8,8 +8,6 @@ import { X } from '../elements/icon'
 import { Text } from '../elements/text'
 import { WithClick } from '../hoc/with-click'
 
-/* eslint-disable react/jsx-no-bind -- memoizing is not worth it because functions will be called once */
-
 type OnClose = (value: string) => void
 
 type Props = {
@@ -118,5 +116,3 @@ export const Modal = ({
 }
 
 export type Modal = ReturnType<typeof Modal>
-
-/* eslint-enable react/jsx-no-bind -- memoizing is not worth it because functions will be called once */

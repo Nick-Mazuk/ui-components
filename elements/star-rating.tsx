@@ -31,7 +31,6 @@ export const StarRating = ({ rating, reviews, editable = false }: Props): JSX.El
             <WithClick
                 key={`${index}${index <= currentRating}`}
                 className={starClasses}
-                // eslint-disable-next-line react/jsx-no-bind -- need the callback to include the star number
                 callback={() => {
                     updateStarRating(index + 1)
                 }}
