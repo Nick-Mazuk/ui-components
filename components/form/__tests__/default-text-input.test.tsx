@@ -12,6 +12,7 @@ import { PasswordInput } from '../password-input'
 import { SearchInput } from '../search-input'
 import { TextAreaInput } from '../textarea-input'
 import { UrlInput } from '../url-input'
+import { YouTubeChannelInput } from '../youtube-channel-input'
 import { YouTubeVideoInput } from '../youtube-video-input'
 
 type SpecialOptions = {
@@ -64,6 +65,7 @@ const Inputs: InputArray[] = [
     ['textarea input', TextAreaInput, 'This is some random text', {}],
     ['url input', UrlInput, 'https://example.com', { hasIcon: true }],
     ['youtube video input', YouTubeVideoInput, 'https://youtu.be/videoId', { hasIcon: true }],
+    ['youtube channel input', YouTubeChannelInput, 'https://youtube.com/mkbhd', { hasIcon: true }],
 ]
 
 const EXCEPTION_INDEX = 3
