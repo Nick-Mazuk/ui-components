@@ -30,6 +30,7 @@ type Props = {
     autoCapitalization?: boolean
     download?: boolean
     square?: boolean
+    type?: 'submit' | 'button' | 'reset'
 
     disabled?: boolean
     loading?: boolean
@@ -250,6 +251,7 @@ const getState = (props: Props): State => {
     return 'normal'
 }
 
+// eslint-disable-next-line max-lines-per-function -- fix later
 export const Button = (props: Props): JSX.Element => {
     const color = props.color ?? 'default'
     const iconPosition = props.iconPosition ?? 'before'
@@ -295,7 +297,12 @@ export const Button = (props: Props): JSX.Element => {
         )
     }
     return (
-        <button className={buttonClasses} onClick={handleClick} disabled={state === 'disabled'}>
+        <button
+            className={buttonClasses}
+            onClick={handleClick}
+            disabled={state === 'disabled'}
+            type={props.type ?? 'button'}
+        >
             {iconContents}
         </button>
     )
