@@ -711,6 +711,13 @@ export const Url2 = (props: IconProps): JSX.Element => {
     })
 }
 
+export const Upload = (props: IconProps): JSX.Element => {
+    return icon('M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4 M17 8l-5-5-5 5 M12 3v12', {
+        stroke: true,
+        width: props.width,
+    })
+}
+
 // user icon comes from hero icons: https://heroicons.com/
 
 export const User = (props: IconProps): JSX.Element => {
