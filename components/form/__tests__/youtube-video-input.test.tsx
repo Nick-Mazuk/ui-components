@@ -56,6 +56,7 @@ test.each(validVideos)('"%s" is parsed as "%s"', (video, parsedVideo) => {
     const formSync: FormSync = {
         state: 'ready',
         updateForm: jest.fn(),
+        data: {},
     }
     render(<YouTubeVideoInput name='video' formSync={formSync} />)
     const input = screen.getByTestId('text-input-element')

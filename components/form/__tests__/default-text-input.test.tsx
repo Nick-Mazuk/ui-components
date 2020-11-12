@@ -248,6 +248,7 @@ test.each(Inputs)('%s syncs via formSync', (_, Input) => {
     const formSync: FormSync = {
         state: 'ready',
         updateForm: jest.fn(),
+        data: {},
     }
     render(<Input formSync={formSync} />)
     expect(formSync.updateForm).toHaveBeenCalledTimes(1)

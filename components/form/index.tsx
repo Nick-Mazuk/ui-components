@@ -11,7 +11,7 @@ export type FormDataValue = string | Record<string, string> | Node[]
 
 /* eslint-disable import/exports-last -- used in text-input component */
 export type ClearFunction = () => void
-export type ValidateFunction = (newValue?: string) => boolean
+export type ValidateFunction = ((newValue?: string) => boolean) | (() => boolean)
 /* eslint-enable import/exports-last -- used in text-input component */
 
 // validate: unknown; clear: unknown;
@@ -36,6 +36,7 @@ type HandleSubmit = (data: Record<string, FormDataValue>) => void
 export type FormSync = {
     state: State
     updateForm: UpdateForm
+    data: FormData
 }
 
 type Methods = 'post' | 'get'
@@ -202,7 +203,7 @@ export const Form = (props: Props): JSX.Element => {
 
     return (
         <form method={props.method} action={props.action} onSubmit={handleSubmit} noValidate>
-            {props.children({ state, updateForm })}
+            {props.children({ state, updateForm, data: JSON.parse(JSON.stringify(formData)) })}
             {props.captcha && process.env.NODE_ENV === 'production' && (
                 <HCaptcha
                     sitekey={process.env.NEXT_PUBLIC_CAPTCHA_KEY ?? ''}

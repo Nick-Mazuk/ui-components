@@ -627,6 +627,7 @@ describe('formSync works', () => {
         const formSync: FormSync = {
             state: 'ready',
             updateForm: jest.fn(),
+            data: {},
         }
         const parser = jest.fn((value: string) => value.toUpperCase())
         render(
@@ -664,6 +665,7 @@ describe('formSync works', () => {
         const formSync: FormSync = {
             state: 'ready',
             updateForm: jest.fn(),
+            data: {},
         }
         render(
             <TextInput

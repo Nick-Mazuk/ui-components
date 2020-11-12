@@ -110,6 +110,7 @@ test.each(validNames)('"%s" is parsed correctly', (name, parsedName) => {
     const formSync: FormSync = {
         state: 'ready',
         updateForm: jest.fn(),
+        data: {},
     }
     render(<NameInput name='name' formSync={formSync} />)
     const input = screen.getByTestId('text-input-element')

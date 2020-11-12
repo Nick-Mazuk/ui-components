@@ -21,6 +21,7 @@ test.each(inputs)(
         const formSync: FormSync = {
             state: 'ready',
             updateForm: jest.fn(),
+            data: {},
         }
         render(<NumberInput name='number' formSync={formSync} />)
         const input = screen.getByTestId('text-input-element')

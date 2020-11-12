@@ -91,6 +91,7 @@ test.each(validEmails)('"%s" is parsed as "%s"', (email, parsedEmail) => {
     const formSync: FormSync = {
         state: 'ready',
         updateForm: jest.fn(),
+        data: {},
     }
     render(<EmailInput name='email' formSync={formSync} />)
     const input = screen.getByTestId('text-input-element')

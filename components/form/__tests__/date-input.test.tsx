@@ -31,6 +31,7 @@ test.each(inputs)('"%s" is  parsed as "%s"', (number, parsedNumber) => {
     const formSync: FormSync = {
         state: 'ready',
         updateForm: jest.fn(),
+        data: {},
     }
     render(<DateInput name='date' formSync={formSync} />)
     const input = screen.getByTestId('text-input-element')

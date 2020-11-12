@@ -56,6 +56,7 @@ test.each(validChannels)('"%s" is parsed as "%s"', (video, parsedChannel) => {
     const formSync: FormSync = {
         state: 'ready',
         updateForm: jest.fn(),
+        data: {},
     }
     render(<YouTubeChannelInput name='channel' formSync={formSync} />)
     const input = screen.getByTestId('text-input-element')
