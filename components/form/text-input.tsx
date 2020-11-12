@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 
-import slugify from 'slugify'
+import { slugify } from '@nick-mazuk/lib/text-styling'
 
 import type { ClearFunction, FormDataValue, FormSync, ValidateFunction } from '.'
 import type { WithClickCallback } from '../../hoc/with-click'
@@ -62,7 +62,7 @@ type Props = {
 const getIdentificationData = (props: Props): [string, string, string] => {
     let { name, label, id } = props
     if (!label && !name && !id) throw new Error('Input must have a label, name, or id')
-    if (!name) name = id ?? slugify(label as string, { lower: true })
+    if (!name) name = id ?? slugify(label ?? '')
     if (!id) id = name
     if (!label) label = ''
     return [name, label, id]

@@ -11,6 +11,7 @@ type Styles = 'filled' | 'outlined' | 'text'
 type Sizes = 'small' | 'default' | 'large'
 type GluePositions = 'left' | 'right' | 'top' | 'bottom'
 type IconPositions = 'before' | 'after'
+type As = 'button' | 'div'
 // eslint-disable-next-line import/exports-last -- used in other files
 export type Colors = 'primary' | 'error' | 'success' | 'warning' | 'default' | 'highlight'
 
@@ -31,6 +32,7 @@ type Props = {
     download?: boolean
     square?: boolean
     type?: 'submit' | 'button' | 'reset'
+    as?: As
 
     disabled?: boolean
     loading?: boolean
@@ -296,6 +298,12 @@ export const Button = (props: Props): JSX.Element => {
             </Link>
         )
     }
+
+    if (props.as && props.as !== 'button') {
+        const Tag = props.as
+        return <Tag className={buttonClasses}>{iconContents}</Tag>
+    }
+
     return (
         <button
             className={buttonClasses}
