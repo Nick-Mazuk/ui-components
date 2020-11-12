@@ -13,7 +13,7 @@ export const LabelGroup = ({ label, info }: Props): JSX.Element => {
     if (!label && !info) return <></>
     return (
         <div className='flex items-center space-x-2'>
-            {label && <Text semibold>{label}</Text>}
+            {label && <Text>{label}</Text>}
             {info && (
                 <Tooltip content={info} position='right'>
                     <Info size='default' />
