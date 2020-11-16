@@ -1,4 +1,5 @@
-import { render, screen } from '@testing-library/react'
+/* eslint-disable sonarjs/no-identical-functions, max-lines-per-function -- because there's mocking, several functions will be identical */
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { Form } from '..'
@@ -15,11 +16,15 @@ const countInvalidInputs = (inputs: HTMLElement[]): number => {
     return count
 }
 
-// eslint-disable-next-line max-lines-per-function -- just a multi-step test
-test('user can interact with the form', () => {
+test('handleSubmit test #1: normal usage', async () => {
     const mockSuccess = jest.fn()
     const mockError = jest.fn()
-    const mockSubmit = jest.fn()
+    const mockSubmit = jest.fn(
+        (): Promise<boolean> =>
+            new Promise((resolve) => {
+                resolve(true)
+            })
+    )
     render(
         <Form onSuccess={mockSuccess} onError={mockError} handleSubmit={mockSubmit} clearOnSubmit>
             {(formSync) => (
@@ -28,7 +33,8 @@ test('user can interact with the form', () => {
                     <EmailInput formSync={formSync} />
                     <TextInput type='text' label='Message' formSync={formSync} optional />
                     <TextAreaInput formSync={formSync} />
-                    <Button value='Submit' color='primary' />
+                    <Button value='Submit' color='primary' type='submit' />
+                    {`Form state: ${formSync.state}`}
                 </>
             )}
         </Form>
@@ -42,12 +48,15 @@ test('user can interact with the form', () => {
     expect(inputs).toHaveLength(4)
     expect(submitButton.textContent).toBe('Submit')
 
+    expect(screen.getByText('Form state: ready')).toBeTruthy()
+
     // 'clicking submit causes inputs to validate and does not submit when invalid'
     userEvent.click(submitButton)
     expect(mockSuccess).toHaveBeenCalledTimes(0)
     expect(mockError).toHaveBeenCalledTimes(0)
     expect(mockSubmit).toHaveBeenCalledTimes(0)
     expect(countInvalidInputs(inputs)).toBe(3)
+    expect(screen.getByText('Form state: ready')).toBeTruthy()
 
     // user can type valid inputs and fields are marked as valid
     userEvent.type(inputs[0], 'John Smith')
@@ -59,14 +68,16 @@ test('user can interact with the form', () => {
     expect(mockError).toHaveBeenCalledTimes(0)
     expect(mockSubmit).toHaveBeenCalledTimes(0)
     expect(countInvalidInputs(inputs)).toBe(0)
+    expect(screen.getByText('Form state: ready')).toBeTruthy()
 
     // user can submit the form
     userEvent.click(submitButton)
-    expect(mockSuccess).toHaveBeenCalledTimes(0)
+    await waitFor(() => expect(screen.getByText('Form state: submitted')).toBeTruthy())
+    expect(mockSuccess).toHaveBeenCalledTimes(1)
     expect(mockError).toHaveBeenCalledTimes(0)
     expect(mockSubmit).toHaveBeenCalledTimes(1)
 
-    // ensures handleSubmit has been called with the correct data
+    // ensures the hooks have been called with the correct data
     expect(mockSubmit).toHaveBeenLastCalledWith({
         'full-name': {
             first: 'John',
@@ -81,6 +92,8 @@ test('user can interact with the form', () => {
         message: '',
         content: 'This is the message of the stuff',
     })
+    const successContents = undefined
+    expect(mockSuccess).toHaveBeenLastCalledWith(successContents)
 
     // clears values after submit
     expect(inputs[0]).toHaveValue('')
@@ -89,22 +102,176 @@ test('user can interact with the form', () => {
     expect(inputs[3]).toHaveValue('')
 })
 
-describe('user can submit form', () => {
-    test.todo('clicking submit on a valid form submits the form')
+test('handleSubmit test #2: handles error correctly', async () => {
+    const mockSuccess = jest.fn()
+    const mockError = jest.fn()
+    const mockSubmit = jest.fn(
+        (): Promise<boolean> =>
+            new Promise((resolve) => {
+                resolve(false)
+            })
+    )
+    render(
+        <Form onSuccess={mockSuccess} onError={mockError} handleSubmit={mockSubmit} clearOnSubmit>
+            {(formSync) => (
+                <>
+                    <EmailInput formSync={formSync} />
+                    <Button value='Submit' color='primary' type='submit' />
+                    {`Form state: ${formSync.state}`}
+                </>
+            )}
+        </Form>
+    )
 
-    const methods: ('get' | 'post')[] = ['get', 'post']
+    const inputs = screen.getAllByTestId('text-input-element')
+    const buttons = screen.getAllByRole('button')
+    const submitButton = buttons[buttons.length - 1]
+
+    // form renders all input elements and buttons'
+    expect(inputs).toHaveLength(1)
+    expect(submitButton.textContent).toBe('Submit')
+
+    // 'clicking submit causes inputs to validate and does not submit when invalid'
+    userEvent.click(submitButton)
+    expect(mockSuccess).toHaveBeenCalledTimes(0)
+    expect(mockError).toHaveBeenCalledTimes(0)
+    expect(mockSubmit).toHaveBeenCalledTimes(0)
+    expect(countInvalidInputs(inputs)).toBe(1)
+
+    // user can type valid inputs and fields are marked as valid
+    userEvent.type(inputs[0], 'email@example.com')
+    userEvent.tab()
+
+    expect(mockSuccess).toHaveBeenCalledTimes(0)
+    expect(mockError).toHaveBeenCalledTimes(0)
+    expect(mockSubmit).toHaveBeenCalledTimes(0)
+    expect(countInvalidInputs(inputs)).toBe(0)
+
+    // user can submit the form
+    userEvent.click(submitButton)
+    await waitFor(() => expect(screen.getByText('Form state: error')).toBeTruthy())
+    expect(mockSuccess).toHaveBeenCalledTimes(0)
+    expect(mockError).toHaveBeenCalledTimes(1)
+    expect(mockSubmit).toHaveBeenCalledTimes(1)
+
+    // ensures the hooks have been called with the correct data
+    expect(mockSubmit).toHaveBeenLastCalledWith({
+        email: 'email@example.com',
+    })
+    expect(mockError).toHaveBeenLastCalledWith('')
+
+    // values not cleared after submit that results in an error
+    expect(inputs[0]).toHaveValue('email@example.com')
+})
+
+test("handleSubmit test #3: doesn't clear on successful submit without clearOnSubmit prop", async () => {
+    const mockSuccess = jest.fn()
+    const mockError = jest.fn()
+    const mockSubmit = jest.fn(
+        (): Promise<boolean> =>
+            new Promise((resolve) => {
+                resolve(true)
+            })
+    )
+    render(
+        <Form onSuccess={mockSuccess} onError={mockError} handleSubmit={mockSubmit}>
+            {(formSync) => (
+                <>
+                    <EmailInput formSync={formSync} />
+                    <Button value='Submit' color='primary' type='submit' />
+                    {`Form state: ${formSync.state}`}
+                </>
+            )}
+        </Form>
+    )
+
+    const inputs = screen.getAllByTestId('text-input-element')
+    const buttons = screen.getAllByRole('button')
+    const submitButton = buttons[buttons.length - 1]
+
+    // form renders all input elements and buttons'
+    expect(inputs).toHaveLength(1)
+    expect(submitButton.textContent).toBe('Submit')
+
+    // 'clicking submit causes inputs to validate and does not submit when invalid'
+    userEvent.click(submitButton)
+    expect(mockSuccess).toHaveBeenCalledTimes(0)
+    expect(mockError).toHaveBeenCalledTimes(0)
+    expect(mockSubmit).toHaveBeenCalledTimes(0)
+    expect(countInvalidInputs(inputs)).toBe(1)
+
+    // user can type valid inputs and fields are marked as valid
+    userEvent.type(inputs[0], 'email@example.com')
+    userEvent.tab()
+
+    expect(mockSuccess).toHaveBeenCalledTimes(0)
+    expect(mockError).toHaveBeenCalledTimes(0)
+    expect(mockSubmit).toHaveBeenCalledTimes(0)
+    expect(countInvalidInputs(inputs)).toBe(0)
+
+    // user can submit the form
+    userEvent.click(submitButton)
+    await waitFor(() => expect(screen.getByText('Form state: submitted')).toBeTruthy())
+    expect(mockSuccess).toHaveBeenCalledTimes(1)
+    expect(mockError).toHaveBeenCalledTimes(0)
+    expect(mockSubmit).toHaveBeenCalledTimes(1)
+
+    // ensures the hooks have been called with the correct data
+    expect(mockSubmit).toHaveBeenLastCalledWith({
+        email: 'email@example.com',
+    })
+    const successContents = undefined
+    expect(mockSuccess).toHaveBeenLastCalledWith(successContents)
+
+    // values not cleared after submit that results in an error
+    expect(inputs[0]).toHaveValue('email@example.com')
+})
+
+test('handleSubmit test #4: formSync.data updates every time the input is updated', () => {
+    render(
+        <Form>
+            {(formSync) => (
+                <>
+                    <EmailInput formSync={formSync} />
+                    <TextInput type='text' label='Message' formSync={formSync} />
+                    <Button value='Submit' color='primary' type='submit' />
+                    {`data: ${JSON.stringify(formSync.data)}`}
+                </>
+            )}
+        </Form>
+    )
+
+    const [emailInput, messageInput] = screen.getAllByTestId('text-input-element')
+    expect(screen.getByText('data: {"email":"","message":""}')).toBeTruthy()
+
+    userEvent.type(emailInput, 'email@example.com')
+    userEvent.tab()
+
+    expect(screen.getByText('data: {"email":"email@example.com","message":""}')).toBeTruthy()
+
+    userEvent.clear(emailInput)
+    userEvent.type(emailInput, 'hello@world.com')
+    userEvent.type(messageInput, 'just a small message')
+    userEvent.tab()
+
+    expect(
+        screen.getByText('data: {"email":"hello@world.com","message":"just a small message"}')
+    ).toBeTruthy()
+})
+
+describe('user can submit form', () => {
     test.todo('creates valid "%s" request')
 
-    test.todo('forms work with various action links')
+    // const methods: ('get' | 'post')[] = ['get', 'post']
 
-    test.todo('works with handleSubmit hook')
+    test.todo('forms work with various action links')
 
     test.todo('with all three (method, action, handleSubmit), the form is submitted both ways')
 
     test.todo('if all three are missing, nothing should happen')
 })
 
-describe('submitting the form fails gracefully', () => {
+describe('submitting the form fails gracefully when used in built-in submit', () => {
     test.todo("when there's no error, onSuccess is called")
     test.todo("when there's a server error, onError is called")
     test.todo('handles "no internet access" error')
@@ -122,7 +289,50 @@ describe('captcha works as expected', () => {
 describe('clears inputs on submit', () => {
     test.todo('inputs are cleared when clearOnSubmit is true')
     test.todo('inputs are not cleared when clearOnSubmit is false')
-    test.todo(
-        'inputs are not cleared when clearOnSubmit is true but method, action, and handleSubmit are missing'
-    )
+    test('inputs are not cleared when clearOnSubmit is true but method, action, and handleSubmit are missing', async () => {
+        const mockSuccess = jest.fn()
+        const mockError = jest.fn()
+        render(
+            <Form onSuccess={mockSuccess} onError={mockError} clearOnSubmit>
+                {(formSync) => (
+                    <>
+                        <EmailInput formSync={formSync} />
+                        <Button value='Submit' color='primary' type='submit' />
+                        {`Form state: ${formSync.state}`}
+                    </>
+                )}
+            </Form>
+        )
+
+        const inputs = screen.getAllByTestId('text-input-element')
+        const buttons = screen.getAllByRole('button')
+        const submitButton = buttons[buttons.length - 1]
+
+        // form renders all input elements and buttons'
+        expect(inputs).toHaveLength(1)
+        expect(submitButton.textContent).toBe('Submit')
+
+        // 'clicking submit causes inputs to validate and does not submit when invalid'
+        userEvent.click(submitButton)
+        expect(mockSuccess).toHaveBeenCalledTimes(0)
+        expect(mockError).toHaveBeenCalledTimes(0)
+        expect(countInvalidInputs(inputs)).toBe(1)
+
+        // user can type valid inputs and fields are marked as valid
+        userEvent.type(inputs[0], 'email@example.com')
+        userEvent.tab()
+
+        expect(mockSuccess).toHaveBeenCalledTimes(0)
+        expect(mockError).toHaveBeenCalledTimes(0)
+        expect(countInvalidInputs(inputs)).toBe(0)
+
+        // user can submit the form
+        userEvent.click(submitButton)
+        await waitFor(() => expect(screen.getByText('Form state: ready')).toBeTruthy())
+        expect(mockSuccess).toHaveBeenCalledTimes(0)
+        expect(mockError).toHaveBeenCalledTimes(0)
+
+        // values not cleared after submit because there wasn't a submit function
+        expect(inputs[0]).toHaveValue('email@example.com')
+    })
 })

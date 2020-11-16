@@ -1,20 +1,17 @@
-import type { ReactNode } from 'react'
-import { useCallback, useMemo, useRef, useState } from 'react'
+import type { Dispatch, MutableRefObject, ReactNode, SetStateAction } from 'react'
+import { useMemo, useCallback, useRef, useState } from 'react'
 
 import HCaptcha from '@hcaptcha/react-hcaptcha'
 import type { Node } from 'slate/dist/interfaces/node'
 
 type State = 'ready' | 'submitted' | 'submitting' | 'error'
 
-// eslint-disable-next-line import/exports-last -- used in many input component files
+/* eslint-disable import/exports-last -- used in many inputs */
 export type FormDataValue = string | Record<string, string> | Node[]
-
-/* eslint-disable import/exports-last -- used in text-input component */
 export type ClearFunction = () => void
 export type ValidateFunction = ((newValue?: string) => boolean) | (() => boolean)
-/* eslint-enable import/exports-last -- used in text-input component */
+/* eslint-enable import/exports-last -- used in many inputs */
 
-// validate: unknown; clear: unknown;
 type FormDataObject = {
     data: FormDataValue
     validate: ValidateFunction
@@ -22,6 +19,7 @@ type FormDataObject = {
 }
 
 type FormData = Record<string, FormDataObject>
+type PublicFormData = Record<string, FormDataValue>
 
 type UpdateForm = (
     name: string,
@@ -30,25 +28,25 @@ type UpdateForm = (
     clear: ClearFunction
 ) => void
 
-type HandleSubmit = (data: Record<string, FormDataValue>) => void
+type HandleSubmit = (data: PublicFormData) => Promise<boolean>
+
+type Methods = 'post' | 'get'
+
+type SubmitResponse = {
+    data: PublicFormData
+    response?: Record<string, unknown>
+    status?: number
+}
+
+type OnError = (error: unknown) => void
+type OnSuccess = (response?: SubmitResponse) => void
 
 // eslint-disable-next-line import/exports-last -- used in every input component file
 export type FormSync = {
     state: State
     updateForm: UpdateForm
-    data: FormData
+    data: PublicFormData
 }
-
-type Methods = 'post' | 'get'
-
-type SubmitResponse = {
-    data: Record<string, FormDataValue>
-    response: Record<string, unknown>
-    status: number
-}
-
-type OnError = (error: unknown) => void
-type OnSuccess = (response: SubmitResponse) => void
 
 type Props = {
     children: (formSync: FormSync) => ReactNode | ReactNode[]
@@ -78,140 +76,146 @@ const validateInputs = (formData: FormData): boolean => {
     return allInputsValid
 }
 
-const submitForm = (
-    formData: FormData,
-    onSuccess: OnSuccess,
-    onError: OnError,
-    method?: Methods,
-    action?: string,
-    handleSubmit?: HandleSubmit,
-    token?: string
-): void => {
-    const data: Record<string, FormDataValue> = {}
+const formatDataForSubmit = (formData: FormData, token?: string): PublicFormData => {
+    const data: PublicFormData = {}
     for (const inputName in formData) {
         if (Object.prototype.hasOwnProperty.call(formData, inputName))
             data[inputName] = formData[inputName].data
     }
     if (token) data.captchaToken = token
-    if (method && action) {
-        fetch(action, {
-            method: method,
-            body: JSON.stringify(data),
-        })
-            .then(async (response) => {
-                const json = await response.json()
-                onSuccess({ response: json, status: response.status, data: data })
-                return { data: json, status: response.status }
-            })
-            .catch((error) => {
-                onError(error)
-            })
-    } else if (handleSubmit) {
-        handleSubmit(data)
-    }
+    return data
 }
 
-// eslint-disable-next-line max-lines-per-function -- long because it has several short hooks
+const successfulSubmit = (
+    props: Props,
+    setState: Dispatch<SetStateAction<State>>,
+    formData: FormData,
+    data?: SubmitResponse
+) => {
+    setState('submitted')
+    if (props.clearOnSubmit) clearInputs(formData)
+    if (props.onSuccess) props.onSuccess(data)
+}
+
+const errorSubmit = (props: Props, error: any, setState: Dispatch<SetStateAction<State>>) => {
+    setState('error')
+    if (props.onError) props.onError(error)
+}
+
+const handleCustomSubmit = async (
+    props: Props,
+    data: PublicFormData,
+    setState: Dispatch<SetStateAction<State>>,
+    formData: FormData
+) => {
+    if (!props.handleSubmit) return
+    const success = await props.handleSubmit(data)
+    if (success) successfulSubmit(props, setState, formData)
+    else errorSubmit(props, '', setState)
+}
+
+const handleInternalSubmit = (
+    props: Props,
+    data: PublicFormData,
+    setState: Dispatch<SetStateAction<State>>,
+    formData: FormData
+) => {
+    if (!props.action || !props.method) return
+    fetch(props.action, {
+        method: props.method,
+        body: JSON.stringify(data),
+    })
+        .then(async (response) => {
+            const json = await response.json()
+            successfulSubmit(props, setState, formData, {
+                response: json,
+                status: response.status,
+                data: data,
+            })
+            return { data: json, status: response.status }
+        })
+        .catch((error) => {
+            errorSubmit(props, error, setState)
+        })
+}
+
+const onSubmit = (
+    props: Props,
+    formData: FormData,
+    hcaptcha: MutableRefObject<HCaptcha | null>,
+    setState: Dispatch<SetStateAction<State>>,
+    options: {
+        event?: React.FormEvent<HTMLFormElement>
+        token?: string
+    }
+) => {
+    options.event?.preventDefault()
+
+    const canSubmit = validateInputs(formData)
+    if (!canSubmit) return
+    setState('submitting')
+    if (hcaptcha.current && options.event && process.env.NODE_ENV === 'production') {
+        hcaptcha.current.execute()
+        return
+    }
+    const data = formatDataForSubmit(formData, options.token)
+    if (props.handleSubmit) handleCustomSubmit(props, data, setState, formData)
+    else if (props.method && props.action) handleInternalSubmit(props, data, setState, formData)
+    else setState('ready')
+}
+
+const createPublicFormData = (formData: FormData): PublicFormData => {
+    const publicFormData: PublicFormData = {}
+    for (const inputName in formData) {
+        if (Object.prototype.hasOwnProperty.call(formData, inputName))
+            publicFormData[inputName] = formData[inputName].data
+    }
+    return publicFormData
+}
+
 export const Form = (props: Props): JSX.Element => {
     const [state, setState] = useState<State>('ready')
-    // eslint-disable-next-line unicorn/no-null -- null necessary
-    const hcaptcha = useRef<any>(null)
+    const captchaRef = useRef<HCaptcha>(null)
+    const [publicFormData, setPublicFormData] = useState<PublicFormData>({})
     const formData: FormData = useMemo(() => {
         return {}
     }, [])
 
-    const { onSuccess, onError } = props
-
     const updateForm: UpdateForm = useCallback(
         (name, data, validate, clear) => {
             formData[name] = { data: data, validate: validate, clear: clear }
+            setPublicFormData(createPublicFormData(formData))
             setState('ready')
         },
         [formData]
     )
 
-    const handleSuccessfulSubmit = useCallback(
-        (data: SubmitResponse): void => {
-            setState('submitted')
-            clearInputs(formData)
-            if (onSuccess) onSuccess(data)
-        },
-        [formData, onSuccess]
-    )
-
-    const handleErrorSubmit = useCallback(
-        (error: unknown) => {
-            setState('error')
-            if (onError) onError(error)
-        },
-        [onError]
-    )
-
-    const handleSubmit = useCallback(
-        (event?: React.FormEvent<HTMLFormElement>): void => {
-            event?.preventDefault()
-            const canSubmit = validateInputs(formData)
-            if (canSubmit) {
-                setState('submitting')
-                if (props.captcha && event && process.env.NODE_ENV === 'production') {
-                    hcaptcha.current?.execute()
-                    return
-                }
-                submitForm(
-                    formData,
-                    handleSuccessfulSubmit,
-                    handleErrorSubmit,
-                    props.method,
-                    props.action,
-                    props.handleSubmit
-                )
-            }
-        },
-        [
-            formData,
-            handleErrorSubmit,
-            handleSuccessfulSubmit,
-            props.action,
-            props.captcha,
-            props.handleSubmit,
-            props.method,
-        ]
-    )
-
-    const handleSubmitWithToken = useCallback(
-        (token: string) => {
-            setState('submitting')
-            submitForm(
-                formData,
-                handleSuccessfulSubmit,
-                handleErrorSubmit,
-                props.method,
-                props.action,
-                props.handleSubmit,
-                token
-            )
-        },
-        [
-            formData,
-            handleErrorSubmit,
-            handleSuccessfulSubmit,
-            props.action,
-            props.handleSubmit,
-            props.method,
-        ]
-    )
-
     return (
-        <form method={props.method} action={props.action} onSubmit={handleSubmit} noValidate>
-            {props.children({ state, updateForm, data: JSON.parse(JSON.stringify(formData)) })}
+        <form
+            method={props.method}
+            action={props.action}
+            onSubmit={(event) => {
+                onSubmit(props, formData, captchaRef, setState, { event: event })
+            }}
+            noValidate
+        >
+            {props.children({
+                state,
+                updateForm,
+                data: publicFormData,
+            })}
             {props.captcha && process.env.NODE_ENV === 'production' && (
                 <HCaptcha
                     sitekey={process.env.NEXT_PUBLIC_CAPTCHA_KEY ?? ''}
                     size='invisible'
                     id={props.captcha}
-                    ref={hcaptcha}
-                    onVerify={handleSubmitWithToken}
-                    onError={handleErrorSubmit}
+                    ref={captchaRef}
+                    onVerify={(token) => {
+                        onSubmit(props, formData, captchaRef, setState, { token: token })
+                    }}
+                    onError={(event) => {
+                        errorSubmit(props, event, setState)
+                    }}
                 />
             )}
         </form>
