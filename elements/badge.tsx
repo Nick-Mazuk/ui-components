@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 
-type Type = 'primary' | 'secondary' | 'error' | 'warning' | 'success' | 'highlight'
+type Type = 'primary' | 'secondary' | 'error' | 'warning' | 'success' | 'highlight' | 'white'
 
 type Props = {
     children: string
@@ -60,6 +60,13 @@ const STYLES_MAP: Record<Type, ColorStyles> = {
             'bg-highlight-50 text-highlight-700 border-highlight-50 dark:bg-highlight-d50 dark:text-highlight-d700 dark:border-highlight-d50',
         outline:
             'text-highlight border-highlight-200 dark:text-highlight-d dark:border-highlight-d200',
+    },
+    white: {
+        regular:
+            'bg-gray-900 text-white border-gray-900 dark:bg-gray-d900 dark:text-gray-d20 dark:border-gray-d900',
+        contrast:
+            'bg-gray-20 text-gray-900 border-gray-900 dark:bg-gray-d20 dark:text-gray-d900 dark:border-gray-d900',
+        outline: 'text-white border-white dark:text-black dark:border-black',
     },
 }
 
