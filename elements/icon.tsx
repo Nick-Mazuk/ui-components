@@ -673,6 +673,16 @@ export const Star = (props: FillableIconProps): JSX.Element => {
     )
 }
 
+export const Tag = (props: IconProps): JSX.Element => {
+    return icon(
+        'M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z M7 7h.01',
+        {
+            stroke: true,
+            width: props.width,
+        }
+    )
+}
+
 export const ThumbsDown = (props: FillableIconProps): JSX.Element => {
     return icon(
         'M10 15v4a3 3 0 003 3l4-9V2H5.72a2 2 0 00-2 1.7l-1.38 9a2 2 0 002 2.3zm7-13h2.67A2.31 2.31 0 0122 4v7a2.31 2.31 0 01-2.33 2H17',
