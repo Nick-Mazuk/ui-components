@@ -306,6 +306,20 @@ export const Check = (props: IconProps): JSX.Element => {
     })
 }
 
+export const CheckCircle = (props: IconProps): JSX.Element => {
+    return icon('M22 11.08V12a10 10 0 11-5.93-9.14 M22 4L12 14.01l-3-3', {
+        stroke: true,
+        width: props.width,
+    })
+}
+
+export const CheckSquare = (props: IconProps): JSX.Element => {
+    return icon('M9 11l3 3L22 4 M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11', {
+        stroke: true,
+        width: props.width,
+    })
+}
+
 export const ChevronDown = (props: IconProps): JSX.Element => {
     return icon('M6 9l6 6 6-6', {
         stroke: true,
@@ -329,13 +343,6 @@ export const ChevronRight = (props: IconProps): JSX.Element => {
 
 export const ChevronUp = (props: IconProps): JSX.Element => {
     return icon('M18 15l-6-6-6 6', {
-        stroke: true,
-        width: props.width,
-    })
-}
-
-export const CheckCircle = (props: IconProps): JSX.Element => {
-    return icon('M22 11.08V12a10 10 0 11-5.93-9.14 M22 4L12 14.01l-3-3', {
         stroke: true,
         width: props.width,
     })
@@ -551,6 +558,23 @@ export const Mail = (props: IconProps): JSX.Element => {
 
 export const Menu = (props: IconProps): JSX.Element => {
     return icon('M3 12h18 M3 6h18 M3 18h18', {
+        stroke: true,
+        width: props.width,
+    })
+}
+
+export const MessageCircle = (props: IconProps): JSX.Element => {
+    return icon(
+        'M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z',
+        {
+            stroke: true,
+            width: props.width,
+        }
+    )
+}
+
+export const MessageSquare = (props: IconProps): JSX.Element => {
+    return icon('M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z', {
         stroke: true,
         width: props.width,
     })
