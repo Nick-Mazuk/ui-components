@@ -608,6 +608,16 @@ export const Plus = (props: IconProps): JSX.Element => {
     })
 }
 
+export const Refresh = (props: IconProps): JSX.Element => {
+    return icon(
+        'M23 4v6h-6 M1 20v-6h6 M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15',
+        {
+            stroke: true,
+            width: props.width,
+        }
+    )
+}
+
 export const Save = (props: IconProps): JSX.Element => {
     return icon(
         'M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z M17 21v-8H7v8 M7 3v5h8',
