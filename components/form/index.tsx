@@ -2,12 +2,11 @@ import type { Dispatch, MutableRefObject, ReactNode, SetStateAction } from 'reac
 import { useMemo, useCallback, useRef, useState } from 'react'
 
 import HCaptcha from '@hcaptcha/react-hcaptcha'
-import type { Node } from 'slate/dist/interfaces/node'
 
 type State = 'ready' | 'submitted' | 'submitting' | 'error'
 
 /* eslint-disable import/exports-last -- used in many inputs */
-export type FormDataValue = string | Record<string, string> | Node[]
+export type FormDataValue = string | Record<string, string>
 export type ClearFunction = () => void
 export type ValidateFunction = ((newValue?: string) => boolean) | (() => boolean)
 /* eslint-enable import/exports-last -- used in many inputs */
