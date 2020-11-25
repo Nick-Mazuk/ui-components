@@ -1,5 +1,7 @@
 import classNames from 'classnames'
 
+import { Text } from './text'
+
 type Type =
     | 'primary'
     | 'secondary'
@@ -16,6 +18,7 @@ type Props = {
     contrast?: boolean
     uppercase?: boolean
     outline?: boolean
+    size?: 'small' | 'default'
 }
 
 type ColorStyles = {
@@ -89,8 +92,9 @@ export const Badge = ({
     children,
     type = 'secondary',
     contrast,
-    uppercase,
+    uppercase = false,
     outline,
+    size = 'default',
 }: Props): JSX.Element => {
     let style: Style = 'regular'
     if (outline) style = 'outline'
@@ -98,14 +102,13 @@ export const Badge = ({
 
     const badgeClasses = classNames(
         'rounded-full inline-block border leading-7 px-2 py-px',
-        STYLES_MAP[type][style],
-        {
-            uppercase: uppercase,
-        }
+        STYLES_MAP[type][style]
     )
     return (
         <div className={badgeClasses} data-testid='badge'>
-            {children}
+            <Text small={size === 'small'} uppercase={uppercase}>
+                {children}
+            </Text>
         </div>
     )
 }
