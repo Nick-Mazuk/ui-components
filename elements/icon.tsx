@@ -134,6 +134,13 @@ export const Patreon = (props: IconProps): JSX.Element => {
     )
 }
 
+export const PayPal = (props: IconProps): JSX.Element => {
+    return icon(
+        'M6.908 24H3.804c-.664 0-1.086-.529-.936-1.18l.149-.674h2.071c.666 0 1.336-.533 1.482-1.182l1.064-4.592c.15-.648.816-1.18 1.48-1.18h.883c3.789 0 6.734-.779 8.84-2.34s3.16-3.6 3.16-6.135c0-1.125-.195-2.055-.588-2.789 0-.016-.016-.031-.016-.046l.135.075c.75.465 1.32 1.064 1.711 1.814.404.75.598 1.68.598 2.791 0 2.535-1.049 4.574-3.164 6.135-2.1 1.545-5.055 2.324-8.834 2.324h-.9c-.66 0-1.334.525-1.484 1.186L8.39 22.812c-.149.645-.81 1.17-1.47 1.17L6.908 24zm-2.677-2.695H1.126c-.663 0-1.084-.529-.936-1.18L4.563 1.182C4.714.529 5.378 0 6.044 0h6.465c1.395 0 2.609.098 3.648.289 1.035.189 1.92.519 2.684.99.736.465 1.322 1.072 1.697 1.818.389.748.584 1.68.584 2.797 0 2.535-1.051 4.574-3.164 6.119-2.1 1.561-5.056 2.326-8.836 2.326h-.883c-.66 0-1.328.524-1.478 1.169L5.7 20.097c-.149.646-.817 1.172-1.485 1.172l.016.036zm7.446-17.369h-1.014c-.666 0-1.332.529-1.48 1.178l-.93 4.02c-.15.648.27 1.179.93 1.179h.766c1.664 0 2.97-.343 3.9-1.021.929-.686 1.395-1.654 1.395-2.912 0-.83-.301-1.445-.9-1.84-.6-.404-1.5-.605-2.686-.605l.019.001z',
+        { width: props.width, fill: true }
+    )
+}
+
 export const RSS = (props: IconProps): JSX.Element => {
     return icon(
         'M19.199 24C19.199 13.467 10.533 4.8 0 4.8V0c13.165 0 24 10.835 24 24h-4.801zM3.291 17.415c1.814 0 3.293 1.479 3.293 3.295 0 1.813-1.485 3.29-3.301 3.29C1.47 24 0 22.526 0 20.71s1.475-3.294 3.291-3.295zM15.909 24h-4.665c0-6.169-5.075-11.245-11.244-11.245V8.09c8.727 0 15.909 7.184 15.909 15.91z',
@@ -441,6 +448,16 @@ export const Grid = (props: IconProps): JSX.Element => {
     })
 }
 
+export const HelpCircle = (props: IconProps): JSX.Element => {
+    return icon(
+        'M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3 M12 17h.01 M0,12a12,12 0 1,0 24,0a12,12 0 1,0 -24,0',
+        {
+            stroke: true,
+            width: props.width,
+        }
+    )
+}
+
 export const Home = (props: IconProps): JSX.Element => {
     return icon('M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z M9 22V12h6v10', {
         stroke: true,
@@ -504,6 +521,16 @@ export const Italic = (props: IconProps): JSX.Element => {
         stroke: true,
         width: props.width,
     })
+}
+
+export const Layout = (props: IconProps): JSX.Element => {
+    return icon(
+        'M18.75,2.75C18.75,1.646 17.854,0.75 16.75,0.75L2.75,0.75C1.646,0.75 0.75,1.646 0.75,2.75L0.75,16.75C0.75,17.854 1.646,18.75 2.75,18.75L16.75,18.75C17.854,18.75 18.75,17.854 18.75,16.75L18.75,2.75Z M0.75,6.75L18.75,6.75 M6.75,18.75L6.75,6.75',
+        {
+            stroke: true,
+            width: props.width,
+        }
+    )
 }
 
 export const ListBulleted = (props: IconProps): JSX.Element => {
@@ -742,6 +769,20 @@ export const Trash = (props: FillableIconProps): JSX.Element => {
             width: props.width,
         }
     )
+}
+
+export const TrendingDown = (props: IconProps): JSX.Element => {
+    return icon('M23 18l-9.5-9.5-5 5L1 6 M17 18h6v-6', {
+        stroke: true,
+        width: props.width,
+    })
+}
+
+export const TrendingUp = (props: IconProps): JSX.Element => {
+    return icon('M23 6l-9.5 9.5-5-5L1 18 M17 6h6v6', {
+        stroke: true,
+        width: props.width,
+    })
 }
 
 export const Type = (props: IconProps): JSX.Element => {
