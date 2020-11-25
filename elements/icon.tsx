@@ -652,6 +652,23 @@ export const Settings = (props: IconProps): JSX.Element => {
     )
 }
 
+export const ShoppingBag = (props: IconProps): JSX.Element => {
+    return icon('M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z M3 6h18 M16 10a4 4 0 01-8 0', {
+        stroke: true,
+        width: props.width,
+    })
+}
+
+export const ShoppingCart = (props: IconProps): JSX.Element => {
+    return icon(
+        'M8,21a1,1 0 1,0 2,0a1,1 0 1,0 -2,0 M19,21a1,1 0 1,0 2,0a1,1 0 1,0 -2,0 M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6',
+        {
+            stroke: true,
+            width: props.width,
+        }
+    )
+}
+
 export const Smartphone = (props: IconProps): JSX.Element => {
     return icon(
         'M12,18L12.01,18 M19,4C19,2.896 18.104,2 17,2L7,2C5.896,2 5,2.896 5,4L5,20C5,21.104 5.896,22 7,22L17,22C18.104,22 19,21.104 19,20L19,4Z',
