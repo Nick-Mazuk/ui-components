@@ -448,6 +448,13 @@ export const EyeOff = (props: IconProps): JSX.Element => {
     )
 }
 
+export const Filter = (props: IconProps): JSX.Element => {
+    return icon('M22 3H2l8 9.46V19l4 2v-8.54L22 3z', {
+        stroke: true,
+        width: props.width,
+    })
+}
+
 export const Grid = (props: IconProps): JSX.Element => {
     return icon('M3 3h7v7H3z M14 3h7v7h-7z M14 14h7v7h-7z M3 14h7v7H3z', {
         stroke: true,
