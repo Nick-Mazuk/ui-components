@@ -272,6 +272,13 @@ export const ArrowUp = (props: IconProps): JSX.Element => {
     })
 }
 
+export const BarChart = (props: IconProps): JSX.Element => {
+    return icon('M12 20V10 M18 20V4 M6 20v-4', {
+        stroke: true,
+        width: props.width,
+    })
+}
+
 export const Bell = (props: FillableIconProps): JSX.Element => {
     return icon('M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 01-3.46 0', {
         stroke: true,
@@ -450,7 +457,7 @@ export const Grid = (props: IconProps): JSX.Element => {
 
 export const HelpCircle = (props: IconProps): JSX.Element => {
     return icon(
-        'M2, 12a10, 10 0 1, 0 20, 0a10, 10 0 1, 0 - 20, 0 M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3 M12 17h.01',
+        'M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3 M11.5,17a0.5,0.5 0 1,0 1,0a0.5,0.5 0 1,0 -1,0',
         {
             stroke: true,
             width: props.width,
