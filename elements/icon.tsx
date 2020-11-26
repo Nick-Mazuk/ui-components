@@ -386,6 +386,26 @@ export const Dollar = (props: IconProps): JSX.Element => {
     })
 }
 
+export const DotsHorizontal = (props: IconProps): JSX.Element => {
+    return icon(
+        'M11,12a1,1 0 1,0 2,0a1,1 0 1,0 -2,0 M18,12a1,1 0 1,0 2,0a1,1 0 1,0 -2,0 M4,12a1,1 0 1,0 2,0a1,1 0 1,0 -2,0',
+        {
+            stroke: true,
+            width: props.width,
+        }
+    )
+}
+
+export const DotsVertical = (props: IconProps): JSX.Element => {
+    return icon(
+        'M11,12a1,1 0 1,0 2,0a1,1 0 1,0 -2,0 M11,5a1,1 0 1,0 2,0a1,1 0 1,0 -2,0 M11,19a1,1 0 1,0 2,0a1,1 0 1,0 -2,0',
+        {
+            stroke: true,
+            width: props.width,
+        }
+    )
+}
+
 export const Download = (props: IconProps): JSX.Element => {
     return icon('M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4 M7 10l5 5 5-5 M12 15V3', {
         stroke: true,
