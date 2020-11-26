@@ -450,7 +450,7 @@ export const Grid = (props: IconProps): JSX.Element => {
 
 export const HelpCircle = (props: IconProps): JSX.Element => {
     return icon(
-        'M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3 M12 17h.01 M0,12a12,12 0 1,0 24,0a12,12 0 1,0 -24,0',
+        'M2, 12a10, 10 0 1, 0 20, 0a10, 10 0 1, 0 - 20, 0 M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3 M12 17h.01',
         {
             stroke: true,
             width: props.width,
