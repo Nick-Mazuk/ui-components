@@ -13,7 +13,7 @@ type GluePositions = 'left' | 'right' | 'top' | 'bottom'
 type IconPositions = 'before' | 'after'
 type As = 'button' | 'div'
 // eslint-disable-next-line import/exports-last -- used in other files
-export type Colors = 'primary' | 'error' | 'success' | 'warning' | 'default' | 'highlight'
+export type Colors = 'primary' | 'error' | 'success' | 'warning' | 'default' | 'highlight' | 'white'
 
 type Props = {
     children?: never
@@ -58,6 +58,8 @@ const STYLES_MAP: Record<Styles, ButtonStyling> = {
                 'text-warning-800 bg-warning-200 hover:bg-warning-300 hover:scale-101 focus:bg-warning-300 dark:text-black dark:bg-warning-d600 dark:hover:bg-warning-d700 dark:hover:scale-101 dark:focus:bg-warning-d700',
             highlight:
                 'text-white bg-highlight hover:bg-highlight-600 hover:scale-101 focus:bg-highlight-600 dark:text-black dark:bg-highlight-d dark:hover:bg-highlight-d600 dark:hover:scale-101 dark:focus:bg-highlight-d600',
+            white:
+                'text-gray-900 bg-white hover:bg-gray-50 hover:scale-101 focus:bg-gray-50 dark:text-gray-d900 dark:bg-gray-d50 dark:hover:bg-gray-d50 dark:hover:scale-101 dark:focus:bg-gray-d50',
             default:
                 'text-white bg-gray-800 hover:bg-gray-900 hover:scale-101 focus:bg-gray-900 dark:text-black dark:bg-gray-d800 dark:hover:bg-gray-d900 dark:hover:scale-101 dark:focus:bg-gray-d900',
         },
@@ -76,6 +78,8 @@ const STYLES_MAP: Record<Styles, ButtonStyling> = {
                 'text-warning border-warning-200 hover:border-warning focus:border-warning dark:text-warning-d dark:border-warning-d200 dark:hover:border-warning-d dark:focus:border-warning-d',
             highlight:
                 'text-highlight border-highlight-200 hover:border-highlight focus:border-highlight dark:text-highlight-d dark:border-highlight-d200 dark:hover:border-highlight-d dark:focus:border-highlight-d',
+            white:
+                'text-white border-white border-opacity-50 hover:border-opacity-100 focus:border-opacity-100 dark:text-gray-d900 dark:border-gray-d900',
             default:
                 'text-gray-700 border-gray-200 hover:border-gray focus:border-gray dark:text-gray-d700 dark:border-gray-d200 dark:hover:border-gray-d dark:focus:border-gray-d',
         },
@@ -94,6 +98,8 @@ const STYLES_MAP: Record<Styles, ButtonStyling> = {
                 'bg-transparent text-warning hover:text-warning-600 hover:bg-warning-50 focus:text-warning-600 focus:bg-warning-50 dark:text-warning-d dark:hover:text-warning-d600 dark:hover:bg-warning-d50 dark:focus:text-warning-d600 dark:focus:bg-warning-d50',
             highlight:
                 'bg-transparent text-highlight hover:text-highlight-600 hover:bg-highlight-50 focus:text-highlight-600 focus:bg-highlight-50 dark:text-highlight-d dark:hover:text-highlight-d600 dark:hover:bg-highlight-d50 dark:focus:text-highlight-d600 dark:focus:bg-highlight-d50',
+            white:
+                'bg-transparent text-gray-900 hover:bg-gray-50 focus:bg-gray-50 dark:text-gray-d900 dark:hover:bg-gray-d50 dark:focus:bg-gray-d50',
             default:
                 'bg-transparent text-gray hover:text-gray-600 hover:bg-gray-50 focus:text-gray-600 focus:bg-gray-50 dark:text-gray-d dark:hover:text-gray-d600 dark:hover:bg-gray-d50 dark:focus:text-gray-d600 dark:focus:bg-gray-d50',
         },
