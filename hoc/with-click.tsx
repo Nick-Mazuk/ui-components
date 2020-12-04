@@ -3,7 +3,9 @@ import { useCallback, useState } from 'react'
 
 // eslint-disable-next-line import/exports-last -- used by other components
 export type WithClickCallback = (
-    event: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>
+    event:
+        | React.MouseEvent<HTMLDivElement | HTMLButtonElement | HTMLSpanElement>
+        | React.KeyboardEvent<HTMLDivElement | HTMLButtonElement | HTMLSpanElement>
 ) => void
 
 type Props = {
@@ -13,7 +15,7 @@ type Props = {
     key?: string
     role?: string
     className?: string
-    as?: 'span' | 'div'
+    as?: 'span' | 'div' | 'button'
 }
 
 export const WithClick = ({
@@ -23,7 +25,7 @@ export const WithClick = ({
     key = 'Enter',
     role = 'button',
     className = '',
-    as = 'div',
+    as = 'button',
 }: Props): JSX.Element => {
     const [mouseIsDown, setMouseIsDown] = useState(false)
     const Tag = as
