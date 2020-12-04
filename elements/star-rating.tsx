@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 
 import classNames from 'classnames'
 
@@ -38,15 +38,16 @@ export const StarRating = ({
             'w-6': size === 'default',
         })
         stars.push(
-            <WithClick
-                key={`${index}${index <= currentRating}`}
-                className={starClasses}
-                callback={() => {
-                    updateStarRating(index + 1)
-                }}
-            >
-                <Star width='w-6' fill />
-            </WithClick>
+            <Fragment key={`${index}${index <= currentRating}`}>
+                <WithClick
+                    className={starClasses}
+                    callback={() => {
+                        updateStarRating(index + 1)
+                    }}
+                >
+                    <Star width='w-6' fill />
+                </WithClick>
+            </Fragment>
         )
     }
 
