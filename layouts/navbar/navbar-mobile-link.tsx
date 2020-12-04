@@ -3,27 +3,28 @@ import classNames from 'classnames'
 import { useRouter } from 'next/router'
 
 import { Link } from '../../elements/link'
+import type { TextChildren } from '../../elements/text'
 import { Text } from '../../elements/text'
 
 type Props = {
-    text: string
-    path: string
+    content: string | TextChildren
+    href: string
 }
 
-export const NavbarMobileLink = ({ text, path }: Props): JSX.Element => {
+export const NavbarMobileLink = ({ content, href }: Props): JSX.Element => {
     const router = useRouter()
-    const isCurrentRoute = router.pathname.includes(path)
+    const isCurrentRoute = router.pathname.includes(href)
     const classes = classNames('py-2 block', {
         'bg-gray-': isCurrentRoute,
     })
     return (
-        <Link key={text} href={path} className={classes}>
+        <Link key={content} href={href} className={classes}>
             <Text
                 small
                 bold
                 color='text-gray-600 dark:text-gray-d600 hover:text-primary dark:hover:text-primary-d'
             >
-                {text}
+                {content}
             </Text>
         </Link>
     )
