@@ -7,7 +7,7 @@ import { useHeaderContext } from '../../header'
 
 const COLOR_MAP: Record<Color, string> = {
     white: 'hover:text-primary-700 hover:bg-primary-50',
-    dark: 'hover:bg-gray-800',
+    dark: 'hover:bg-gray-900',
     primary: 'hover:bg-primary-600',
 }
 

@@ -5,7 +5,7 @@ import { useHeaderContext } from '../../header'
 
 const COLOR_MAP: Record<Color, string> = {
     white: 'border-gray-30',
-    dark: 'border-gray-500',
+    dark: 'border-gray-600',
     primary: 'border-primary-300',
 }
 

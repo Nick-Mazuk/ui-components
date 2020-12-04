@@ -20,7 +20,7 @@ const HeaderContext = createContext<Context>({
 
 const COLOR_MAP: Record<Color, string> = {
     white: 'bg-white dark:bg-black',
-    dark: 'bg-gray-800 text-white dark:bg-gray-d800 dark:text-gray-900',
+    dark: 'bg-gray-800 text-gray-100 dark:bg-gray-d800 dark:text-gray-d100',
     primary: 'bg-primary text-white dark:bg-primary-d dark:text-d900',
 }
 

@@ -19,7 +19,7 @@ type Props = {
 
 const COLOR_MAP: Record<Color, string> = {
     white: 'bg-white border',
-    dark: 'bg-gray-700',
+    dark: 'bg-gray-800',
     primary: 'bg-primary',
 }
 
