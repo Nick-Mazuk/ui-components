@@ -15,21 +15,25 @@ type Props = {
     brand: BrandProps
     left?: ReactNode | ReactNode[]
     right?: ReactNode | ReactNode[]
-    mobile: ReactNode | ReactNode[]
+    mobile?: ReactNode | ReactNode[]
     small?: boolean
     fullWidth?: boolean
 }
 
-const getLeftClasses = (active: boolean): string => {
-    return classNames('h-full hidden sm:grid grid-flow-col items-center gap-4 ml-8', {
-        hidden: !active,
+const getNavClasses = (small: boolean, fullWidth: boolean): string => {
+    return classNames('relative wrapper flex items-center', {
+        'h-16': !small,
+        'h-12 text-sm': small,
+        'max-w-none': fullWidth,
     })
 }
 
-const getRightClasses = (active: boolean): string => {
-    return classNames('h-full ml-auto hidden sm:grid grid-flow-col items-center gap-4', {
-        hidden: !active,
-    })
+const getLeftClasses = (): string => {
+    return 'h-full grid grid-flow-col items-center gap-4 ml-8'
+}
+
+const getRightClasses = (): string => {
+    return 'h-full ml-auto grid grid-flow-col items-center gap-4'
 }
 
 type Context = { size: Size }
@@ -52,14 +56,9 @@ export const Navbar = ({
         setActive(!active)
     }, [active])
 
-    const rightClasses = getRightClasses(active)
-    const leftClasses = getLeftClasses(active)
-
-    const navClasses = classNames('relative wrapper flex items-center', {
-        'h-16': !small,
-        'h-12 text-sm': small,
-        'max-w-none': fullWidth,
-    })
+    const navClasses = getNavClasses(small, fullWidth)
+    const rightClasses = getRightClasses()
+    const leftClasses = getLeftClasses()
 
     return (
         <nav className={navClasses} role='navigation'>
@@ -69,10 +68,14 @@ export const Navbar = ({
                 <Brand content={brand.content} href={brand.href} />
                 <div className={leftClasses}>{left}</div>
                 <div className={rightClasses}>{right}</div>
-                <Hamburger toggle={toggleActiveState} />
-                <MobileContainer active={active} toggle={toggleActiveState}>
-                    {mobile}
-                </MobileContainer>
+                {mobile && (
+                    <>
+                        <Hamburger toggle={toggleActiveState} />
+                        <MobileContainer active={active} toggle={toggleActiveState}>
+                            {mobile}
+                        </MobileContainer>
+                    </>
+                )}
             </NavbarContext.Provider>
         </nav>
     )
