@@ -14,9 +14,7 @@ type Props = {
 export const NavbarMobileLink = ({ content, href }: Props): JSX.Element => {
     const router = useRouter()
     const isCurrentRoute = router.pathname.includes(href)
-    const classes = classNames('py-2 block', {
-        'bg-gray-': isCurrentRoute,
-    })
+    const classes = classNames('py-2 block')
     return (
         <Link href={href} className={classes}>
             <Text

@@ -9,7 +9,6 @@ import { Hamburger } from './helpers/hamburger'
 import { JumpToContent } from './helpers/jump-to-content'
 import { MobileContainer } from './helpers/mobile-container'
 
-type Color = 'white' | 'dark' | 'primary'
 type Size = 'small' | 'default'
 type Props = {
     children?: never
@@ -18,22 +17,17 @@ type Props = {
     mobile: ReactNode | ReactNode[]
     small?: boolean
     fullWidth?: boolean
-    color?: Color
 }
 
 const getLinksClasses = (active: boolean): string => {
-    return classNames(
-        'bg-white dark:bg-black h-full ml-auto hidden sm:grid grid-flow-col items-center gap-4',
-        {
-            hidden: !active,
-        }
-    )
+    return classNames('h-full ml-auto hidden sm:grid grid-flow-col items-center gap-4', {
+        hidden: !active,
+    })
 }
 
-type Context = { color: Color; size: Size }
+type Context = { size: Size }
 
 const NavbarContext = createContext<Context>({
-    color: 'white',
     size: 'default',
 })
 
@@ -43,7 +37,6 @@ export const Navbar = ({
     small = false,
     brand,
     fullWidth = false,
-    color = 'white',
 }: Props): JSX.Element => {
     const [active, setActive] = useState(false)
 
@@ -61,7 +54,7 @@ export const Navbar = ({
 
     return (
         <nav className={navClasses} role='navigation'>
-            <NavbarContext.Provider value={{ size: small ? 'small' : 'default', color: color }}>
+            <NavbarContext.Provider value={{ size: small ? 'small' : 'default' }}>
                 <JumpToContent />
 
                 <Brand content={brand.content} href={brand.href} />
