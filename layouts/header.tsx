@@ -3,7 +3,8 @@ import { useContext, createContext } from 'react'
 
 import classNames from 'classnames'
 
-type Color = 'white' | 'dark' | 'primary'
+// eslint-disable-next-line import/exports-last -- used in most of the header/navbar components
+export type Color = 'white' | 'dark' | 'primary'
 
 type Props = {
     children: ReactNode | ReactNode[]

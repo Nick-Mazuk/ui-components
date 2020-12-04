@@ -3,6 +3,8 @@ import type { ReactNode } from 'react'
 import classNames from 'classnames'
 
 import { useNavbarContext } from '..'
+import type { Color } from '../../header'
+import { useHeaderContext } from '../../header'
 import type { DropdownDivider } from './dropdown-divider'
 import type { DropdownItem } from './dropdown-item'
 
@@ -15,6 +17,12 @@ type Props = {
     align?: 'left' | 'right'
 }
 
+const COLOR_MAP: Record<Color, string> = {
+    white: 'bg-white border',
+    dark: 'bg-gray-700',
+    primary: 'bg-primary',
+}
+
 export const NavbarDropdown = ({
     children,
     item,
@@ -22,9 +30,11 @@ export const NavbarDropdown = ({
     align = 'left',
 }: Props): JSX.Element => {
     const { size } = useNavbarContext()
+    const { color } = useHeaderContext()
     const dropdownClasses = classNames(
-        'absolute group-hover:block overflow-hidden bg-white hidden shadow-md rounded-b-lg border border-t-0 border-gray-50',
+        'absolute group-hover:block overflow-hidden hidden shadow-md rounded-b-lg border-t-0 border-gray-50',
         width,
+        COLOR_MAP[color],
         {
             'right-0': align === 'right',
             'top-12': size === 'small',
