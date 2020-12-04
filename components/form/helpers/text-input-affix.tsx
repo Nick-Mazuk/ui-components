@@ -22,7 +22,7 @@ export const Affix = ({ content, size, onClick, type }: Props): JSX.Element => {
     if (!content) return <></>
 
     const classes = classNames('self-stretch items-center flex', SIZE_MAP[size][type], {
-        'hover:text-primary transition-colo duration-150': onClick,
+        'hover:text-primary transition-color duration-150': onClick,
     })
 
     let contentElement: JSX.Element | string = (
