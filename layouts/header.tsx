@@ -47,8 +47,10 @@ export const Header = ({ children, sticky = false, color = 'white' }: Props): JS
                 `}</style>
             )}
             <header className={headerClasses} style={{ transform: 'translateZ(10000px)' }}>
-                <div className={shadowClasses} />
-                {children}
+                <HeaderContext.Provider value={{ color: color }}>
+                    <div className={shadowClasses} />
+                    {children}
+                </HeaderContext.Provider>
             </header>
         </>
     )
