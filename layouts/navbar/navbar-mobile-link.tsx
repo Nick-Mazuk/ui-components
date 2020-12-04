@@ -1,7 +1,5 @@
 import classNames from 'classnames'
 
-import { useRouter } from 'next/router'
-
 import { Link } from '../../elements/link'
 import type { TextChildren } from '../../elements/text'
 import { Text } from '../../elements/text'
@@ -12,8 +10,6 @@ type Props = {
 }
 
 export const NavbarMobileLink = ({ content, href }: Props): JSX.Element => {
-    const router = useRouter()
-    const isCurrentRoute = router.pathname.includes(href)
     const classes = classNames('py-2 block')
     return (
         <Link href={href} className={classes}>
