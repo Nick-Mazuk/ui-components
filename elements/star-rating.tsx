@@ -36,6 +36,7 @@ export const StarRating = ({
             'text-warning-200 dark:text-warning-d700': currentRating > index,
             'cursor-pointer': editable,
             'w-6': size === 'default',
+            'w-3': size === 'small',
         })
         stars.push(
             <Fragment key={`${index}${index <= currentRating}`}>
