@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react'
 
 import type { FormSync } from '.'
-import { Eye, EyeOff } from '../../elements/icon'
+import { Eye, EyeOff, Lock } from '../../elements/icon'
 import type { Sizes } from './helpers/text-input-base'
 import { TextInput } from './text-input'
 
@@ -20,6 +20,7 @@ type Props = {
     readonly?: boolean
     disabled?: boolean
 
+    hideIcon?: boolean
     requiredMessage?: string
     successMessage?: string
     disableAutocomplete?: boolean
@@ -44,6 +45,7 @@ export const NewPasswordInput = (props: Props): JSX.Element => {
             hideOptionalLabel={props.hideOptionalLabel}
             readonly={props.readonly}
             disabled={props.disabled}
+            prefix={props.hideIcon ? '' : <Lock />}
             suffix={showPassword ? <EyeOff /> : <Eye />}
             suffixOnClick={toggleShowPassword}
             requiredMessage={props.requiredMessage ?? 'Enter your password'}
