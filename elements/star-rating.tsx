@@ -46,7 +46,7 @@ export const StarRating = ({
                         updateStarRating(index + 1)
                     }}
                 >
-                    <Star width='w-6' fill />
+                    <Star fill />
                 </WithClick>
             </Fragment>
         )
