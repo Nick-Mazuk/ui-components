@@ -13,13 +13,20 @@ type Size = 'small' | 'default'
 type Props = {
     children?: never
     brand: BrandProps
+    left?: ReactNode | ReactNode[]
     right?: ReactNode | ReactNode[]
     mobile: ReactNode | ReactNode[]
     small?: boolean
     fullWidth?: boolean
 }
 
-const getLinksClasses = (active: boolean): string => {
+const getLeftClasses = (active: boolean): string => {
+    return classNames('h-full hidden sm:grid grid-flow-col items-center gap-4 ml-8', {
+        hidden: !active,
+    })
+}
+
+const getRightClasses = (active: boolean): string => {
     return classNames('h-full ml-auto hidden sm:grid grid-flow-col items-center gap-4', {
         hidden: !active,
     })
@@ -33,6 +40,7 @@ const NavbarContext = createContext<Context>({
 
 export const Navbar = ({
     right,
+    left,
     mobile,
     small = false,
     brand,
@@ -44,7 +52,8 @@ export const Navbar = ({
         setActive(!active)
     }, [active])
 
-    const linksClasses = getLinksClasses(active)
+    const rightClasses = getRightClasses(active)
+    const leftClasses = getLeftClasses(active)
 
     const navClasses = classNames('relative wrapper flex items-center', {
         'h-16': !small,
@@ -58,7 +67,8 @@ export const Navbar = ({
                 <JumpToContent />
 
                 <Brand content={brand.content} href={brand.href} />
-                <div className={linksClasses}>{right}</div>
+                <div className={leftClasses}>{left}</div>
+                <div className={rightClasses}>{right}</div>
                 <Hamburger toggle={toggleActiveState} />
                 <MobileContainer active={active} toggle={toggleActiveState}>
                     {mobile}

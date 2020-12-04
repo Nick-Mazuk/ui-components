@@ -18,7 +18,7 @@ type Props = {
 }
 
 const COLOR_MAP: Record<Color, string> = {
-    white: 'bg-white border',
+    white: 'bg-white border border-gray-50',
     dark: 'bg-gray-800',
     primary: 'bg-primary',
 }
@@ -32,7 +32,7 @@ export const NavbarDropdown = ({
     const { size } = useNavbarContext()
     const { color } = useHeaderContext()
     const dropdownClasses = classNames(
-        'absolute group-hover:block overflow-hidden hidden shadow-md rounded-b-lg border-t-0 border-gray-50',
+        'absolute group-hover:block overflow-hidden hidden shadow-md rounded-b-lg border-t-0',
         width,
         COLOR_MAP[color],
         {
