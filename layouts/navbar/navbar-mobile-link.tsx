@@ -18,7 +18,7 @@ export const NavbarMobileLink = ({ content, href }: Props): JSX.Element => {
         'bg-gray-': isCurrentRoute,
     })
     return (
-        <Link key={content} href={href} className={classes}>
+        <Link href={href} className={classes}>
             <Text
                 small
                 bold
