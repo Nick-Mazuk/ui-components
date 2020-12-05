@@ -41,7 +41,7 @@ export const NavbarLink = ({ content, href, breakpoint }: Props): JSX.Element =>
     const isCurrentRoute = router.pathname.includes(href)
     const { color } = useHeaderContext()
     const classes = classNames(
-        'relative flex items-center self-stretch select-none last:-mr-2',
+        'relative flex items-center self-stretch select-none last:-mr-2 transition-color duration-150',
         COLOR_MAP[color].text
     )
     const borderClasses = classNames(
