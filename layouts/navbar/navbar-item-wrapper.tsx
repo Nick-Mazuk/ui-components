@@ -11,15 +11,15 @@ type Props = {
 }
 
 const BREAKPOINT_MAP: Record<Breakpoint, string> = {
-    none: '',
-    sm: 'hidden sm:block',
-    md: 'hidden md:block',
-    lg: 'hidden lg:block',
-    xl: 'hidden xl:block',
+    none: 'flex',
+    sm: 'hidden sm:flex',
+    md: 'hidden md:flex',
+    lg: 'hidden lg:flex',
+    xl: 'hidden xl:flex',
 }
 
 export const NavbarItemWrapper = ({ breakpoint = 'sm', children }: Props): JSX.Element => {
-    const classes = classNames('flex self-stretch items-stretch', BREAKPOINT_MAP[breakpoint])
+    const classes = classNames('self-stretch items-center', BREAKPOINT_MAP[breakpoint])
 
     return <div className={classes}>{children}</div>
 }
