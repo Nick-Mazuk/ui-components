@@ -28,7 +28,7 @@ const COLOR_MAP: Record<Color, ElementColors> = {
     },
     dark: {
         text: 'hover:text-white dark:hover:text-black',
-        activeDiv: 'bg-primary-d400',
+        activeDiv: 'bg-primary-d200',
     },
     primary: {
         text: 'text-primary-100 hover:text-white dark:text-primary-d100 dark:hover:text-black',
