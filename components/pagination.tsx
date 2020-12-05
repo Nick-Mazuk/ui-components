@@ -4,12 +4,15 @@ import { Button } from '../elements/button'
 import { ChevronLeft, ChevronRight } from '../elements/icon'
 import { Text } from '../elements/text'
 
+type Align = 'left' | 'right' | 'center'
+
 type Props = {
     children?: never
     current: number
     pageCount: number
     surroundCurrent?: number
     onPageChange: (newPage: number) => void
+    align: Align
 }
 
 type PaginationButtonProps = {
@@ -92,12 +95,19 @@ const isValidPagination = (current: number, pageCount: number): boolean => {
     return pageCount >= 1 && pageCount % 1 === 0 && current >= 1 && current % 1 === 0
 }
 
+const ALIGN_MAP: Record<Align, string> = {
+    left: 'flex',
+    center: 'flex justify-around',
+    right: 'flex flex-row-reverse',
+}
+
 // eslint-disable-next-line max-lines-per-function -- still readable
 export const Pagination = ({
     current,
     pageCount,
     onPageChange,
     surroundCurrent = 1,
+    align = 'center',
 }: Props): JSX.Element => {
     const middleButtons = getMiddleButtons({ current, pageCount, onPageChange, surroundCurrent })
     const handleGoToStart = useCallback(() => onPageChange(current - 1), [current, onPageChange])
@@ -106,42 +116,49 @@ export const Pagination = ({
     // eslint-disable-next-line react/jsx-no-useless-fragment -- base case
     if (!isValidPagination(current, pageCount)) return <></>
     return (
-        <div className='grid grid-flow-col gap-4'>
-            {current !== 1 && (
-                <Button
-                    value='Previous'
-                    size='small'
-                    style='text'
-                    color='primary'
-                    icon={<ChevronLeft />}
-                    onClick={handleGoToStart}
-                    key='previous'
-                />
-            )}
-            <PaginationButton value={1} active={current === 1} onClick={onPageChange} key='first' />
-            {middleButtons.map((button, index) => {
-                return <Fragment key={index}>{button}</Fragment>
-            })}
-            {pageCount !== 1 && (
+        <div className={ALIGN_MAP[align]}>
+            <div className='grid grid-flow-col gap-4'>
+                {current !== 1 && (
+                    <Button
+                        value='Previous'
+                        size='small'
+                        style='text'
+                        color='primary'
+                        icon={<ChevronLeft />}
+                        onClick={handleGoToStart}
+                        key='previous'
+                    />
+                )}
                 <PaginationButton
-                    value={pageCount}
-                    active={current === pageCount}
+                    value={1}
+                    active={current === 1}
                     onClick={onPageChange}
-                    key='last'
+                    key='first'
                 />
-            )}
-            {current < pageCount && (
-                <Button
-                    value='Next'
-                    size='small'
-                    style='text'
-                    color='primary'
-                    icon={<ChevronRight />}
-                    iconPosition='after'
-                    onClick={handleGoToEnd}
-                    key='next'
-                />
-            )}
+                {middleButtons.map((button, index) => {
+                    return <Fragment key={index}>{button}</Fragment>
+                })}
+                {pageCount !== 1 && (
+                    <PaginationButton
+                        value={pageCount}
+                        active={current === pageCount}
+                        onClick={onPageChange}
+                        key='last'
+                    />
+                )}
+                {current < pageCount && (
+                    <Button
+                        value='Next'
+                        size='small'
+                        style='text'
+                        color='primary'
+                        icon={<ChevronRight />}
+                        iconPosition='after'
+                        onClick={handleGoToEnd}
+                        key='next'
+                    />
+                )}
+            </div>
         </div>
     )
 }
