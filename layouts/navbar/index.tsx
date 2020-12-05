@@ -66,8 +66,8 @@ export const Navbar = ({
                 <JumpToContent />
 
                 <Brand content={brand.content} href={brand.href} />
-                <div className={leftClasses}>{left}</div>
-                <div className={rightClasses}>{right}</div>
+                {left && <div className={leftClasses}>{left}</div>}
+                {right && <div className={rightClasses}>{right}</div>}
                 {mobile && (
                     <>
                         <Hamburger toggle={toggleActiveState} />

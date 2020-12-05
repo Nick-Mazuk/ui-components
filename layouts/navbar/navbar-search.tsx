@@ -3,9 +3,12 @@ import classNames from 'classnames'
 import { Search } from '../../elements/icon'
 import type { Color } from '../header'
 import { useHeaderContext } from '../header'
+import type { Breakpoint } from './navbar-item-wrapper'
+import { NavbarItemWrapper } from './navbar-item-wrapper'
 
 type Props = {
     placeholder?: string
+    breakpoint?: Breakpoint
 }
 
 type ElementColors = {
@@ -28,7 +31,7 @@ const COLOR_MAP: Record<Color, ElementColors> = {
     },
 }
 
-export const NavbarSearch = ({ placeholder }: Props): JSX.Element => {
+export const NavbarSearch = ({ placeholder, breakpoint }: Props): JSX.Element => {
     const { color } = useHeaderContext()
     const wrapperClasses = classNames(
         'rounded flex items-center transition-color duration-150',
@@ -39,14 +42,14 @@ export const NavbarSearch = ({ placeholder }: Props): JSX.Element => {
         COLOR_MAP[color].input
     )
     return (
-        <div className='px-3'>
+        <NavbarItemWrapper breakpoint={breakpoint}>
             <div className={wrapperClasses}>
                 <span className='pl-2 mx-1 pr-1'>
                     <Search width='w-4' />
                 </span>
                 <input type='text' className={inputClasses} placeholder={placeholder ?? 'Search'} />
             </div>
-        </div>
+        </NavbarItemWrapper>
     )
 }
 
