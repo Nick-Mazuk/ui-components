@@ -67,7 +67,12 @@ export const Navbar = ({
             <NavbarContext.Provider value={{ size: small ? 'small' : 'default' }}>
                 <JumpToContent />
 
-                <Brand text={brand.text} href={brand.href} />
+                <Brand
+                    text={brand.text}
+                    href={brand.href}
+                    icon={brand.icon}
+                    breakpoint={brand.breakpoint}
+                />
                 {left && <div className={leftClasses}>{left}</div>}
                 {right && <div className={rightClasses}>{right}</div>}
                 {mobile && (
