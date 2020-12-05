@@ -7,7 +7,11 @@ import { Text } from './text'
 type Props = {
     children?: never
     expanded: boolean
-    onClick: (event: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>) => void
+    onClick: (
+        event:
+            | React.MouseEvent<HTMLDivElement | HTMLSpanElement | HTMLButtonElement>
+            | React.KeyboardEvent<HTMLDivElement | HTMLSpanElement | HTMLButtonElement>
+    ) => void
 }
 
 export const ShowMore = ({ expanded, onClick }: Props): JSX.Element => {

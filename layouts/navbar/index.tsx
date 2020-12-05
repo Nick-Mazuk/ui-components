@@ -9,7 +9,9 @@ import { Hamburger } from './helpers/hamburger'
 import { JumpToContent } from './helpers/jump-to-content'
 import { MobileContainer } from './helpers/mobile-container'
 
-type Size = 'small' | 'default'
+// eslint-disable-next-line import/exports-last -- used in other navbar components
+export type Size = 'small' | 'default'
+
 type Props = {
     children?: never
     brand: BrandProps
@@ -65,7 +67,7 @@ export const Navbar = ({
             <NavbarContext.Provider value={{ size: small ? 'small' : 'default' }}>
                 <JumpToContent />
 
-                <Brand content={brand.content} href={brand.href} />
+                <Brand text={brand.text} href={brand.href} />
                 {left && <div className={leftClasses}>{left}</div>}
                 {right && <div className={rightClasses}>{right}</div>}
                 {mobile && (
