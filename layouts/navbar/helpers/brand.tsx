@@ -14,11 +14,11 @@ const SIZE_MAP: Record<Size, string> = {
 }
 
 const BREAKPOINT_MAP: Record<Breakpoint, string> = {
-    none: 'mr-3',
-    sm: 'sm:mr-3',
-    md: 'md:mr-3',
-    lg: 'lg:mr-3',
-    xl: 'xl:mr-3',
+    none: 'mr-2',
+    sm: 'sm:mr-2',
+    md: 'md:mr-2',
+    lg: 'lg:mr-2',
+    xl: 'xl:mr-2',
 }
 
 export type BrandProps = {
