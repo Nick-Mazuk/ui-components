@@ -31,7 +31,7 @@ export type BrandProps = {
 export const Brand = ({ text, href = '/', icon, breakpoint }: BrandProps): JSX.Element => {
     const { size } = useNavbarContext()
     const newBreakpoint = breakpoint ?? (icon ? 'lg' : 'none')
-    const iconClasses = classNames(BREAKPOINT_MAP[newBreakpoint], SIZE_MAP[size])
+    const iconClasses = classNames('flex-shrink-0', BREAKPOINT_MAP[newBreakpoint], SIZE_MAP[size])
     return (
         <Link href={href} className='flex items-center self-stretch select-none'>
             {icon && (
