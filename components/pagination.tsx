@@ -145,3 +145,5 @@ export const Pagination = ({
         </div>
     )
 }
+
+export type Pagination = ReturnType<typeof Pagination>
