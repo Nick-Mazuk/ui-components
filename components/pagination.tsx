@@ -12,7 +12,7 @@ type Props = {
     pageCount: number
     surroundCurrent?: number
     onPageChange: (newPage: number) => void
-    align: Align
+    align?: Align
 }
 
 type PaginationButtonProps = {
