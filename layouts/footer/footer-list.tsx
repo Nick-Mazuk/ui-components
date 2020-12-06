@@ -30,7 +30,7 @@ export const FooterList = ({ title, links }: Props): JSX.Element => {
     return (
         <div className='border-b border-gray-100 first:border-t dark:border-gray-d100 md:border-none md:w-full md:p-0'>
             <div className='md:hidden'>
-                <WithClick callback={toggleCollapsedState}>
+                <WithClick callback={toggleCollapsedState} className='w-full'>
                     <div className='flex items-center justify-between py-6 cursor-pointer select-none text-gray dark:text-gray-d width-full'>
                         <Text uppercase tiny>
                             {title}

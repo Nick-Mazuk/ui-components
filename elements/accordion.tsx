@@ -58,7 +58,7 @@ export const Accordion = ({ children, title, subtitle, small = false }: Props): 
     }
 
     const containerClasses = classNames('border-b-2 first:border-t-2 border-gray-20')
-    const headerClasses = classNames(SIZE_MAP[size].top, SIZE_MAP[size].bottom)
+    const headerClasses = classNames(SIZE_MAP[size].top, SIZE_MAP[size].bottom, 'w-full')
     const chevronClasses = classNames(SIZE_MAP[size].chevron)
 
     useEffect(() => {
