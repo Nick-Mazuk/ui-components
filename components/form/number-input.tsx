@@ -49,6 +49,7 @@ const onFormat = (number: string, decimals: number | undefined): string => {
 }
 
 const onUpdate = (number: string, oldNumber: string, decimals: number | undefined): string => {
+    if (number === '') return number
     if (isNumber(number)) {
         let string = addThousandsSeparators(number)
         if (decimals) string = truncateDecimals(string, decimals)

@@ -228,6 +228,15 @@ test.each(Inputs.filter((array) => array[EXCEPTION_INDEX].successMessage !== fal
     }
 )
 
+test.each(Inputs)('%s allows you to delete all the characters', (_, Input, validText) => {
+    render(<Input />)
+    const input = screen.getByTestId('text-input-element')
+    userEvent.type(input, validText)
+    expect(input).toHaveValue(validText)
+    for (const char of validText) userEvent.type(input, '{backspace}')
+    expect(input).toHaveValue('')
+})
+
 test.each(Inputs.filter((array) => array[EXCEPTION_INDEX].hasIcon))(
     '%s renders an icon',
     (_, Input) => {
