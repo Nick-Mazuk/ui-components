@@ -1,3 +1,4 @@
+import type { Dispatch, SetStateAction } from 'react'
 import { Fragment, useState } from 'react'
 
 import classNames from 'classnames'
@@ -8,27 +9,23 @@ import { WithClick } from '../hoc/with-click'
 import { Star } from './icon'
 import { Text } from './text'
 
+type Size = 'default' | 'small'
+
 type Props = {
     rating: number
     reviews?: number
     editable?: boolean
-    size?: 'default' | 'small'
+    size?: Size
 }
 
 const STAR_COUNT = 5
 
-export const StarRating = ({
-    rating,
-    reviews,
-    editable = false,
-    size = 'default',
-}: Props): JSX.Element => {
-    const [currentRating, setCurrentRating] = useState(rating)
-
-    const updateStarRating = (newRating: number): void => {
-        if (editable) setCurrentRating(newRating)
-    }
-
+const createStars = (
+    currentRating: number,
+    setCurrentRating: Dispatch<SetStateAction<number>>,
+    editable: boolean,
+    size: Size
+): JSX.Element[] => {
     const stars = []
     for (let index = 0; index < STAR_COUNT; index++) {
         const starClasses = classNames({
@@ -44,7 +41,7 @@ export const StarRating = ({
                     <WithClick
                         className={starClasses}
                         callback={() => {
-                            updateStarRating(index + 1)
+                            setCurrentRating(index + 1)
                         }}
                     >
                         <Star fill />
@@ -52,9 +49,25 @@ export const StarRating = ({
                 </Fragment>
             )
         } else {
-            stars.push(<Star fill key={`${index}${index <= currentRating}`} />)
+            stars.push(
+                <div className={starClasses} key={`${index}${index <= currentRating}`}>
+                    <Star fill />
+                </div>
+            )
         }
     }
+    return stars
+}
+
+export const StarRating = ({
+    rating,
+    reviews,
+    editable = false,
+    size = 'default',
+}: Props): JSX.Element => {
+    const [currentRating, setCurrentRating] = useState(rating)
+
+    const stars = createStars(currentRating, setCurrentRating, editable, size)
 
     return (
         <div className='flex items-center'>
