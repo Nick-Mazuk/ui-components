@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event'
 import type { FormSync } from '..'
 import { DollarInput } from '../dollar-input'
 
+// typed value, displayed value, parsed value
 const inputs = [
     ['314159', '314,159', '314159'],
     ['hello world', '', ''],
@@ -13,7 +14,9 @@ const inputs = [
     ['3,14,15,9.2131', '314,159.21', '314159.21'],
     ['testing1@foo.com', '1', '1'],
     ['1.', '1', '1'],
+    ['-1', '-1', '-1'],
     ['0', '0', '0'],
+    ['-0', '0', '0'],
 ]
 test.each(inputs)(
     '"%s" is displayed as "%s" and parsed as "%s"',
