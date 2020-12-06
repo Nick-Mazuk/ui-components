@@ -38,18 +38,22 @@ export const StarRating = ({
             'w-6': size === 'default',
             'w-3': size === 'small',
         })
-        stars.push(
-            <Fragment key={`${index}${index <= currentRating}`}>
-                <WithClick
-                    className={starClasses}
-                    callback={() => {
-                        updateStarRating(index + 1)
-                    }}
-                >
-                    <Star fill />
-                </WithClick>
-            </Fragment>
-        )
+        if (editable) {
+            stars.push(
+                <Fragment key={`${index}${index <= currentRating}`}>
+                    <WithClick
+                        className={starClasses}
+                        callback={() => {
+                            updateStarRating(index + 1)
+                        }}
+                    >
+                        <Star fill />
+                    </WithClick>
+                </Fragment>
+            )
+        } else {
+            stars.push(<Star fill key={`${index}${index <= currentRating}`} />)
+        }
     }
 
     return (
