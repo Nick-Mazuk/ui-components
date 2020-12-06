@@ -10,6 +10,7 @@ import {
 import type { FormSync } from '.'
 import type { AffixContent } from './helpers/text-input-affix'
 import type { Sizes } from './helpers/text-input-base'
+import type { ValidationRules } from './text-input'
 import { TextInput } from './text-input'
 
 type Props = {
@@ -33,6 +34,7 @@ type Props = {
     prefix?: AffixContent
     requiredMessage?: string
     successMessage?: string
+    validationRules?: ValidationRules
 
     formSync?: FormSync
 }
@@ -93,6 +95,7 @@ export const NumberInput = (props: Props): JSX.Element => {
             parser={parser}
             tabNums
             keyboard='decimal'
+            validationRules={props.validationRules}
             formSync={props.formSync}
         />
     )
