@@ -80,3 +80,5 @@ export const StarRating = ({
         </div>
     )
 }
+
+export type StarRating = ReturnType<typeof StarRating>
