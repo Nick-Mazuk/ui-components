@@ -303,6 +303,23 @@ export const Bold = (props: IconProps): JSX.Element => {
     })
 }
 
+export const Book = (props: IconProps): JSX.Element => {
+    return icon(
+        'M4 19.5A2.5 2.5 0 016.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z',
+        {
+            stroke: true,
+            width: props.width,
+        }
+    )
+}
+
+export const BookOpen = (props: IconProps): JSX.Element => {
+    return icon('M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z', {
+        stroke: true,
+        width: props.width,
+    })
+}
+
 export const Calendar = (props: IconProps): JSX.Element => {
     return icon(
         'M18.75,4.75C18.75,3.646 17.854,2.75 16.75,2.75L2.75,2.75C1.646,2.75 0.75,3.646 0.75,4.75L0.75,18.75C0.75,19.854 1.646,20.75 2.75,20.75L16.75,20.75C17.854,20.75 18.75,19.854 18.75,18.75L18.75,4.75Z M13.75,0.75L13.75,4.75 M5.75,0.75L5.75,4.75 M0.75,8.75L18.75,8.75',
@@ -461,6 +478,40 @@ export const Eye = (props: IconProps): JSX.Element => {
 export const EyeOff = (props: IconProps): JSX.Element => {
     return icon(
         'M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24 M1 1l22 22',
+        {
+            stroke: true,
+            width: props.width,
+        }
+    )
+}
+
+export const File = (props: IconProps): JSX.Element => {
+    return icon('M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z M13 2v7h7', {
+        stroke: true,
+        width: props.width,
+    })
+}
+
+export const FileMinus = (props: IconProps): JSX.Element => {
+    return icon('M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z M14 2v6h6 M9 15h6', {
+        stroke: true,
+        width: props.width,
+    })
+}
+
+export const FilePlus = (props: IconProps): JSX.Element => {
+    return icon(
+        'M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z M14 2v6h6 M12 18v-6 M9 15h6',
+        {
+            stroke: true,
+            width: props.width,
+        }
+    )
+}
+
+export const FileText = (props: IconProps): JSX.Element => {
+    return icon(
+        'M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z M14 2v6h6 M16 13H8 M16 17H8 M10 9H8',
         {
             stroke: true,
             width: props.width,
@@ -854,11 +905,21 @@ export const Upload = (props: IconProps): JSX.Element => {
     })
 }
 
-// user icon comes from hero icons: https://heroicons.com/
+// user icons come from hero icons: https://heroicons.com/
 
 export const User = (props: IconProps): JSX.Element => {
     return icon(
         'M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z',
+        {
+            stroke: true,
+            width: props.width,
+        }
+    )
+}
+
+export const UserGroup = (props: IconProps): JSX.Element => {
+    return icon(
+        'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z',
         {
             stroke: true,
             width: props.width,
