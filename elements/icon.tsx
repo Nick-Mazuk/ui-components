@@ -379,6 +379,13 @@ export const ChevronUp = (props: IconProps): JSX.Element => {
     })
 }
 
+export const Clock = (props: IconProps): JSX.Element => {
+    return icon('M12 6v6l4 2 M2,12a10,10 0 1,0 20,0a10,10 0 1,0 -20,0', {
+        stroke: true,
+        width: props.width,
+    })
+}
+
 export const Code = (props: IconProps): JSX.Element => {
     return icon('M16 18l6-6-6-6 M8 6l-6 6 6 6', {
         stroke: true,
