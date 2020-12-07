@@ -12,7 +12,7 @@ import { Text } from './text'
 
 type Props = {
     children: ReactNode | ReactNode[]
-    title: string
+    title: string | ReactNode
     subtitle?: string
     small?: boolean
 }
@@ -72,9 +72,13 @@ export const Accordion = ({ children, title, subtitle, small = false }: Props): 
         >
             <WithClick callback={toggleOpen} className={headerClasses}>
                 <div className='flex items-center justify-between'>
-                    <Text h4={!small} h6={small} as='p'>
-                        {title}
-                    </Text>
+                    {typeof title === 'string' ? (
+                        <Text h4={!small} h6={small} as='p'>
+                            {title}
+                        </Text>
+                    ) : (
+                        title
+                    )}
                     <motion.div variants={chevronStates} className={chevronClasses}>
                         <ChevronDown />
                     </motion.div>
