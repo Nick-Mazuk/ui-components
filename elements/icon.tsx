@@ -272,6 +272,13 @@ export const ArrowUp = (props: IconProps): JSX.Element => {
     })
 }
 
+export const Award = (props: IconProps): JSX.Element => {
+    return icon('M8.21 13.89L7 23l5-3 5 3-1.21-9.12 M5,8a7,7 0 1,0 14,0a7,7 0 1,0 -14,0', {
+        stroke: true,
+        width: props.width,
+    })
+}
+
 export const BarChart = (props: IconProps): JSX.Element => {
     return icon('M12 20V10 M18 20V4 M6 20v-4', {
         stroke: true,
