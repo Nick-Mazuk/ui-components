@@ -624,7 +624,7 @@ export const Italic = (props: IconProps): JSX.Element => {
 
 export const Layout = (props: IconProps): JSX.Element => {
     return icon(
-        'M18.75,2.75C18.75,1.646 17.854,0.75 16.75,0.75L2.75,0.75C1.646,0.75 0.75,1.646 0.75,2.75L0.75,16.75C0.75,17.854 1.646,18.75 2.75,18.75L16.75,18.75C17.854,18.75 18.75,17.854 18.75,16.75L18.75,2.75Z M0.75,6.75L18.75,6.75 M6.75,18.75L6.75,6.75',
+        'M21,5C21,3.896 20.104,3 19,3L5,3C3.896,3 3,3.896 3,5L3,19C3,20.104 3.896,21 5,21L19,21C20.104,21 21,20.104 21,19L21,5Z M3,9L21,9 M9,21L9,9',
         {
             stroke: true,
             width: props.width,
@@ -798,6 +798,16 @@ export const ShoppingCart = (props: IconProps): JSX.Element => {
 export const Smartphone = (props: IconProps): JSX.Element => {
     return icon(
         'M12,18L12.01,18 M19,4C19,2.896 18.104,2 17,2L7,2C5.896,2 5,2.896 5,4L5,20C5,21.104 5.896,22 7,22L17,22C18.104,22 19,21.104 19,20L19,4Z',
+        {
+            stroke: true,
+            width: props.width,
+        }
+    )
+}
+
+export const Square = (props: IconProps): JSX.Element => {
+    return icon(
+        'M21,5C21,3.896 20.104,3 19,3L5,3C3.896,3 3,3.896 3,5L3,19C3,20.104 3.896,21 5,21L19,21C20.104,21 21,20.104 21,19L21,5Z',
         {
             stroke: true,
             width: props.width,
