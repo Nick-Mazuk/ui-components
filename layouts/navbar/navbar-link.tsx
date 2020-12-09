@@ -2,6 +2,7 @@ import classNames from 'classnames'
 
 import { useRouter } from 'next/router'
 
+import { useNavbarContext } from '.'
 import { Link } from '../../elements/link'
 import type { TextChildren } from '../../elements/text'
 import { Text } from '../../elements/text'
@@ -40,6 +41,7 @@ export const NavbarLink = ({ content, href, breakpoint }: Props): JSX.Element =>
     const router = useRouter()
     const isCurrentRoute = router.pathname.includes(href)
     const { color } = useHeaderContext()
+    const { size } = useNavbarContext()
     const classes = classNames(
         'relative flex items-center self-stretch select-none last:-mr-2 transition-color duration-150',
         COLOR_MAP[color].text
@@ -56,7 +58,7 @@ export const NavbarLink = ({ content, href, breakpoint }: Props): JSX.Element =>
         <NavbarItemWrapper breakpoint={breakpoint}>
             <Link href={href} className={classes}>
                 <div className='relative px-3'>
-                    <Text>{content}</Text>
+                    <Text small={size === 'small'}>{content}</Text>
                 </div>
                 <div className={borderClasses} />
             </Link>
