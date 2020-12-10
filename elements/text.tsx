@@ -2,9 +2,9 @@ import classNames from 'classnames'
 
 import type CSS from 'csstype'
 
-import type { LinkType } from './link'
+import type { Link } from './link'
 
-type SupportedChildren = string | number | LinkType
+type SupportedChildren = string | number | Link
 type Tags = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span'
 // eslint-disable-next-line import/exports-last -- used by other components
 export type TextChildren = SupportedChildren | SupportedChildren[]

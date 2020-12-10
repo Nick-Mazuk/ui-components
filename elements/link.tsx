@@ -2,7 +2,7 @@ import type { AnchorHTMLAttributes, ReactNode } from 'react'
 
 import classNames from 'classnames'
 
-import Link from 'next/link'
+import NextLink from 'next/link'
 
 import { WEIGHT_MAP } from './text'
 
@@ -22,7 +22,7 @@ const getStyles = (styled: boolean): string => {
     return ''
 }
 
-const Linker = ({
+export const Link = ({
     href,
     children,
     title = '',
@@ -50,12 +50,10 @@ const Linker = ({
     }
 
     return (
-        <Link href={href}>
+        <NextLink href={href}>
             <a {...anchorProps}>{children}</a>
-        </Link>
+        </NextLink>
     )
 }
 
-export { Linker as Link }
-
-export type LinkType = ReturnType<typeof Linker>
+export type Link = ReturnType<typeof Link>
