@@ -43,7 +43,7 @@ export const Image = ({
     const classes = classNames({ 'rounded-lg': rounded })
 
     return (
-        <Ratio ratio={ratio} customRatio={(width ?? 1) / (height ?? 1)}>
+        <Ratio ratio={ratio} customRatio={(height ?? 1) / (width ?? 1)}>
             <NextImage
                 src={src}
                 alt={alt}
