@@ -25,7 +25,7 @@ type Props = {
               preload?: boolean
           }
         | {
-              eager: false | undefined
+              eager?: false
               preload?: never
           }
     )

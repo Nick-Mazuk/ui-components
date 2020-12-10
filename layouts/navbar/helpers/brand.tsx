@@ -36,7 +36,7 @@ export const Brand = ({ text, href = '/', icon, breakpoint }: BrandProps): JSX.E
         <Link href={href} className='flex items-center self-stretch select-none'>
             {icon && (
                 <div className={iconClasses}>
-                    <Image src={icon} alt='text' ratio='1x1' />
+                    <Image src={icon} alt='text' ratio='1x1' preload eager />
                 </div>
             )}
             <NavbarItemWrapper breakpoint={newBreakpoint}>
