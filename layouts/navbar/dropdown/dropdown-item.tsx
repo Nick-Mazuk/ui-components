@@ -2,6 +2,7 @@ import classNames from 'classnames'
 
 import { Link } from '../../../elements/link'
 import { Text } from '../../../elements/text'
+import { WithClick } from '../../../hoc/with-click'
 import type { Color } from '../../header'
 import { useHeaderContext } from '../../header'
 
@@ -11,20 +12,39 @@ const COLOR_MAP: Record<Color, string> = {
     primary: 'hover:bg-primary-600',
 }
 
-export const DropdownItem = ({
-    children,
-    href,
-}: {
+type Props = {
     children: string
-    href: string
-}): JSX.Element => {
+} & (
+    | {
+          href: string
+          onClick?: never
+      }
+    | {
+          onClick: () => void
+          href?: never
+      }
+)
+
+export const DropdownItem = ({ children, href, onClick }: Props): JSX.Element => {
     const { color } = useHeaderContext()
     const classes = classNames('px-4 py-2 block transition-color duration-150', COLOR_MAP[color])
-    return (
-        <Link href={href} className={classes}>
-            <Text small>{children}</Text>
-        </Link>
-    )
+    const content = <Text small>{children}</Text>
+    if (href) {
+        return (
+            <Link href={href} className={classes}>
+                {content}
+            </Link>
+        )
+    }
+    if (onClick) {
+        return (
+            <WithClick className={classes} callback={onClick}>
+                {content}
+            </WithClick>
+        )
+    }
+    // eslint-disable-next-line react/jsx-no-useless-fragment -- base case
+    return <></>
 }
 
 export type DropdownItem = ReturnType<typeof DropdownItem>
