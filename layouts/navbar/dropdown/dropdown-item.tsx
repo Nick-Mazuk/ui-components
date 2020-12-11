@@ -27,7 +27,10 @@ type Props = {
 
 export const DropdownItem = ({ children, href, onClick }: Props): JSX.Element => {
     const { color } = useHeaderContext()
-    const classes = classNames('px-4 py-2 block transition-color duration-150', COLOR_MAP[color])
+    const classes = classNames(
+        'px-4 py-2 block transition-color duration-150 w-full',
+        COLOR_MAP[color]
+    )
     const content = <Text small>{children}</Text>
     if (href) {
         return (
