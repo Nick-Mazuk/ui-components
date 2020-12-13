@@ -685,4 +685,22 @@ describe('formSync works', () => {
             expect.any(Function)
         )
     })
+
+    test('if the user presses "enter" while typing, it should sync with the form before submitting', () => {
+        const formSync: FormSync = {
+            state: 'ready',
+            updateForm: jest.fn(),
+            data: {},
+        }
+        render(<TextInput type='text' label='Name' name='form-sync-name' formSync={formSync} />)
+
+        const input = screen.getByRole('textbox')
+        userEvent.type(input, 'hello world{enter}')
+        expect(formSync.updateForm).toHaveBeenLastCalledWith(
+            'form-sync-name',
+            'hello world',
+            expect.any(Function),
+            expect.any(Function)
+        )
+    })
 })

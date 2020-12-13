@@ -1,3 +1,5 @@
+import type { ChangeEvent, FocusEvent, KeyboardEvent } from 'react'
+
 import classNames from 'classnames'
 
 import type { WithClickCallback } from '../../../hoc/with-click'
@@ -105,15 +107,10 @@ type Props = {
     suffixOnClick?: WithClickCallback
     keyboard?: Keyboard
     autoComplete?: Autocomplete
-    onChange: (
-        event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
-    ) => void
-    onFocus?: (
-        event: React.FocusEvent<HTMLInputElement> | React.FocusEvent<HTMLTextAreaElement>
-    ) => void
-    onBlur?: (
-        event: React.FocusEvent<HTMLInputElement> | React.FocusEvent<HTMLTextAreaElement>
-    ) => void
+    onChange: (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void
+    onFocus?: (event: FocusEvent<HTMLInputElement> | FocusEvent<HTMLTextAreaElement>) => void
+    onBlur?: (event: FocusEvent<HTMLInputElement> | FocusEvent<HTMLTextAreaElement>) => void
+    onKeyPress: (event: KeyboardEvent<HTMLInputElement>) => void
 }
 
 type Size = {
@@ -192,6 +189,7 @@ const getInputProps = (props: Props, size: Sizes): InputProps => {
     return inputProps
 }
 
+// eslint-disable-next-line max-lines-per-function -- still readable
 export const TextInputBase = (props: Props): JSX.Element => {
     const size = props.size ?? 'default'
     const hasError = Boolean(
@@ -221,7 +219,12 @@ export const TextInputBase = (props: Props): JSX.Element => {
                     onClick={props.prefixOnClick}
                     type='prefix'
                 />
-                <TextInputElement type={props.type} value={props.value} props={inputProps} />
+                <TextInputElement
+                    type={props.type}
+                    value={props.value}
+                    props={inputProps}
+                    onKeyPress={props.onKeyPress}
+                />
                 <Affix
                     content={props.suffix}
                     size={size}

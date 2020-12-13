@@ -1,3 +1,4 @@
+import type { ChangeEvent, FocusEvent, KeyboardEvent } from 'react'
 import { useCallback, useEffect, useState } from 'react'
 
 import { slugify } from '@nick-mazuk/lib/text-styling'
@@ -117,7 +118,7 @@ const syncWithForm = (
     if (formSync) formSync.updateForm(name, parseValue(value, parser), updateValidation, clear)
 }
 
-// eslint-disable-next-line max-lines-per-function -- will fix
+// eslint-disable-next-line max-lines-per-function, sonarjs/cognitive-complexity -- will fix
 export const TextInput = (props: Props): JSX.Element => {
     const defaultValue = getDefaultValue(props)
     const [name, label, id] = getIdentificationData(props)
@@ -184,9 +185,7 @@ export const TextInput = (props: Props): JSX.Element => {
     )
 
     const handleChange = useCallback(
-        (
-            event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
-        ): void => {
+        (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>): void => {
             const newValue = getUpdatedValue(event.target.value, value, props.onUpdate)
             updateValue(newValue)
             if (!valid) updateValidation(newValue)
@@ -195,9 +194,7 @@ export const TextInput = (props: Props): JSX.Element => {
     )
 
     const handleBlur = useCallback(
-        (
-            event: React.FocusEvent<HTMLInputElement> | React.FocusEvent<HTMLTextAreaElement>
-        ): void => {
+        (event: FocusEvent<HTMLInputElement> | FocusEvent<HTMLTextAreaElement>): void => {
             const newValue = event.target.value
             const isValid = updateValidation(newValue)
             if (isValid) {
@@ -206,6 +203,14 @@ export const TextInput = (props: Props): JSX.Element => {
             }
         },
         [updateValidation, updateValue, props.formatter]
+    )
+
+    const handleKeyPress = useCallback(
+        (event: KeyboardEvent<HTMLInputElement>) => {
+            if (event.key === 'Enter')
+                syncWithForm(props.formSync, name, value, props.parser, updateValidation, clearData)
+        },
+        [clearData, name, props.formSync, props.parser, updateValidation, value]
     )
 
     // registers the input with the form on mount
@@ -243,6 +248,7 @@ export const TextInput = (props: Props): JSX.Element => {
             success={showSuccess ? props.successMessage : ''}
             onChange={handleChange}
             onBlur={handleBlur}
+            onKeyPress={handleKeyPress}
         />
     )
 }

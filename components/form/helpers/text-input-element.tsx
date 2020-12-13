@@ -1,4 +1,4 @@
-import type { InputHTMLAttributes } from 'react'
+import type { InputHTMLAttributes, KeyboardEvent } from 'react'
 
 import type { Type } from './text-input-base'
 
@@ -14,9 +14,10 @@ type Props = {
     type: Type
     value: string
     props: InputProps
+    onKeyPress: (event: KeyboardEvent<HTMLInputElement>) => void
 }
 
-export const TextInputElement = ({ type, props, value }: Props): JSX.Element => {
+export const TextInputElement = ({ type, props, value, onKeyPress }: Props): JSX.Element => {
     if (type === 'textarea') {
         return (
             <textarea rows={4} {...props} data-testid='text-input-element'>
@@ -24,7 +25,15 @@ export const TextInputElement = ({ type, props, value }: Props): JSX.Element => 
             </textarea>
         )
     }
-    return <input type={type} value={value} {...props} data-testid='text-input-element' />
+    return (
+        <input
+            type={type}
+            value={value}
+            {...props}
+            onKeyPress={onKeyPress}
+            data-testid='text-input-element'
+        />
+    )
 }
 
 export type TextInputElement = ReturnType<typeof TextInputElement>
