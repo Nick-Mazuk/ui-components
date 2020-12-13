@@ -287,18 +287,21 @@ describe('captcha works as expected', () => {
 })
 
 describe('clears inputs on submit', () => {
-    test.todo('inputs are cleared when clearOnSubmit is true')
-    test.todo('inputs are not cleared when clearOnSubmit is false')
-    test('inputs are not cleared when clearOnSubmit is true but method, action, and handleSubmit are missing', async () => {
-        const mockSuccess = jest.fn()
-        const mockError = jest.fn()
+    test('inputs are cleared when clearOnSubmit is true', async () => {
+        const mockSubmit = jest.fn(
+            (): Promise<boolean> =>
+                new Promise((resolve) => {
+                    resolve(true)
+                })
+        )
         render(
-            <Form onSuccess={mockSuccess} onError={mockError} clearOnSubmit>
+            <Form handleSubmit={mockSubmit} clearOnSubmit>
                 {(formSync) => (
                     <>
                         <EmailInput formSync={formSync} />
                         <Button value='Submit' color='primary' type='submit' />
-                        {`Form state: ${formSync.state}`}
+                        <p>{`Form state: ${formSync.state}`}</p>
+                        <p>{`Form data: ${JSON.stringify(formSync.data)}`}</p>
                     </>
                 )}
             </Form>
@@ -308,9 +311,77 @@ describe('clears inputs on submit', () => {
         const buttons = screen.getAllByRole('button')
         const submitButton = buttons[buttons.length - 1]
 
-        // form renders all input elements and buttons'
-        expect(inputs).toHaveLength(1)
-        expect(submitButton.textContent).toBe('Submit')
+        userEvent.type(inputs[0], 'email@example.com')
+        userEvent.tab()
+
+        expect(mockSubmit).toHaveBeenCalledTimes(0)
+
+        // user can submit the form
+        userEvent.click(submitButton)
+        await waitFor(() => expect(screen.getByText('Form state: submitted')).toBeTruthy())
+        expect(mockSubmit).toHaveBeenCalledTimes(1)
+
+        // values cleared after submit
+        expect(inputs[0]).toHaveValue('')
+        expect(screen.getByText('Form data: {"email":""}')).toBeTruthy()
+    })
+    test('inputs are not cleared when clearOnSubmit is false', async () => {
+        const mockSubmit = jest.fn(
+            (): Promise<boolean> =>
+                new Promise((resolve) => {
+                    resolve(true)
+                })
+        )
+        render(
+            <Form handleSubmit={mockSubmit}>
+                {(formSync) => (
+                    <>
+                        <EmailInput formSync={formSync} />
+                        <Button value='Submit' color='primary' type='submit' />
+                        <p>{`Form state: ${formSync.state}`}</p>
+                        <p>{`Form data: ${JSON.stringify(formSync.data)}`}</p>
+                    </>
+                )}
+            </Form>
+        )
+
+        const inputs = screen.getAllByTestId('text-input-element')
+        const buttons = screen.getAllByRole('button')
+        const submitButton = buttons[buttons.length - 1]
+
+        userEvent.type(inputs[0], 'email@example.com')
+
+        expect(mockSubmit).toHaveBeenCalledTimes(0)
+
+        // user can submit the form
+        userEvent.click(submitButton)
+        await waitFor(() => expect(screen.getByText('Form state: submitted')).toBeTruthy())
+        expect(mockSubmit).toHaveBeenCalledTimes(1)
+
+        // values not cleared after submit
+        expect(inputs[0]).toHaveValue('email@example.com')
+        expect(screen.getByText('Form data: {"email":"email@example.com"}')).toBeTruthy()
+    })
+
+    test('inputs are not cleared when clearOnSubmit is true but method, action, and handleSubmit are missing', async () => {
+        const mockSuccess = jest.fn()
+        const mockError = jest.fn()
+        render(
+            <Form onSuccess={mockSuccess} onError={mockError} clearOnSubmit>
+                {(formSync) => (
+                    <>
+                        <EmailInput formSync={formSync} />
+                        <Button value='Submit' color='primary' type='submit' />
+                        <p>{`Form state: ${formSync.state}`}</p>
+                        <p>{`Form data: ${JSON.stringify(formSync.data)}`}</p>
+                    </>
+                )}
+            </Form>
+        )
+
+        const inputs = screen.getAllByTestId('text-input-element')
+        const buttons = screen.getAllByRole('button')
+        const submitButton = buttons[buttons.length - 1]
 
         // 'clicking submit causes inputs to validate and does not submit when invalid'
         userEvent.click(submitButton)
@@ -334,5 +405,6 @@ describe('clears inputs on submit', () => {
 
         // values not cleared after submit because there wasn't a submit function
         expect(inputs[0]).toHaveValue('email@example.com')
+        expect(screen.getByText('Form data: {"email":"email@example.com"}')).toBeTruthy()
     })
 })

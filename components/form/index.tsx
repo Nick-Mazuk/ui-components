@@ -58,9 +58,26 @@ type Props = {
     handleSubmit?: HandleSubmit
 }
 
-const clearInputs = (formData: FormData): void => {
-    for (const inputName in formData)
-        if (Object.prototype.hasOwnProperty.call(formData, inputName)) formData[inputName].clear()
+const createPublicFormData = (formData: FormData): PublicFormData => {
+    const publicFormData: PublicFormData = {}
+    for (const inputName in formData) {
+        if (Object.prototype.hasOwnProperty.call(formData, inputName))
+            publicFormData[inputName] = formData[inputName].data
+    }
+    return publicFormData
+}
+
+const clearInputs = (
+    formData: FormData,
+    setPublicFormData: Dispatch<SetStateAction<Record<string, FormDataValue>>>
+): void => {
+    for (const inputName in formData) {
+        if (Object.prototype.hasOwnProperty.call(formData, inputName)) {
+            formData[inputName].clear()
+            formData[inputName].data = ''
+        }
+    }
+    setPublicFormData(createPublicFormData(formData))
 }
 
 const validateInputs = (formData: FormData): boolean => {
@@ -89,14 +106,15 @@ const successfulSubmit = (
     props: Props,
     setState: Dispatch<SetStateAction<State>>,
     formData: FormData,
+    setPublicFormData: Dispatch<SetStateAction<Record<string, FormDataValue>>>,
     data?: SubmitResponse
 ) => {
     setState('submitted')
-    if (props.clearOnSubmit) clearInputs(formData)
+    if (props.clearOnSubmit) clearInputs(formData, setPublicFormData)
     if (props.onSuccess) props.onSuccess(data)
 }
 
-const errorSubmit = (props: Props, error: any, setState: Dispatch<SetStateAction<State>>) => {
+const errorSubmit = (props: Props, error: unknown, setState: Dispatch<SetStateAction<State>>) => {
     setState('error')
     if (props.onError) props.onError(error)
 }
@@ -105,11 +123,12 @@ const handleCustomSubmit = async (
     props: Props,
     data: PublicFormData,
     setState: Dispatch<SetStateAction<State>>,
-    formData: FormData
+    formData: FormData,
+    setPublicFormData: Dispatch<SetStateAction<Record<string, FormDataValue>>>
 ) => {
     if (!props.handleSubmit) return
     const success = await props.handleSubmit(data)
-    if (success) successfulSubmit(props, setState, formData)
+    if (success) successfulSubmit(props, setState, formData, setPublicFormData)
     else errorSubmit(props, '', setState)
 }
 
@@ -117,7 +136,8 @@ const handleInternalSubmit = (
     props: Props,
     data: PublicFormData,
     setState: Dispatch<SetStateAction<State>>,
-    formData: FormData
+    formData: FormData,
+    setPublicFormData: Dispatch<SetStateAction<Record<string, FormDataValue>>>
 ) => {
     if (!props.action || !props.method) return
     fetch(props.action, {
@@ -126,7 +146,7 @@ const handleInternalSubmit = (
     })
         .then(async (response) => {
             const json = await response.json()
-            successfulSubmit(props, setState, formData, {
+            successfulSubmit(props, setState, formData, setPublicFormData, {
                 response: json,
                 status: response.status,
                 data: data,
@@ -143,6 +163,7 @@ const onSubmit = (
     formData: FormData,
     hcaptcha: MutableRefObject<HCaptcha | null>,
     setState: Dispatch<SetStateAction<State>>,
+    setPublicFormData: Dispatch<SetStateAction<Record<string, FormDataValue>>>,
     options: {
         event?: React.FormEvent<HTMLFormElement>
         token?: string
@@ -158,18 +179,10 @@ const onSubmit = (
         return
     }
     const data = formatDataForSubmit(formData, options.token)
-    if (props.handleSubmit) handleCustomSubmit(props, data, setState, formData)
-    else if (props.method && props.action) handleInternalSubmit(props, data, setState, formData)
+    if (props.handleSubmit) handleCustomSubmit(props, data, setState, formData, setPublicFormData)
+    else if (props.method && props.action)
+        handleInternalSubmit(props, data, setState, formData, setPublicFormData)
     else setState('ready')
-}
-
-const createPublicFormData = (formData: FormData): PublicFormData => {
-    const publicFormData: PublicFormData = {}
-    for (const inputName in formData) {
-        if (Object.prototype.hasOwnProperty.call(formData, inputName))
-            publicFormData[inputName] = formData[inputName].data
-    }
-    return publicFormData
 }
 
 export const Form = (props: Props): JSX.Element => {
@@ -194,7 +207,7 @@ export const Form = (props: Props): JSX.Element => {
             method={props.method}
             action={props.action}
             onSubmit={(event) => {
-                onSubmit(props, formData, captchaRef, setState, { event: event })
+                onSubmit(props, formData, captchaRef, setState, setPublicFormData, { event: event })
             }}
             noValidate
         >
@@ -210,7 +223,9 @@ export const Form = (props: Props): JSX.Element => {
                     id={props.captcha}
                     ref={captchaRef}
                     onVerify={(token) => {
-                        onSubmit(props, formData, captchaRef, setState, { token: token })
+                        onSubmit(props, formData, captchaRef, setState, setPublicFormData, {
+                            token: token,
+                        })
                     }}
                     onError={(event) => {
                         errorSubmit(props, event, setState)
