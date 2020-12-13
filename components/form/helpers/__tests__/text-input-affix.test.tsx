@@ -30,14 +30,14 @@ describe('renders text and icons as content', () => {
         (_, content) => {
             render(<Affix content={content} size='default' type='prefix' onClick={undefined} />)
             if (typeof content === 'string') expect(screen.getByText(content)).toBeTruthy()
-            else expect(screen.getByTestId('text-input-affix')).not.toBeEmptyDOMElement()
+            else expect(screen.getByTestId('text-input-prefix')).not.toBeEmptyDOMElement()
         }
     )
     test.each(contentItems)('renders %s when onClick is defined', (_, content) => {
         const testFunction = jest.fn()
         render(<Affix content={content} size='default' type='prefix' onClick={testFunction} />)
         if (typeof content === 'string') expect(screen.getByText(content)).toBeTruthy()
-        else expect(screen.getByTestId('text-input-affix')).not.toBeEmptyDOMElement()
+        else expect(screen.getByTestId('text-input-prefix')).not.toBeEmptyDOMElement()
     })
 })
 
