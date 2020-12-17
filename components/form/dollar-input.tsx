@@ -20,6 +20,7 @@ type Props = {
     readonly?: boolean
     disabled?: boolean
     decimals?: number
+    requireDecimals?: boolean
 
     prefix?: AffixContent
     requiredMessage?: string
@@ -49,7 +50,9 @@ export const DollarInput = (props: Props): JSX.Element => {
             successMessage={props.successMessage}
             requiredMessage={props.requiredMessage}
             onChange={props.onChange}
-            decimals={2}
+            maxDecimals={2}
+            // eslint-disable-next-line no-undefined -- undefined required
+            decimals={props.requireDecimals ? 2 : undefined}
             progress={props.progress}
             prefix='$'
             formSync={props.formSync}

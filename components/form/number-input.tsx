@@ -5,6 +5,7 @@ import {
     formatNumber,
     truncateDecimals,
     addThousandsSeparators,
+    fixedDecimals,
 } from '@nick-mazuk/lib/number-styling'
 
 import type { FormSync } from '.'
@@ -47,7 +48,7 @@ const parser = (number: string): string => {
 }
 
 const onFormat = (number: string, decimals: number | undefined): string => {
-    if (decimals) return formatNumber(truncateDecimals(number, decimals))
+    if (decimals) return fixedDecimals(formatNumber(number), decimals)
     return formatNumber(number)
 }
 

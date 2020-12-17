@@ -35,7 +35,7 @@
         "@babel/preset-react": "^7.12.1",
         "@babel/preset-typescript": "^7.12.1",
         "@nick-mazuk/eslint-config": "^0.5.0",
-        "@nick-mazuk/lib": "^0.7.3",
+        "@nick-mazuk/lib": "^0.7.4",
         "@nick-mazuk/tsconfig": "^0.1.1",
         "@testing-library/jest-dom": "^5.11.5",
         "@testing-library/react": "^11.1.0",

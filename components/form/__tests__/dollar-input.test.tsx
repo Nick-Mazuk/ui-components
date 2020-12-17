@@ -26,7 +26,7 @@ test.each(inputs)(
             updateForm: jest.fn(),
             data: {},
         }
-        render(<DollarInput name='number' formSync={formSync} />)
+        render(<DollarInput name='dollar' formSync={formSync} />)
         const input = screen.getByTestId('text-input-element')
         userEvent.type(input, number)
         userEvent.tab()
@@ -34,10 +34,41 @@ test.each(inputs)(
         expect(input).toHaveValue(displayedNumber)
 
         expect(formSync.updateForm).toHaveBeenLastCalledWith(
-            'number',
+            'dollar',
             parsedNumber,
             expect.any(Function),
             expect.any(Function)
         )
+    }
+)
+
+// typed value, displayed value, parsed value
+const inputsWithDecimals = [
+    ['314159', '314,159.00', '314159.00'],
+    ['hello world', '', ''],
+    ['hello 3.14159', '3.14', '3.14'],
+    ['hello 3.1@abc 4159', '3.14', '3.14'],
+    ['hello 3.1@abc 4159', '3.14', '3.14'],
+    ['3,14,15,9.2131', '314,159.21', '314159.21'],
+    ['testing1@foo.com', '1.00', '1.00'],
+    ['1.', '1.00', '1.00'],
+    ['-1', '-1.00', '-1.00'],
+    ['0', '0.00', '0.00'],
+    ['-0', '0.00', '0.00'],
+]
+test.each(inputsWithDecimals)(
+    '"%s" is displayed as "%s" and parsed as "%s"',
+    (number, displayedNumber, parsedNumber) => {
+        const formSync: FormSync = {
+            state: 'ready',
+            updateForm: jest.fn(),
+            data: {},
+        }
+        render(<DollarInput name='dollar' formSync={formSync} requireDecimals />)
+        const input = screen.getByTestId('text-input-element')
+        userEvent.type(input, number)
+        userEvent.tab()
+
+        expect(input).toHaveValue(displayedNumber)
     }
 )

@@ -49,6 +49,22 @@ const inputsToTruncate: [string, number, string][] = [
 test.each(inputsToTruncate)(
     '"%s" is truncated to "%s" decimals: "%s"',
     (number, decimals, displayedNumber) => {
+        render(<NumberInput maxDecimals={decimals} />)
+        const input = screen.getByTestId('text-input-element')
+        userEvent.type(input, number)
+        userEvent.tab()
+
+        expect(input).toHaveValue(displayedNumber)
+    }
+)
+
+const inputsToDecimalize: [string, number, string][] = [
+    ['3.14159', 3, '3.141'],
+    ['3.14159', 8, '3.14159000'],
+]
+test.each(inputsToDecimalize)(
+    '"%s" is converted to "%s" decimals: "%s"',
+    (number, decimals, displayedNumber) => {
         render(<NumberInput decimals={decimals} />)
         const input = screen.getByTestId('text-input-element')
         userEvent.type(input, number)
