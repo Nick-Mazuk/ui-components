@@ -73,3 +73,63 @@ test.each(inputsToDecimalize)(
         expect(input).toHaveValue(displayedNumber)
     }
 )
+
+const lessThanValues: [string, number][] = [
+    ['31', 0],
+    ['231.43', 231],
+    ['-231.43', -500],
+    ['231.43', -500],
+]
+
+const greaterThanValues: [string, number][] = [
+    ['31', 100],
+    ['231.43', 232],
+    ['-231.43', 0],
+    ['231.43', 500],
+]
+
+// test min
+
+test.each(lessThanValues)(
+    'Typing "%s" with a min of "%s" does not produce an error',
+    (number, min) => {
+        render(<NumberInput min={min} />)
+        const input = screen.getByTestId('text-input-element')
+        userEvent.type(input, number)
+        userEvent.tab()
+
+        expect(screen.queryByText('Error:')).toBeFalsy()
+    }
+)
+
+test.each(greaterThanValues)('Typing "%s" with a min of "%s" produces an error', (number, min) => {
+    render(<NumberInput min={min} />)
+    const input = screen.getByTestId('text-input-element')
+    userEvent.type(input, number)
+    userEvent.tab()
+
+    expect(screen.getByText('Error:')).toBeTruthy()
+})
+
+// text max
+
+test.each(greaterThanValues)(
+    'Typing "%s" with a max of "%s" does not produce an error',
+    (number, max) => {
+        render(<NumberInput max={max} />)
+        const input = screen.getByTestId('text-input-element')
+        userEvent.type(input, number)
+        userEvent.tab()
+
+        expect(screen.queryByText('Error:')).toBeFalsy()
+    }
+)
+
+test.each(lessThanValues)('Typing "%s" with a max of "%s" produces an error', (number, max) => {
+    render(<NumberInput max={max} />)
+    const input = screen.getByTestId('text-input-element')
+    userEvent.type(input, number)
+    userEvent.tab()
+
+    expect(screen.getByText('Error:')).toBeTruthy()
+})

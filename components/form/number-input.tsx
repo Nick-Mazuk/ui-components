@@ -6,6 +6,7 @@ import {
     truncateDecimals,
     addThousandsSeparators,
     fixedDecimals,
+    stringToNumber,
 } from '@nick-mazuk/lib/number-styling'
 
 import type { FormSync } from '.'
@@ -31,6 +32,8 @@ type Props = {
     disabled?: boolean
     decimals?: number
     maxDecimals?: number
+    min?: number
+    max?: number
 
     prefix?: AffixContent
     requiredMessage?: string
@@ -62,6 +65,24 @@ const onUpdate = (number: string, oldNumber: string, decimals: number | undefine
     return oldNumber
 }
 
+const createValidationRules = (props: Props): ValidationRules => {
+    const { min, max, validationRules } = props
+    const rules = validationRules ?? []
+    if (typeof min !== 'undefined') {
+        rules.push({
+            assert: (value) => stringToNumber(value) >= min,
+            error: `Must be greater than ${min}`,
+        })
+    }
+    if (typeof max !== 'undefined') {
+        rules.push({
+            assert: (value) => stringToNumber(value) <= max,
+            error: `Must be greater than ${max}`,
+        })
+    }
+    return rules
+}
+
 export const NumberInput = (props: Props): JSX.Element => {
     const maxDecimals = props.maxDecimals ?? props.decimals
     const { onChange } = props
@@ -80,6 +101,7 @@ export const NumberInput = (props: Props): JSX.Element => {
         },
         [props.decimals]
     )
+
     return (
         <TextInput
             id={props.id}
@@ -104,7 +126,7 @@ export const NumberInput = (props: Props): JSX.Element => {
             progress={props.progress}
             tabNums
             keyboard='decimal'
-            validationRules={props.validationRules}
+            validationRules={createValidationRules(props)}
             formSync={props.formSync}
         />
     )
