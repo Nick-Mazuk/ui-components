@@ -56,6 +56,7 @@ type Props = {
     parser?: Parser
     formatter?: Formatter
     progress?: Progress
+    maxCharacters?: number
 
     formSync?: FormSync
 }
@@ -92,7 +93,13 @@ const parseValue = (value: string, parser?: Parser): FormDataValue => {
     return value
 }
 
-const getUpdatedValue = (value: string, oldValue: string, updater: Updater | undefined): string => {
+const getUpdatedValue = (
+    value: string,
+    oldValue: string,
+    updater: Updater | undefined,
+    maxCharacters: number | undefined
+): string => {
+    if (typeof maxCharacters !== 'undefined' && value.length > maxCharacters) return oldValue
     if (updater) return updater(value, oldValue)
     return value
 }
@@ -102,8 +109,9 @@ const format = (value: string, formatter?: Formatter): string => {
     return value
 }
 
-const getProgress = (value: string, progress?: Progress): string => {
+const getProgress = (value: string, progress?: Progress, maxCharacters?: number): string => {
     if (progress) return progress(value)
+    if (typeof maxCharacters !== 'undefined') return `${value.length} / ${maxCharacters}`
     return ''
 }
 
@@ -126,14 +134,16 @@ export const TextInput = (props: Props): JSX.Element => {
     const [valid, setValid] = useState(true)
     const [showSuccess, setShowSuccess] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
-    const [progress, setProgress] = useState(getProgress(defaultValue, props.progress))
+    const [progress, setProgress] = useState(
+        getProgress(defaultValue, props.progress, props.maxCharacters)
+    )
 
     const updateValue = useCallback(
         (newValue: string): void => {
             setValue(newValue)
-            setProgress(getProgress(newValue, props.progress))
+            setProgress(getProgress(newValue, props.progress, props.maxCharacters))
         },
-        [props.progress]
+        [props.maxCharacters, props.progress]
     )
 
     const clearData = useCallback(() => {
@@ -186,11 +196,16 @@ export const TextInput = (props: Props): JSX.Element => {
 
     const handleChange = useCallback(
         (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>): void => {
-            const newValue = getUpdatedValue(event.target.value, value, props.onUpdate)
+            const newValue = getUpdatedValue(
+                event.target.value,
+                value,
+                props.onUpdate,
+                props.maxCharacters
+            )
             updateValue(newValue)
             if (!valid) updateValidation(newValue)
         },
-        [valid, value, props.onUpdate, updateValue, updateValidation]
+        [value, props.onUpdate, props.maxCharacters, updateValue, valid, updateValidation]
     )
 
     const handleBlur = useCallback(

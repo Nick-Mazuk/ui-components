@@ -35,6 +35,7 @@ type Props = {
     requiredMessage?: string
     successMessage?: string
     disableAutocomplete?: boolean
+    maxCharacters?: number
 
     onChange?: (value: string) => void
 
@@ -93,6 +94,7 @@ export const YouTubeVideoInput = (props: Props): JSX.Element => {
             validationRules={validationRules}
             parser={getYouTubeVideoId}
             onUpdate={handleChange}
+            maxCharacters={props.maxCharacters}
             keyboard='url'
             formSync={props.formSync}
         />

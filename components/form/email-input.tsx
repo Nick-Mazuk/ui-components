@@ -28,6 +28,7 @@ type Props = {
     requiredMessage?: string
     successMessage?: string
     disableAutocomplete?: boolean
+    maxCharacters?: number
 
     onChange?: (value: string) => void
 
@@ -84,6 +85,7 @@ export const EmailInput = (props: Props): JSX.Element => {
             ]}
             parser={parser}
             onUpdate={handleChange}
+            maxCharacters={props.maxCharacters}
             autoComplete={props.disableAutocomplete ? '' : 'email'}
             keyboard='email'
             formSync={props.formSync}

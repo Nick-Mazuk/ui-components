@@ -30,11 +30,27 @@ type Props = {
     requiredMessage?: string
     successMessage?: string
     disableAutocomplete?: boolean
+    maxCharacters?: number
 
     onChange?: (value: string) => void
 
     formSync?: FormSync
 }
+
+const validationRules = [
+    {
+        assert: (value: string) => isURL(value, { protocols: ['http', 'https'] }),
+        error: `Enter a valid url`,
+    },
+    {
+        assert: (value: string) => isFacebookUrl(value),
+        error: 'Must be a Facebook url',
+    },
+    {
+        assert: (value: string) => isFacebookPageUrl(value),
+        error: 'Enter a Facebook page url',
+    },
+]
 
 export const FacebookPageInput = (props: Props): JSX.Element => {
     const label = props.label ?? 'Facebook page'
@@ -66,21 +82,9 @@ export const FacebookPageInput = (props: Props): JSX.Element => {
             prefix={props.hideIcon ? '' : icon}
             requiredMessage={props.requiredMessage ?? `Enter a Facebook page url`}
             successMessage={props.successMessage ?? ''}
-            validationRules={[
-                {
-                    assert: (value: string) => isURL(value, { protocols: ['http', 'https'] }),
-                    error: `Enter a valid url`,
-                },
-                {
-                    assert: (value: string) => isFacebookUrl(value),
-                    error: 'Must be a Facebook url',
-                },
-                {
-                    assert: (value: string) => isFacebookPageUrl(value),
-                    error: 'Enter a Facebook page url',
-                },
-            ]}
+            validationRules={validationRules}
             onUpdate={handleChange}
+            maxCharacters={props.maxCharacters}
             keyboard='url'
             formSync={props.formSync}
         />

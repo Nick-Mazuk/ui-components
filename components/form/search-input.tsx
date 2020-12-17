@@ -20,6 +20,8 @@ type Props = {
     disabled?: boolean
     hideIcon?: boolean
 
+    maxCharacters?: number
+
     onChange?: (value: string) => void
 
     formSync?: FormSync
@@ -54,6 +56,7 @@ export const SearchInput = (props: Props): JSX.Element => {
             optional
             hideOptionalLabel
             onUpdate={handleUpdate}
+            maxCharacters={props.maxCharacters}
             formSync={props.formSync}
         />
     )

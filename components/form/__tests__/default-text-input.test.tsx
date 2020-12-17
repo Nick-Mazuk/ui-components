@@ -33,6 +33,7 @@ type SpecialOptions = {
     requiredMessage?: boolean
     successMessage?: boolean
     hasProgress?: boolean
+    maxCharacters?: boolean
 
     hasIcon?: boolean
 }
@@ -46,12 +47,12 @@ type InputElement = (props: any) => JSX.Element
 type InputArray = [InputName, InputElement, ValidText, SpecialOptions]
 
 const Inputs: InputArray[] = [
-    ['date input', DateInput, 'October 27, 2021', { hasIcon: true }],
-    ['dollar input', DollarInput, '1', { hasProgress: true }],
+    ['date input', DateInput, 'October 27, 2021', { hasIcon: true, maxCharacters: false }],
+    ['dollar input', DollarInput, '1', { hasProgress: true, maxCharacters: false }],
     ['email input', EmailInput, 'example@email.com', { hasIcon: true }],
     ['name input', NameInput, 'Jane Smith', { hasIcon: true }],
     ['new password input', NewPasswordInput, 'letMeIn12345', { defaultValue: false }],
-    ['number input', NumberInput, '1', { hasProgress: true }],
+    ['number input', NumberInput, '1', { hasProgress: true, maxCharacters: false }],
     ['password input', PasswordInput, 'letMeIn12345', { defaultValue: false }],
     [
         'search input input',
@@ -229,7 +230,29 @@ test.each(Inputs.filter((array) => array[EXCEPTION_INDEX].successMessage !== fal
     }
 )
 
-test.each(Inputs.filter((array) => array[EXCEPTION_INDEX].hasProgress === true))(
+test.each(Inputs.filter((array) => array[EXCEPTION_INDEX].maxCharacters !== false))(
+    'Limits input to "%s" characters',
+    (_, Input, validText) => {
+        const MAX_CHARACTERS = 5
+        render(<Input maxCharacters={MAX_CHARACTERS} />)
+        expect(screen.getByText(`0 / ${MAX_CHARACTERS}`)).toBeTruthy()
+
+        userEvent.type(screen.getByTestId('text-input-element'), validText)
+
+        expect(
+            screen.getByText(`${Math.min(5, validText.length)} / ${MAX_CHARACTERS}`)
+        ).toBeTruthy()
+
+        expect(
+            (
+                screen.getByTestId('text-input-element').getAttribute('value') ??
+                screen.getByTestId('text-input-element').textContent
+            )?.length
+        ).toBeLessThanOrEqual(MAX_CHARACTERS)
+    }
+)
+
+test.each(Inputs.filter((array) => array[EXCEPTION_INDEX].hasProgress))(
     '%s renders progress',
     (_, Input, validText) => {
         const progressMock = jest.fn((value: string) => `progress: ${value}`)

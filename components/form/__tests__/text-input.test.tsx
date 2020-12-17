@@ -609,6 +609,37 @@ describe('progress works as expected', () => {
         userEvent.tab()
         expect(screen.getByText('11 / 23')).toBeTruthy()
     })
+
+    test('progress overrides maxCharacters', () => {
+        const mock = jest.fn((value: string) => `${value.length} / 23`)
+        render(<TextInput type='text' label='Name' progress={mock} maxCharacters={10} />)
+        expect(screen.getByText('0 / 23')).toBeTruthy()
+        expect(mock).toHaveBeenCalledTimes(1)
+
+        const input = screen.getByRole('textbox')
+        userEvent.type(input, 'hello world')
+        expect(input).toHaveValue('hello worl')
+
+        expect(screen.getByText('10 / 23')).toBeTruthy()
+
+        userEvent.tab()
+        expect(screen.getByText('10 / 23')).toBeTruthy()
+    })
+})
+
+describe('maxCharacters stops a user from typing too much text', () => {
+    test('progress is called every keystroke', () => {
+        render(<TextInput type='text' label='Name' maxCharacters={5} />)
+
+        expect(screen.getByText('0 / 5')).toBeTruthy()
+
+        const input = screen.getByRole('textbox')
+        userEvent.type(input, 'hello world')
+
+        expect(input).toHaveValue('hello')
+
+        expect(screen.getByText('5 / 5')).toBeTruthy()
+    })
 })
 
 /* 

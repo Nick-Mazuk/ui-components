@@ -29,6 +29,7 @@ type Props = {
     formatter?: Formatter
     progress?: Progress
     onChange?: (value: string) => void
+    maxCharacters?: number
 
     formSync?: FormSync
 }
@@ -66,6 +67,7 @@ export const TextAreaInput = (props: Props): JSX.Element => {
             parser={props.parser}
             formatter={props.formatter}
             progress={props.progress}
+            maxCharacters={props.maxCharacters}
             formSync={props.formSync}
         />
     )

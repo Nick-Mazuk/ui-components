@@ -35,6 +35,7 @@ type Props = {
     requiredMessage?: string
     successMessage?: string
     disableAutocomplete?: boolean
+    maxCharacters?: number
 
     onChange?: (value: string) => void
 
@@ -92,6 +93,7 @@ export const YouTubeChannelInput = (props: Props): JSX.Element => {
             validationRules={validationRules}
             parser={getYouTubeChannelId}
             onUpdate={handleChange}
+            maxCharacters={props.maxCharacters}
             keyboard='url'
             formSync={props.formSync}
         />

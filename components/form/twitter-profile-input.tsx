@@ -30,6 +30,7 @@ type Props = {
     requiredMessage?: string
     successMessage?: string
     disableAutocomplete?: boolean
+    maxCharacters?: number
 
     onChange?: (value: string) => void
 
@@ -76,6 +77,7 @@ export const TwitterProfileInput = (props: Props): JSX.Element => {
                 },
             ]}
             onUpdate={handleChange}
+            maxCharacters={props.maxCharacters}
             keyboard='url'
             formSync={props.formSync}
         />

@@ -30,6 +30,7 @@ type Props = {
     requiredMessage?: string
     successMessage?: string
     disableAutocomplete?: boolean
+    maxCharacters?: number
 
     onChange?: (value: string) => void
 
@@ -73,6 +74,7 @@ export const UrlInput = (props: Props): JSX.Element => {
                 { assert: (value: string) => !isEmail(value), error: 'Cannot be an email' },
             ]}
             onUpdate={handleChange}
+            maxCharacters={props.maxCharacters}
             autoComplete={props.disableAutocomplete ? '' : 'url'}
             keyboard='url'
             formSync={props.formSync}

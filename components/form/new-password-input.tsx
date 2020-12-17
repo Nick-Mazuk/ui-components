@@ -26,6 +26,7 @@ type Props = {
     requiredMessage?: string
     successMessage?: string
     disableAutocomplete?: boolean
+    maxCharacters?: number
 
     onChange?: (value: string) => void
 
@@ -65,6 +66,7 @@ export const NewPasswordInput = (props: Props): JSX.Element => {
             autoComplete={props.disableAutocomplete ? '' : 'new-password'}
             validationRules={props.validationRules}
             onUpdate={handleChange}
+            maxCharacters={props.maxCharacters}
             formSync={props.formSync}
         />
     )

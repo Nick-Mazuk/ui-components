@@ -28,6 +28,7 @@ type Props = {
     hideIcon?: boolean
     requiredMessage?: string
     successMessage?: string
+    maxCharacters?: number
 
     onChange?: (value: string) => void
 
@@ -87,6 +88,7 @@ export const NameInput = (props: Props): JSX.Element => {
             ]}
             onUpdate={handleChange}
             parser={parser}
+            maxCharacters={props.maxCharacters}
             formSync={props.formSync}
         />
     )
