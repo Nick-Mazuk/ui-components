@@ -36,6 +36,8 @@ type Props = {
     successMessage?: string
     validationRules?: ValidationRules
 
+    onChange?: (value: string) => void
+
     formSync?: FormSync
 }
 
@@ -60,11 +62,14 @@ const onUpdate = (number: string, oldNumber: string, decimals: number | undefine
 
 export const NumberInput = (props: Props): JSX.Element => {
     const maxDecimals = props.maxDecimals ?? props.decimals
+    const { onChange } = props
     const updater = useCallback(
         (number: string, oldNumber: string): string => {
-            return onUpdate(number, oldNumber, maxDecimals)
+            const newNumber = onUpdate(number, oldNumber, maxDecimals)
+            if (newNumber !== oldNumber && onChange) onChange(newNumber)
+            return newNumber
         },
-        [maxDecimals]
+        [maxDecimals, onChange]
     )
 
     const formatter = useCallback(

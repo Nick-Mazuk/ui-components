@@ -1,3 +1,5 @@
+import { useCallback } from 'react'
+
 import {
     isYouTubeVideoUrl,
     getYouTubeChannelId,
@@ -34,12 +36,41 @@ type Props = {
     successMessage?: string
     disableAutocomplete?: boolean
 
+    onChange?: (value: string) => void
+
     formSync?: FormSync
 }
+
+const validationRules = [
+    {
+        assert: (value: string) => isURL(value, { protocols: ['http', 'https'] }),
+        error: `Enter a valid url`,
+    },
+    {
+        assert: (value: string) => isYouTubeUrl(value),
+        error: 'Must be a YouTube url',
+    },
+    {
+        assert: (value: string) => !isYouTubeVideoUrl(value),
+        error: 'Cannot be a video url',
+    },
+    {
+        assert: (value: string) => isYouTubeChannelUrl(value),
+        error: 'Enter a valid channel url',
+    },
+]
 
 export const YouTubeChannelInput = (props: Props): JSX.Element => {
     const label = props.label ?? 'YouTube channel'
     const icon = props.icon ?? <YouTube />
+    const { onChange } = props
+    const handleChange = useCallback(
+        (value: string): string => {
+            if (onChange) onChange(value)
+            return value
+        },
+        [onChange]
+    )
     return (
         <TextInput
             id={props.id}
@@ -58,25 +89,9 @@ export const YouTubeChannelInput = (props: Props): JSX.Element => {
             prefix={props.hideIcon ? '' : icon}
             requiredMessage={props.requiredMessage ?? `Enter a YouTube channel url`}
             successMessage={props.successMessage ?? ''}
-            validationRules={[
-                {
-                    assert: (value: string) => isURL(value, { protocols: ['http', 'https'] }),
-                    error: `Enter a valid url`,
-                },
-                {
-                    assert: (value: string) => isYouTubeUrl(value),
-                    error: 'Must be a YouTube url',
-                },
-                {
-                    assert: (value: string) => !isYouTubeVideoUrl(value),
-                    error: 'Cannot be a video url',
-                },
-                {
-                    assert: (value: string) => isYouTubeChannelUrl(value),
-                    error: 'Enter a valid channel url',
-                },
-            ]}
+            validationRules={validationRules}
             parser={getYouTubeChannelId}
+            onUpdate={handleChange}
             keyboard='url'
             formSync={props.formSync}
         />

@@ -1,3 +1,5 @@
+import { useCallback } from 'react'
+
 import { isFacebookUrl, isFacebookPageUrl } from '@nick-mazuk/lib/facebook'
 import isURL from 'validator/lib/isURL'
 
@@ -29,12 +31,23 @@ type Props = {
     successMessage?: string
     disableAutocomplete?: boolean
 
+    onChange?: (value: string) => void
+
     formSync?: FormSync
 }
 
 export const FacebookPageInput = (props: Props): JSX.Element => {
     const label = props.label ?? 'Facebook page'
     const icon = props.icon ?? <Facebook />
+
+    const { onChange } = props
+    const handleChange = useCallback(
+        (value: string): string => {
+            if (onChange) onChange(value)
+            return value
+        },
+        [onChange]
+    )
     return (
         <TextInput
             id={props.id}
@@ -67,6 +80,7 @@ export const FacebookPageInput = (props: Props): JSX.Element => {
                     error: 'Enter a Facebook page url',
                 },
             ]}
+            onUpdate={handleChange}
             keyboard='url'
             formSync={props.formSync}
         />

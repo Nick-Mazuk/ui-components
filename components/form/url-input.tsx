@@ -1,3 +1,5 @@
+import { useCallback } from 'react'
+
 import isEmail from 'validator/lib/isEmail'
 import isURL from 'validator/lib/isURL'
 
@@ -29,12 +31,22 @@ type Props = {
     successMessage?: string
     disableAutocomplete?: boolean
 
+    onChange?: (value: string) => void
+
     formSync?: FormSync
 }
 
 export const UrlInput = (props: Props): JSX.Element => {
     const label = props.label ?? 'URL'
     const icon = props.icon ?? <Url />
+    const { onChange } = props
+    const handleChange = useCallback(
+        (value: string): string => {
+            if (onChange) onChange(value)
+            return value
+        },
+        [onChange]
+    )
     return (
         <TextInput
             id={props.id}
@@ -60,6 +72,7 @@ export const UrlInput = (props: Props): JSX.Element => {
                 },
                 { assert: (value: string) => !isEmail(value), error: 'Cannot be an email' },
             ]}
+            onUpdate={handleChange}
             autoComplete={props.disableAutocomplete ? '' : 'url'}
             keyboard='url'
             formSync={props.formSync}

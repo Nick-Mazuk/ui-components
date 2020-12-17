@@ -1,3 +1,5 @@
+import { useCallback } from 'react'
+
 import {
     isYouTubeVideoUrl,
     getYouTubeVideoId,
@@ -34,12 +36,42 @@ type Props = {
     successMessage?: string
     disableAutocomplete?: boolean
 
+    onChange?: (value: string) => void
+
     formSync?: FormSync
 }
+
+const validationRules = [
+    {
+        assert: (value: string) => isURL(value, { protocols: ['http', 'https'] }),
+        error: `Enter a valid url`,
+    },
+    {
+        assert: (value: string) => isYouTubeUrl(value),
+        error: 'Must be a YouTube url',
+    },
+    {
+        assert: (value: string) => !isYouTubeChannelUrl(value),
+        error: 'Cannot be a channel url',
+    },
+    {
+        assert: (value: string) => isYouTubeVideoUrl(value),
+        error: 'Enter a valid video url',
+    },
+]
 
 export const YouTubeVideoInput = (props: Props): JSX.Element => {
     const label = props.label ?? 'YouTube video'
     const icon = props.icon ?? <YouTube />
+
+    const { onChange } = props
+    const handleChange = useCallback(
+        (value: string): string => {
+            if (onChange) onChange(value)
+            return value
+        },
+        [onChange]
+    )
     return (
         <TextInput
             id={props.id}
@@ -58,25 +90,9 @@ export const YouTubeVideoInput = (props: Props): JSX.Element => {
             prefix={props.hideIcon ? '' : icon}
             requiredMessage={props.requiredMessage ?? `Enter a YouTube video url`}
             successMessage={props.successMessage ?? ''}
-            validationRules={[
-                {
-                    assert: (value: string) => isURL(value, { protocols: ['http', 'https'] }),
-                    error: `Enter a valid url`,
-                },
-                {
-                    assert: (value: string) => isYouTubeUrl(value),
-                    error: 'Must be a YouTube url',
-                },
-                {
-                    assert: (value: string) => !isYouTubeChannelUrl(value),
-                    error: 'Cannot be a channel url',
-                },
-                {
-                    assert: (value: string) => isYouTubeVideoUrl(value),
-                    error: 'Enter a valid video url',
-                },
-            ]}
+            validationRules={validationRules}
             parser={getYouTubeVideoId}
+            onUpdate={handleChange}
             keyboard='url'
             formSync={props.formSync}
         />

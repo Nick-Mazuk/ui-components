@@ -1,3 +1,5 @@
+import { useCallback } from 'react'
+
 import type { FormSync } from '.'
 import type { Sizes } from './helpers/text-input-base'
 import type { Formatter, Parser, Progress, Updater, ValidationRules } from './text-input'
@@ -26,11 +28,21 @@ type Props = {
     parser?: Parser
     formatter?: Formatter
     progress?: Progress
+    onChange?: (value: string) => void
 
     formSync?: FormSync
 }
 
 export const TextAreaInput = (props: Props): JSX.Element => {
+    const { onChange, onUpdate } = props
+    const handleChange = useCallback(
+        (value: string, oldValue: string): string => {
+            const newValue = onUpdate ? onUpdate(value, oldValue) : value
+            if (newValue !== oldValue && onChange) onChange(value)
+            return value
+        },
+        [onChange, onUpdate]
+    )
     return (
         <TextInput
             id={props.id}
@@ -49,7 +61,7 @@ export const TextAreaInput = (props: Props): JSX.Element => {
             autoComplete='off'
             successMessage={props.successMessage}
             requiredMessage={props.requiredMessage}
-            onUpdate={props.onUpdate}
+            onUpdate={handleChange}
             validationRules={props.validationRules}
             parser={props.parser}
             formatter={props.formatter}

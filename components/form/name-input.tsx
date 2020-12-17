@@ -1,3 +1,5 @@
+import { useCallback } from 'react'
+
 import { parseFullName } from 'parse-full-name'
 import isEmail from 'validator/lib/isEmail'
 import isURL from 'validator/lib/isURL'
@@ -27,6 +29,8 @@ type Props = {
     requiredMessage?: string
     successMessage?: string
 
+    onChange?: (value: string) => void
+
     formSync?: FormSync
 }
 
@@ -45,6 +49,14 @@ const parser = (name: string): Record<string, string> | string => {
 }
 
 export const NameInput = (props: Props): JSX.Element => {
+    const { onChange } = props
+    const handleChange = useCallback(
+        (value: string): string => {
+            if (onChange) onChange(value)
+            return value
+        },
+        [onChange]
+    )
     return (
         <TextInput
             id={props.id}
@@ -73,6 +85,7 @@ export const NameInput = (props: Props): JSX.Element => {
                     error: 'Cannot be a url',
                 },
             ]}
+            onUpdate={handleChange}
             parser={parser}
             formSync={props.formSync}
         />

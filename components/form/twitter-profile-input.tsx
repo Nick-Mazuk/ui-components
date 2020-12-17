@@ -1,3 +1,5 @@
+import { useCallback } from 'react'
+
 import { isTwitterUrl } from '@nick-mazuk/lib/twitter'
 import isURL from 'validator/lib/isURL'
 
@@ -29,12 +31,22 @@ type Props = {
     successMessage?: string
     disableAutocomplete?: boolean
 
+    onChange?: (value: string) => void
+
     formSync?: FormSync
 }
 
 export const TwitterProfileInput = (props: Props): JSX.Element => {
     const label = props.label ?? 'Twitter profile'
     const icon = props.icon ?? <Twitter />
+    const { onChange } = props
+    const handleChange = useCallback(
+        (value: string): string => {
+            if (onChange) onChange(value)
+            return value
+        },
+        [onChange]
+    )
     return (
         <TextInput
             id={props.id}
@@ -63,6 +75,7 @@ export const TwitterProfileInput = (props: Props): JSX.Element => {
                     error: 'Enter a Twitter profile url',
                 },
             ]}
+            onUpdate={handleChange}
             keyboard='url'
             formSync={props.formSync}
         />

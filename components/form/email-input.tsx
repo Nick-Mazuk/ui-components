@@ -1,3 +1,5 @@
+import { useCallback } from 'react'
+
 import isEmail from 'validator/lib/isEmail'
 import normalizeEmail from 'validator/lib/normalizeEmail'
 
@@ -27,6 +29,8 @@ type Props = {
     successMessage?: string
     disableAutocomplete?: boolean
 
+    onChange?: (value: string) => void
+
     formSync?: FormSync
 }
 
@@ -46,6 +50,14 @@ const parser = (email: string): string => {
 }
 
 export const EmailInput = (props: Props): JSX.Element => {
+    const { onChange } = props
+    const handleChange = useCallback(
+        (value: string): string => {
+            if (onChange) onChange(value)
+            return value
+        },
+        [onChange]
+    )
     return (
         <TextInput
             id={props.id}
@@ -71,6 +83,7 @@ export const EmailInput = (props: Props): JSX.Element => {
                 },
             ]}
             parser={parser}
+            onUpdate={handleChange}
             autoComplete={props.disableAutocomplete ? '' : 'email'}
             keyboard='email'
             formSync={props.formSync}

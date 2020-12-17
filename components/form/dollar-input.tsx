@@ -24,6 +24,8 @@ type Props = {
     requiredMessage?: string
     successMessage?: string
 
+    onChange?: (value: string) => void
+
     formSync?: FormSync
 }
 
@@ -44,6 +46,7 @@ export const DollarInput = (props: Props): JSX.Element => {
             disabled={props.disabled}
             successMessage={props.successMessage}
             requiredMessage={props.requiredMessage}
+            onChange={props.onChange}
             decimals={2}
             prefix='$'
             formSync={props.formSync}

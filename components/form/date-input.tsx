@@ -1,3 +1,5 @@
+import { useCallback } from 'react'
+
 import { isNumber } from '@nick-mazuk/lib/number-styling'
 import { dateStringToMilli, isValidDate } from '@nick-mazuk/lib/time'
 
@@ -27,6 +29,8 @@ type Props = {
     requiredMessage?: string
     successMessage?: string
 
+    onChange?: (value: string) => void
+
     formSync?: FormSync
 }
 
@@ -35,6 +39,14 @@ const parser = (date: string): string => {
 }
 
 export const DateInput = (props: Props): JSX.Element => {
+    const { onChange } = props
+    const handleChange = useCallback(
+        (value: string): string => {
+            if (onChange) onChange(value)
+            return value
+        },
+        [onChange]
+    )
     return (
         <TextInput
             type='text'
@@ -52,6 +64,7 @@ export const DateInput = (props: Props): JSX.Element => {
             disabled={props.disabled}
             successMessage={props.successMessage}
             requiredMessage={props.requiredMessage}
+            onUpdate={handleChange}
             validationRules={[
                 {
                     assert: (value: string) => isValidDate(value),

@@ -25,12 +25,22 @@ type Props = {
     successMessage?: string
     disableAutocomplete?: boolean
 
+    onChange?: (value: string) => void
+
     formSync?: FormSync
 }
 
 export const PasswordInput = (props: Props): JSX.Element => {
     const [showPassword, setShowPassword] = useState(false)
     const toggleShowPassword = useCallback(() => setShowPassword(!showPassword), [showPassword])
+    const { onChange } = props
+    const handleChange = useCallback(
+        (value: string): string => {
+            if (onChange) onChange(value)
+            return value
+        },
+        [onChange]
+    )
     return (
         <TextInput
             id={props.id}
@@ -51,6 +61,7 @@ export const PasswordInput = (props: Props): JSX.Element => {
             requiredMessage={props.requiredMessage ?? 'Enter your password'}
             successMessage={props.successMessage ?? ''}
             autoComplete={props.disableAutocomplete ? 'off' : 'current-password'}
+            onUpdate={handleChange}
             formSync={props.formSync}
         />
     )

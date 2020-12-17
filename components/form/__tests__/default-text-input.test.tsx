@@ -55,7 +55,7 @@ const Inputs: InputArray[] = [
     [
         'search input input',
         SearchInput,
-        '',
+        'some valid search',
         {
             hasIcon: true,
             optional: false,
@@ -252,6 +252,14 @@ test.each(Inputs.filter((array) => array[EXCEPTION_INDEX].hasIcon))(
         expect(container.querySelector('svg')).toBeFalsy()
     }
 )
+
+test.each(Inputs)("%s let's you get the current value on every change", (_, Input, validText) => {
+    const onChangeMock = jest.fn()
+    render(<Input onChange={onChangeMock} />)
+    userEvent.type(screen.getByTestId('text-input-element'), validText)
+    expect(onChangeMock).toHaveBeenCalledTimes(validText.length)
+    expect(onChangeMock).toHaveBeenLastCalledWith(validText)
+})
 
 test.each(Inputs)('%s syncs via formSync', (_, Input) => {
     const formSync: FormSync = {
