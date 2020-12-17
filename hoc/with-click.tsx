@@ -55,6 +55,7 @@ export const WithClick = ({
             role={role}
             tabIndex={tabIndex}
             className={className}
+            type='button'
         >
             {children}
         </Tag>
