@@ -147,11 +147,11 @@ export const TextInput = (props: Props): JSX.Element => {
     )
 
     const clearData = useCallback(() => {
-        updateValue('')
+        updateValue(defaultValue)
         setValid(true)
         setShowSuccess(false)
         setErrorMessage('')
-    }, [updateValue])
+    }, [defaultValue, updateValue])
 
     const updateValidation: ValidateFunction = useCallback(
         (inputValue) => {

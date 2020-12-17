@@ -1,8 +1,9 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { shallow } from 'enzyme'
 
 import type { FormSync } from '..'
+import { Form } from '..'
 import { User } from '../../../elements/icon'
 import type { Autocomplete, Type } from '../helpers/text-input-base'
 import { TextInput } from '../text-input'
@@ -733,5 +734,62 @@ describe('formSync works', () => {
             expect.any(Function),
             expect.any(Function)
         )
+    })
+
+    test('When the form is cleared, the text input value is ""', async () => {
+        render(
+            <Form handleSubmit={jest.fn(() => Promise.resolve(true))} clearOnSubmit>
+                {(formSync) => {
+                    return (
+                        <>
+                            <TextInput
+                                type='text'
+                                label='Name'
+                                name='form-sync-name'
+                                formSync={formSync}
+                            />
+                            <p>{`Form state: ${formSync.state}`}</p>
+                        </>
+                    )
+                }}
+            </Form>
+        )
+
+        const input = screen.getByRole('textbox')
+        userEvent.type(input, 'hello world')
+        expect(input).toHaveValue('hello world')
+        userEvent.type(input, '{enter}')
+        await waitFor(() => expect(screen.getByText('Form state: submitted')).toBeTruthy())
+        expect(input).toHaveValue('')
+    })
+
+    test('When the form is cleared, the text input value is the defaultValue if provided', async () => {
+        const defaultValue = 'default'
+        render(
+            <Form handleSubmit={jest.fn(() => Promise.resolve(true))} clearOnSubmit>
+                {(formSync) => {
+                    return (
+                        <>
+                            <TextInput
+                                type='text'
+                                label='Name'
+                                name='form-sync-name'
+                                defaultValue={defaultValue}
+                                formSync={formSync}
+                            />
+                            <p>{`Form state: ${formSync.state}`}</p>
+                        </>
+                    )
+                }}
+            </Form>
+        )
+
+        const input = screen.getByRole('textbox')
+        userEvent.clear(input)
+        userEvent.type(input, 'hello world')
+        expect(input).toHaveValue('hello world')
+        userEvent.type(input, '{enter}')
+        await waitFor(() => expect(screen.getByText('Form state: submitted')).toBeTruthy())
+        expect(input).toHaveValue(defaultValue)
     })
 })
