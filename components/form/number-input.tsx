@@ -100,6 +100,7 @@ export const NumberInput = (props: Props): JSX.Element => {
             formatter={formatter}
             onUpdate={updater}
             parser={parser}
+            progress={props.progress}
             tabNums
             keyboard='decimal'
             validationRules={props.validationRules}

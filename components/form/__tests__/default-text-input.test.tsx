@@ -32,6 +32,7 @@ type SpecialOptions = {
     disabled?: boolean
     requiredMessage?: boolean
     successMessage?: boolean
+    hasProgress?: boolean
 
     hasIcon?: boolean
 }
@@ -46,12 +47,12 @@ type InputArray = [InputName, InputElement, ValidText, SpecialOptions]
 
 const Inputs: InputArray[] = [
     ['date input', DateInput, 'October 27, 2021', { hasIcon: true }],
-    ['dollar input', DollarInput, '1', {}],
+    ['dollar input', DollarInput, '1', { hasProgress: true }],
     ['email input', EmailInput, 'example@email.com', { hasIcon: true }],
     ['name input', NameInput, 'Jane Smith', { hasIcon: true }],
-    ['new password input', NewPasswordInput, 'letmein12345', { defaultValue: false }],
-    ['number input', NumberInput, '1', {}],
-    ['password input', PasswordInput, 'letmein12345', { defaultValue: false }],
+    ['new password input', NewPasswordInput, 'letMeIn12345', { defaultValue: false }],
+    ['number input', NumberInput, '1', { hasProgress: true }],
+    ['password input', PasswordInput, 'letMeIn12345', { defaultValue: false }],
     [
         'search input input',
         SearchInput,
@@ -225,6 +226,18 @@ test.each(Inputs.filter((array) => array[EXCEPTION_INDEX].successMessage !== fal
         userEvent.tab()
 
         expect(screen.getByText('This is some valid input.')).toBeTruthy()
+    }
+)
+
+test.each(Inputs.filter((array) => array[EXCEPTION_INDEX].hasProgress === true))(
+    '%s renders progress',
+    (_, Input, validText) => {
+        const progressMock = jest.fn((value: string) => `progress: ${value}`)
+        render(<Input progress={progressMock} />)
+
+        userEvent.type(screen.getByTestId('text-input-element'), validText)
+
+        expect(screen.getByText(`progress: ${validText}`)).toBeTruthy()
     }
 )
 

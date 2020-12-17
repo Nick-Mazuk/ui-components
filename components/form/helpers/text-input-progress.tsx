@@ -15,7 +15,7 @@ export const Progress = ({ text, invalid }: Props): JSX.Element => {
     const classes = classNames('ml-auto', { 'text-error': invalid })
 
     return (
-        <div className={classes}>
+        <div className={classes} data-testid='text-input-progress'>
             <Text tiny>{text}</Text>
         </div>
     )
