@@ -10,7 +10,7 @@ import {
 import type { FormSync } from '.'
 import type { AffixContent } from './helpers/text-input-affix'
 import type { Sizes } from './helpers/text-input-base'
-import type { ValidationRules } from './text-input'
+import type { Progress, ValidationRules } from './text-input'
 import { TextInput } from './text-input'
 
 type Props = {
@@ -35,6 +35,7 @@ type Props = {
     requiredMessage?: string
     successMessage?: string
     validationRules?: ValidationRules
+    progress?: Progress
 
     onChange?: (value: string) => void
 

@@ -2,6 +2,7 @@ import type { FormSync } from '.'
 import type { AffixContent } from './helpers/text-input-affix'
 import type { Sizes } from './helpers/text-input-base'
 import { NumberInput } from './number-input'
+import type { Progress } from './text-input'
 
 type Props = {
     children?: never
@@ -23,6 +24,7 @@ type Props = {
     prefix?: AffixContent
     requiredMessage?: string
     successMessage?: string
+    progress?: Progress
 
     onChange?: (value: string) => void
 
@@ -48,6 +50,7 @@ export const DollarInput = (props: Props): JSX.Element => {
             requiredMessage={props.requiredMessage}
             onChange={props.onChange}
             decimals={2}
+            progress={props.progress}
             prefix='$'
             formSync={props.formSync}
         />
