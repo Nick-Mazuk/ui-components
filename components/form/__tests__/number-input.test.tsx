@@ -133,3 +133,22 @@ test.each(lessThanValues)('Typing "%s" with a max of "%s" produces an error', (n
 
     expect(screen.getByText('Error:')).toBeTruthy()
 })
+
+// for disallowing negatives
+
+const negativeInputs: [string, string][] = [
+    ['-123', '123'],
+    ['123', '123'],
+]
+
+test.each(negativeInputs)(
+    'With negatives disallowed, typing "%s" displays ""%s',
+    (number, displayedNumber) => {
+        render(<NumberInput name='number' disallowNegatives />)
+        const input = screen.getByTestId('text-input-element')
+        userEvent.type(input, number)
+        userEvent.tab()
+
+        expect(input).toHaveValue(displayedNumber)
+    }
+)

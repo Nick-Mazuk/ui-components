@@ -34,6 +34,7 @@ type Props = {
     maxDecimals?: number
     min?: number
     max?: number
+    disallowNegatives?: boolean
 
     prefix?: AffixContent
     requiredMessage?: string
@@ -55,7 +56,13 @@ const onFormat = (number: string, decimals: number | undefined): string => {
     return formatNumber(number)
 }
 
-const onUpdate = (number: string, oldNumber: string, decimals: number | undefined): string => {
+const onUpdate = (
+    number: string,
+    oldNumber: string,
+    decimals: number | undefined,
+    disallowNegatives: boolean | undefined
+): string => {
+    if (disallowNegatives && number.match(/-/u)) return oldNumber
     if (number === '' || number === '-') return number
     if (isNumber(number)) {
         let string = addThousandsSeparators(number)
@@ -88,11 +95,11 @@ export const NumberInput = (props: Props): JSX.Element => {
     const { onChange } = props
     const updater = useCallback(
         (number: string, oldNumber: string): string => {
-            const newNumber = onUpdate(number, oldNumber, maxDecimals)
+            const newNumber = onUpdate(number, oldNumber, maxDecimals, props.disallowNegatives)
             if (newNumber !== oldNumber && onChange) onChange(newNumber)
             return newNumber
         },
-        [maxDecimals, onChange]
+        [maxDecimals, onChange, props.disallowNegatives]
     )
 
     const formatter = useCallback(
