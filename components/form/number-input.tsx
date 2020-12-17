@@ -63,6 +63,7 @@ const onUpdate = (
     disallowNegatives: boolean | undefined
 ): string => {
     if (disallowNegatives && number.match(/-/u)) return oldNumber
+    if (decimals === 0 && number.match(/\./u)) return oldNumber
     if (number === '' || number === '-') return number
     if (isNumber(number)) {
         let string = addThousandsSeparators(number)

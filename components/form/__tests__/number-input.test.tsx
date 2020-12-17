@@ -152,3 +152,17 @@ test.each(negativeInputs)(
         expect(input).toHaveValue(displayedNumber)
     }
 )
+
+test('if maxDecimals is 0, user cannot type the decimal point', () => {
+    render(<NumberInput name='number' maxDecimals={0} />)
+    const input = screen.getByTestId('text-input-element')
+    userEvent.type(input, '1.')
+    expect(input).toHaveValue('1')
+})
+
+test('if decimals is 0, user cannot type the decimal point', () => {
+    render(<NumberInput name='number' decimals={0} />)
+    const input = screen.getByTestId('text-input-element')
+    userEvent.type(input, '1.')
+    expect(input).toHaveValue('1')
+})
