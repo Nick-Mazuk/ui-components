@@ -27,7 +27,8 @@ type UpdateForm = (
     clear: ClearFunction
 ) => void
 
-type HandleSubmit = (data: PublicFormData) => Promise<boolean>
+// eslint-disable-next-line import/exports-last -- used in production for form submit functions
+export type HandleSubmit = (data: PublicFormData) => Promise<boolean>
 
 type Methods = 'post' | 'get'
 
