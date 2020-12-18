@@ -11,7 +11,14 @@ const onChange = jest.fn()
 
 test('renders without crashing', () => {
     const { baseElement } = render(
-        <TextInputBase type='text' name='name' id='id' value='value' onChange={onChange} />
+        <TextInputBase
+            type='text'
+            name='name'
+            id='id'
+            value='value'
+            onChange={onChange}
+            onKeyPress={jest.fn()}
+        />
     )
     expect(baseElement).not.toBeEmptyDOMElement()
 })
@@ -19,12 +26,30 @@ test('renders without crashing', () => {
 describe('name and id work correctly', () => {
     const names = ['', 'name', 'current-password', chance.string()]
     it.each(names)('name "%s" is specified on the input element', (name) => {
-        render(<TextInputBase type='text' name={name} id='id' value='value' onChange={onChange} />)
+        render(
+            <TextInputBase
+                type='text'
+                name={name}
+                id='id'
+                value='value'
+                onChange={onChange}
+                onKeyPress={jest.fn()}
+            />
+        )
         expect(screen.getByTestId('text-input-element').getAttribute('name')).toBe(name)
     })
     const ids = ['', 'id', 'current-password', chance.string()]
     it.each(ids)('id "%s" is specified on the input element', (id) => {
-        render(<TextInputBase type='text' name='name' id={id} value='value' onChange={onChange} />)
+        render(
+            <TextInputBase
+                type='text'
+                name='name'
+                id={id}
+                value='value'
+                onChange={onChange}
+                onKeyPress={jest.fn()}
+            />
+        )
         expect(screen.getByTestId('text-input-element').getAttribute('id')).toBe(id)
     })
 })
@@ -39,6 +64,7 @@ describe('type works correctly', () => {
                 id='id'
                 value='value'
                 onChange={onChange}
+                onKeyPress={jest.fn()}
             />
         )
         expect(screen.getByRole('textbox').getAttribute('type')).toBe(type)
@@ -56,6 +82,7 @@ describe('label is present', () => {
                 value='value'
                 label={label}
                 onChange={onChange}
+                onKeyPress={jest.fn()}
             />
         )
         expect(screen.getByText(label)).toBeTruthy()
@@ -73,12 +100,22 @@ describe('tooltip is present', () => {
                 value='value'
                 info={tooltip}
                 onChange={onChange}
+                onKeyPress={jest.fn()}
             />
         )
         expect(screen.getByText(tooltip)).toBeTruthy()
     })
     it('tooltip is not present when not provided', () => {
-        render(<TextInputBase type='url' name='name' id='id' value='value' onChange={onChange} />)
+        render(
+            <TextInputBase
+                type='url'
+                name='name'
+                id='id'
+                value='value'
+                onChange={onChange}
+                onKeyPress={jest.fn()}
+            />
+        )
         expect(screen.queryByTestId('tooltip')).toBeFalsy()
     })
 })
@@ -93,12 +130,22 @@ describe('optional works when present', () => {
                 value='value'
                 optional
                 onChange={onChange}
+                onKeyPress={jest.fn()}
             />
         )
         expect(screen.getByText(/optional/u)).toBeTruthy()
     })
     it('optional text is not present when not optional', () => {
-        render(<TextInputBase type='url' name='name' id='id' value='value' onChange={onChange} />)
+        render(
+            <TextInputBase
+                type='url'
+                name='name'
+                id='id'
+                value='value'
+                onChange={onChange}
+                onKeyPress={jest.fn()}
+            />
+        )
         expect(screen.queryByText(/optional/u)).toBeFalsy()
     })
     it("if hideOptionalLabel, don't show optional text", () => {
@@ -111,6 +158,7 @@ describe('optional works when present', () => {
                 optional
                 hideOptionalLabel
                 onChange={onChange}
+                onKeyPress={jest.fn()}
             />
         )
         expect(screen.queryByText(/optional/u)).toBeFalsy()
@@ -127,13 +175,23 @@ describe('readonly works when present', () => {
                 value='value'
                 readonly
                 onChange={onChange}
+                onKeyPress={jest.fn()}
             />
         )
         expect(screen.getByText(/readonly/u)).toBeTruthy()
         expect(screen.getByRole('textbox').getAttribute('readonly')).not.toBeNull()
     })
     it('readonly text and attribute are not present when not readonly', () => {
-        render(<TextInputBase type='url' name='name' id='id' value='value' onChange={onChange} />)
+        render(
+            <TextInputBase
+                type='url'
+                name='name'
+                id='id'
+                value='value'
+                onChange={onChange}
+                onKeyPress={jest.fn()}
+            />
+        )
         expect(screen.queryByText(/readonly/u)).toBeFalsy()
         expect(screen.getByRole('textbox').getAttribute('readonly')).toBeNull()
     })
@@ -150,6 +208,7 @@ describe('help text appears properly', () => {
                 value='value'
                 help={helpText}
                 onChange={onChange}
+                onKeyPress={jest.fn()}
             />
         )
         expect(screen.getByText(helpText)).toBeTruthy()
@@ -167,6 +226,7 @@ describe('feedback text works correctly', () => {
                 value='value'
                 error={error}
                 onChange={onChange}
+                onKeyPress={jest.fn()}
             />
         )
         expect(screen.getByText(error)).toBeTruthy()
@@ -181,6 +241,7 @@ describe('feedback text works correctly', () => {
                 value='value'
                 success={success}
                 onChange={onChange}
+                onKeyPress={jest.fn()}
             />
         )
         expect(screen.getByText(success)).toBeTruthy()
@@ -195,6 +256,7 @@ describe('feedback text works correctly', () => {
                 success='this is some more success text'
                 error='this is some more error text'
                 onChange={onChange}
+                onKeyPress={jest.fn()}
             />
         )
         expect(screen.queryByText('this is some more success text.')).toBeFalsy()
@@ -213,6 +275,7 @@ describe('progress works correctly', () => {
                 value='value'
                 progress={progress}
                 onChange={onChange}
+                onKeyPress={jest.fn()}
             />
         )
         expect(screen.getByText(progress)).toBeTruthy()
@@ -230,6 +293,7 @@ describe('placeholder prop works correctly', () => {
                 value='value'
                 placeholder={placeholder}
                 onChange={onChange}
+                onKeyPress={jest.fn()}
             />
         )
         expect(screen.getByRole('textbox').getAttribute('placeholder')).toBe(placeholder)
@@ -243,12 +307,22 @@ describe('placeholder prop works correctly', () => {
                 id='id'
                 value='value'
                 onChange={onChange}
+                onKeyPress={jest.fn()}
             />
         )
         expect(screen.getByRole('textbox').getAttribute('placeholder')).toBeFalsy()
     })
     it('input does not have placeholder prop is not specified', () => {
-        render(<TextInputBase type='text' name='name' id='id' value='value' onChange={onChange} />)
+        render(
+            <TextInputBase
+                type='text'
+                name='name'
+                id='id'
+                value='value'
+                onChange={onChange}
+                onKeyPress={jest.fn()}
+            />
+        )
         expect(screen.getByRole('textbox').getAttribute('placeholder')).toBeFalsy()
     })
 })
@@ -263,6 +337,7 @@ describe('disabled prop works correctly', () => {
                 value='value'
                 disabled
                 onChange={onChange}
+                onKeyPress={jest.fn()}
             />
         )
         expect(screen.getByRole('textbox')).toBeDisabled()
@@ -276,12 +351,22 @@ describe('disabled prop works correctly', () => {
                 value='value'
                 disabled={false}
                 onChange={onChange}
+                onKeyPress={jest.fn()}
             />
         )
         expect(screen.getByRole('textbox')).toBeEnabled()
     })
     it('input is not disabled prop when undefined', () => {
-        render(<TextInputBase type='text' name='name' id='id' value='value' onChange={onChange} />)
+        render(
+            <TextInputBase
+                type='text'
+                name='name'
+                id='id'
+                value='value'
+                onChange={onChange}
+                onKeyPress={jest.fn()}
+            />
+        )
         expect(screen.getByRole('textbox')).toBeEnabled()
     })
 })
@@ -297,12 +382,22 @@ describe('autocomplete prop works correctly', () => {
                 value='value'
                 autoComplete={autoComplete as Autocomplete}
                 onChange={onChange}
+                onKeyPress={jest.fn()}
             />
         )
         expect(screen.getByRole('textbox').getAttribute('autocomplete')).toBe(autoComplete)
     })
     it('input does not have autocomplete prop when undefined', () => {
-        render(<TextInputBase type='text' name='name' id='id' value='value' onChange={onChange} />)
+        render(
+            <TextInputBase
+                type='text'
+                name='name'
+                id='id'
+                value='value'
+                onChange={onChange}
+                onKeyPress={jest.fn()}
+            />
+        )
         expect(screen.getByRole('textbox').getAttribute('autocomplete')).toBeFalsy()
     })
 })
@@ -318,12 +413,22 @@ describe('keyboard prop works correctly', () => {
                 value='value'
                 keyboard={keyboard as Keyboard}
                 onChange={onChange}
+                onKeyPress={jest.fn()}
             />
         )
         expect(screen.getByRole('textbox').getAttribute('inputmode')).toBe(keyboard)
     })
     it('input does not have keyboard prop when undefined', () => {
-        render(<TextInputBase type='text' name='name' id='id' value='value' onChange={onChange} />)
+        render(
+            <TextInputBase
+                type='text'
+                name='name'
+                id='id'
+                value='value'
+                onChange={onChange}
+                onKeyPress={jest.fn()}
+            />
+        )
         expect(screen.getByRole('textbox').getAttribute('inputmode')).toBeFalsy()
     })
 })
@@ -339,6 +444,7 @@ describe('affixes display when provided', () => {
                 value='value'
                 onChange={onChange}
                 prefix={affix}
+                onKeyPress={jest.fn()}
             />
         )
         expect(screen.getByText(affix)).toBeTruthy()
@@ -352,6 +458,7 @@ describe('affixes display when provided', () => {
                 value='value'
                 onChange={onChange}
                 suffix={affix}
+                onKeyPress={jest.fn()}
             />
         )
         expect(screen.getByText(affix)).toBeTruthy()
@@ -370,6 +477,7 @@ describe('when affixes are clicked, the correct action happens', () => {
                 onChange={onChange}
                 prefix='$'
                 prefixOnClick={onClickPrefixMock}
+                onKeyPress={jest.fn()}
             />
         )
         userEvent.click(screen.getByRole('button'))
@@ -386,6 +494,7 @@ describe('when affixes are clicked, the correct action happens', () => {
                 onChange={onChange}
                 suffix='$'
                 suffixOnClick={onClickSuffixMock}
+                onKeyPress={jest.fn()}
             />
         )
         userEvent.click(screen.getByRole('button'))
@@ -405,6 +514,7 @@ describe('when affixes are clicked, the correct action happens', () => {
                 prefixOnClick={onClickPrefixMock}
                 suffix='.00'
                 suffixOnClick={onClickSuffixMock}
+                onKeyPress={jest.fn()}
             />
         )
         const [prefix, suffix] = screen.getAllByRole('button')
@@ -422,7 +532,16 @@ describe('when affixes are clicked, the correct action happens', () => {
 describe('function hooks work when called', () => {
     it('onChange is called when value changes for input', () => {
         const onChangeMock = jest.fn()
-        render(<TextInputBase type='text' name='name' id='id' value='' onChange={onChangeMock} />)
+        render(
+            <TextInputBase
+                type='text'
+                name='name'
+                id='id'
+                value=''
+                onChange={onChangeMock}
+                onKeyPress={jest.fn()}
+            />
+        )
 
         const input = screen.getByRole('textbox')
         expect(input.getAttribute('value')).toBe('')
@@ -439,6 +558,7 @@ describe('function hooks work when called', () => {
                 value='value'
                 onFocus={onFocusMock}
                 onChange={onChange}
+                onKeyPress={jest.fn()}
             />
         )
 
@@ -457,6 +577,7 @@ describe('function hooks work when called', () => {
                 value='value'
                 onBlur={onBlurMock}
                 onChange={onChange}
+                onKeyPress={jest.fn()}
             />
         )
         const input = screen.getByRole('textbox')
