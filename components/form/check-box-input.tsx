@@ -26,16 +26,16 @@ export const CheckBoxInput = ({
     formSync,
 }: Props): JSX.Element => {
     const [checked, setChecked] = useState(defaultValue === 'checked')
-    const [isValid, setIsValid] = useState(true)
+    const [isValid, setIsValid] = useState<boolean>(optional || checked || disabled)
+    const [hideInvalidOutline, setHideInvalidOutline] = useState(true)
     const labelClasses = classNames('block cursor-pointer relative py-1', {
         'text-gray-300': disabled,
     })
     const checkedClasses = classNames('absolute top-0 w-full', { 'opacity-0': !checked })
     const uncheckedClasses = classNames('absolute top-0 w-full', { 'opacity-0': checked })
     const invalidClasses = classNames('absolute border rounded -inset-x-2 inset-y-0 border-error', {
-        'opacity-0': isValid,
+        'opacity-0': isValid || hideInvalidOutline,
     })
-    let hasBeenClicked = false
 
     const validate = (newCheckState: boolean): boolean => {
         if (newCheckState || optional || disabled) return true
@@ -44,36 +44,35 @@ export const CheckBoxInput = ({
 
     const resetToDefault = () => {
         setChecked(defaultValue === 'checked')
-        hasBeenClicked = false
+        setIsValid(optional || checked || disabled)
+        setHideInvalidOutline(true)
     }
 
-    const updateFormValidation = () => {
-        const valid = isValid && !(!hasBeenClicked && !optional && defaultValue !== 'checked')
-        hasBeenClicked = true
-        setIsValid(valid)
-        return valid
-    }
-
-    const syncWithForm = (newCheckState: boolean) => {
-        if (formSync) formSync.updateForm(name, newCheckState, updateFormValidation, resetToDefault)
+    const syncWithForm = (newCheckState: boolean, newValidState: boolean) => {
+        const getValidity = () => {
+            setHideInvalidOutline(false)
+            return newValidState
+        }
+        if (formSync) formSync.updateForm(name, newCheckState, getValidity, resetToDefault)
     }
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const newCheckState = event.target.checked
         setChecked(newCheckState)
-        setIsValid(validate(newCheckState))
-        syncWithForm(newCheckState)
-        hasBeenClicked = true
+        const newValidState = validate(newCheckState)
+        setIsValid(newValidState)
+        syncWithForm(newCheckState, newValidState)
+        setHideInvalidOutline(false)
     }
 
     useEffect(() => {
-        syncWithForm(checked)
+        syncWithForm(checked, isValid)
         // eslint-disable-next-line react-hooks/exhaustive-deps -- should only run once, otherwise infinite loops
     }, [])
 
     return (
         <label htmlFor={name} className={labelClasses}>
-            <div className={invalidClasses} />
+            <div className={invalidClasses} data-testid='check-box-invalid-outline' />
             <div className='flex space-x-2 flex-start'>
                 <div className='flex-none w-4 h-4 mt-1'>
                     <div aria-hidden className='relative'>

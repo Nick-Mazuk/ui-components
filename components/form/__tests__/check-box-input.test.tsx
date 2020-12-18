@@ -74,11 +74,65 @@ test('If required, checkbox is marked as invalid when unchecked', () => {
     render(<CheckBoxInput name='check' label='Some label text' />)
     const checkBox = screen.getByRole('checkbox')
     const label = screen.getByLabelText('Some label text')
-    expect(checkBox.getAttribute('aria-invalid')).toBe('false')
+    expect(checkBox.getAttribute('aria-invalid')).toBe('true')
     userEvent.click(label)
     expect(checkBox.getAttribute('aria-invalid')).toBe('false')
     userEvent.click(label)
     expect(checkBox.getAttribute('aria-invalid')).toBe('true')
+})
+
+describe("Invalid outline isn't shown before checkbox is clicked or form is submitted", () => {
+    test("If optional, it isn't shown ever", () => {
+        render(<CheckBoxInput name='check' label='label' optional />)
+        const label = screen.getByLabelText(/label/u)
+        const invalidOutline = screen.getByTestId('check-box-invalid-outline')
+        expect(invalidOutline).toHaveClass('opacity-0')
+        userEvent.click(label)
+        expect(invalidOutline).toHaveClass('opacity-0')
+        userEvent.click(label)
+        expect(invalidOutline).toHaveClass('opacity-0')
+    })
+    test("If required, it isn't shown", () => {
+        render(<CheckBoxInput name='check' label='label' />)
+        const invalidOutline = screen.getByTestId('check-box-invalid-outline')
+        expect(invalidOutline).toHaveClass('opacity-0')
+    })
+    test("If required and checked by default, it isn't shown", () => {
+        render(<CheckBoxInput name='check' label='label' defaultValue='checked' />)
+        const invalidOutline = screen.getByTestId('check-box-invalid-outline')
+        expect(invalidOutline).toHaveClass('opacity-0')
+    })
+})
+
+describe('Invalid outline is shown after click or form is submitted', () => {
+    test('It is shown after being clicked', () => {
+        render(<CheckBoxInput name='check' label='label' />)
+        const invalidOutline = screen.getByTestId('check-box-invalid-outline')
+        expect(invalidOutline).toHaveClass('opacity-0')
+        const label = screen.getByLabelText('label')
+        userEvent.click(label)
+        expect(invalidOutline).toHaveClass('opacity-0')
+        userEvent.click(label)
+        expect(invalidOutline).not.toHaveClass('opacity-0')
+    })
+    test('It is shown after trying to submit the form', async () => {
+        render(
+            <Form handleSubmit={jest.fn()}>
+                {(formSync) => {
+                    return (
+                        <>
+                            <CheckBoxInput name='check' label='label' formSync={formSync} />
+                            <Button value='Submit' color='primary' type='submit' />
+                        </>
+                    )
+                }}
+            </Form>
+        )
+        const invalidOutline = screen.getByTestId('check-box-invalid-outline')
+        expect(invalidOutline).toHaveClass('opacity-0')
+        userEvent.click(screen.getByRole('button'))
+        await waitFor(() => expect(invalidOutline).not.toHaveClass('opacity-0'))
+    })
 })
 
 // eslint-disable-next-line max-lines-per-function -- multiple short tests
@@ -162,7 +216,7 @@ describe('Syncs with formSync', () => {
         expect(checkBox).not.toBeChecked()
     })
 
-    test('If optional, it allows the form to submit when off', () => {
+    test('If optional, it allows the form to submit when off', async () => {
         const mockSubmit = jest.fn(() => Promise.resolve(true))
         render(
             <Form handleSubmit={mockSubmit}>
@@ -183,10 +237,10 @@ describe('Syncs with formSync', () => {
         )
 
         userEvent.click(screen.getByRole('button'))
-        expect(mockSubmit).toHaveBeenCalled()
+        await waitFor(() => expect(mockSubmit).toHaveBeenCalled())
     })
 
-    test('If optional, it allows the form to submit when on', () => {
+    test('If optional, it allows the form to submit when on', async () => {
         const mockSubmit = jest.fn(() => Promise.resolve(true))
         render(
             <Form handleSubmit={mockSubmit}>
@@ -208,7 +262,7 @@ describe('Syncs with formSync', () => {
         )
 
         userEvent.click(screen.getByRole('button'))
-        expect(mockSubmit).toHaveBeenCalled()
+        await waitFor(() => expect(mockSubmit).toHaveBeenCalled())
     })
 
     test('If required, it allows throws error when off', () => {
@@ -219,7 +273,7 @@ describe('Syncs with formSync', () => {
                     return (
                         <>
                             <CheckBoxInput name='check' label='label' formSync={formSync} />
-                            <Button value='Submit' color='primary' type='submit' />
+                            <Button value='submit' type='submit' />
                         </>
                     )
                 }}
@@ -232,7 +286,8 @@ describe('Syncs with formSync', () => {
         const checkBox = screen.getByRole('checkbox')
         expect(checkBox.getAttribute('aria-invalid')).toBe('true')
     })
-    test('If required, it allows the form to submit when on', () => {
+
+    test('If required, it allows the form to submit when on', async () => {
         const mockSubmit = jest.fn(() => Promise.resolve(true))
         render(
             <Form handleSubmit={mockSubmit}>
@@ -253,6 +308,34 @@ describe('Syncs with formSync', () => {
         )
 
         userEvent.click(screen.getByRole('button'))
-        expect(mockSubmit).toHaveBeenCalled()
+        await waitFor(() => expect(mockSubmit).toHaveBeenCalled())
+    })
+
+    test('If required, it allows the form to submit when clicked on after trying to submit', async () => {
+        const mockSubmit = jest.fn(() => Promise.resolve(true))
+        render(
+            <Form handleSubmit={mockSubmit}>
+                {(formSync) => {
+                    return (
+                        <>
+                            <CheckBoxInput name='check' label='label' formSync={formSync} />
+                            <Button value='Submit' type='submit' />
+                        </>
+                    )
+                }}
+            </Form>
+        )
+
+        const checkBox = screen.getByRole('checkbox')
+        userEvent.click(screen.getByRole('button'))
+        expect(checkBox.getAttribute('aria-invalid')).toBe('true')
+
+        const label = screen.getByLabelText('label')
+        userEvent.click(label)
+        expect(checkBox.getAttribute('aria-invalid')).toBe('false')
+
+        userEvent.click(screen.getByRole('button'))
+        await waitFor(() => expect(mockSubmit).toHaveBeenCalled())
+        expect(checkBox.getAttribute('aria-invalid')).toBe('false')
     })
 })
