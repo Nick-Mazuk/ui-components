@@ -5,8 +5,8 @@ import { shallow } from 'enzyme'
 import type { FormSync } from '..'
 import { Form } from '..'
 import { User } from '../../../elements/icon'
-import type { Autocomplete, Type } from '../helpers/text-input-base'
 import { TextInput } from '../text-input'
+import type { Autocomplete, Type } from '../text-input-helpers/text-input-base'
 
 test('renders without crashing', () => {
     const { baseElement } = render(<TextInput type='text' name='text-input' />)

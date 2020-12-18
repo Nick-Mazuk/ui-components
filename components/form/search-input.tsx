@@ -2,8 +2,8 @@ import { useCallback } from 'react'
 
 import type { FormSync } from '.'
 import { Search } from '../../elements/icon'
-import type { Sizes } from './helpers/text-input-base'
 import { TextInput } from './text-input'
+import type { Sizes } from './text-input-helpers/text-input-base'
 
 type Props = {
     children?: never

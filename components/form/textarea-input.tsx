@@ -1,9 +1,9 @@
 import { useCallback } from 'react'
 
 import type { FormSync } from '.'
-import type { Sizes } from './helpers/text-input-base'
 import type { Formatter, Parser, Progress, Updater, ValidationRules } from './text-input'
 import { TextInput } from './text-input'
+import type { Sizes } from './text-input-helpers/text-input-base'
 
 type Props = {
     children?: never

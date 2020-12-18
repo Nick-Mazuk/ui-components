@@ -5,8 +5,8 @@ import normalizeEmail from 'validator/lib/normalizeEmail'
 
 import type { FormSync } from '.'
 import { Mail } from '../../elements/icon'
-import type { Sizes } from './helpers/text-input-base'
 import { TextInput } from './text-input'
+import type { Sizes } from './text-input-helpers/text-input-base'
 
 type Props = {
     children?: never

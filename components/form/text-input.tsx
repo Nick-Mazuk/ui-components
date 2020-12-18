@@ -5,9 +5,9 @@ import { slugify } from '@nick-mazuk/lib/text-styling'
 
 import type { ClearFunction, FormDataValue, FormSync, ValidateFunction } from '.'
 import type { WithClickCallback } from '../../hoc/with-click'
-import type { AffixContent } from './helpers/text-input-affix'
-import type { Autocomplete, Keyboard, Sizes, Type } from './helpers/text-input-base'
-import { TextInputBase } from './helpers/text-input-base'
+import type { AffixContent } from './text-input-helpers/text-input-affix'
+import type { Autocomplete, Keyboard, Sizes, Type } from './text-input-helpers/text-input-base'
+import { TextInputBase } from './text-input-helpers/text-input-base'
 
 /* props - 
    coolness - persist, suggestion text, autocomplete
