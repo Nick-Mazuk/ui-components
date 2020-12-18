@@ -49,6 +49,7 @@ export const CheckBoxInput = ({
 
     const updateFormValidation = () => {
         const valid = isValid && !(!hasBeenClicked && !optional && defaultValue !== 'checked')
+        hasBeenClicked = true
         setIsValid(valid)
         return valid
     }
