@@ -4,7 +4,7 @@ import classNames from 'classnames'
 
 import { X } from '../../elements/icon'
 
-type Size = 'small' | 'default'
+type Size = 'small' | 'default' | 'large'
 
 type Properties = {
     children: string
@@ -23,13 +23,20 @@ type Sizing = {
 
 const SIZE_MAP: Record<Size, Sizing> = {
     small: {
+        global: 'text-sm py-1 pl-2',
+        withoutDelete: 'pr-2 rounded',
+        withDelete: 'pr-1 rounded-l',
+        delete: 'px-1',
+        icon: 'w-3',
+    },
+    default: {
         global: 'text-sm py-2 pl-2',
         withoutDelete: 'pr-2 rounded',
         withDelete: 'pr-1 rounded-l',
         delete: 'px-2',
         icon: 'w-3',
     },
-    default: {
+    large: {
         global: 'pl-3 py-2',
         withoutDelete: 'pr-3 rounded',
         withDelete: 'pr-1 rounded-l',
