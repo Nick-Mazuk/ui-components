@@ -47,8 +47,11 @@ export const CheckBoxInput = ({
         hasBeenClicked = false
     }
 
-    const updateFormValidation = () =>
-        isValid && !(!hasBeenClicked && !optional && defaultValue !== 'checked')
+    const updateFormValidation = () => {
+        const valid = isValid && !(!hasBeenClicked && !optional && defaultValue !== 'checked')
+        setIsValid(valid)
+        return valid
+    }
 
     const syncWithForm = (newCheckState: boolean) => {
         if (formSync) formSync.updateForm(name, newCheckState, updateFormValidation, resetToDefault)

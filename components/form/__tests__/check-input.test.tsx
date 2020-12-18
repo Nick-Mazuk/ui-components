@@ -228,6 +228,9 @@ describe('Syncs with formSync', () => {
 
         userEvent.click(screen.getByRole('button'))
         expect(mockSubmit).not.toHaveBeenCalled()
+
+        const checkBox = screen.getByRole('checkbox')
+        expect(checkBox.getAttribute('aria-invalid')).toBe('true')
     })
     test('If required, it allows the form to submit when on', () => {
         const mockSubmit = jest.fn(() => Promise.resolve(true))
