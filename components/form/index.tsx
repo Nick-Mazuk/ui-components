@@ -6,7 +6,7 @@ import HCaptcha from '@hcaptcha/react-hcaptcha'
 type State = 'ready' | 'submitted' | 'submitting' | 'error'
 
 /* eslint-disable import/exports-last -- used in many inputs */
-export type FormDataValue = string | Record<string, string> | boolean
+export type FormDataValue = string | Record<string, string> | boolean | string[]
 export type ClearFunction = () => void
 export type ValidateFunction = ((newValue?: string) => boolean) | (() => boolean)
 /* eslint-enable import/exports-last -- used in many inputs */

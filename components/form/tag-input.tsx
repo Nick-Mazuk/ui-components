@@ -1,6 +1,8 @@
 import type { ChangeEvent, KeyboardEvent } from 'react'
 import { useState } from 'react'
 
+import classNames from 'classnames'
+
 import { formatNumber } from '@nick-mazuk/lib/number-styling'
 import { slugify } from '@nick-mazuk/lib/text-styling'
 
@@ -29,7 +31,6 @@ type Props = {
 
     hideIcon?: boolean
     requiredMessage?: string
-    successMessage?: string
     maxTags?: number
 
     onChange?: (value: string[]) => void
@@ -50,16 +51,35 @@ const getProgress = (currentTags: Set<string>, maxTags?: number): string => {
     if (!maxTags) return ''
     return `${currentTags.size} / ${formatNumber(maxTags)} tags`
 }
-
 // eslint-disable-next-line max-lines-per-function, sonarjs/cognitive-complexity -- will fix
 export const TagInput = (props: Props): JSX.Element => {
+    const { onChange, maxTags, disabled, readonly, defaultTags, defaultValue, formSync } = props
     const [name, label, id] = getIdentificationData(props)
-    const [value, setValue] = useState(props.defaultValue ?? '')
+    const [value, setValue] = useState(defaultValue ?? '')
     const [isValid, setIsValid] = useState(true)
-    const [allTags, setAllTags] = useState(props.defaultTags ?? new Set<string>())
-    const [progress, setProgress] = useState(getProgress(allTags, props.maxTags))
-    const [showSuccess, setShowSuccess] = useState(false)
-    const { onChange } = props
+    const [allTags, setAllTags] = useState(defaultTags ?? new Set<string>())
+    const [progress, setProgress] = useState(getProgress(allTags, maxTags))
+    const tagContainerClasses = classNames('-m-2 flex flex-wrap', {
+        'mt-2': maxTags,
+        'mt-4': !maxTags && !props.requiredMessage,
+    })
+
+    const resetToDefault = () => {
+        setAllTags(defaultTags ?? new Set<string>())
+        setValue(defaultValue ?? '')
+    }
+
+    const validate = (newTags?: Set<string>): boolean => {
+        let valid = false
+        if (props.optional) valid = true
+        if ((newTags ?? allTags).size > 0) valid = true
+        setIsValid(valid)
+        return valid
+    }
+
+    const syncWithForm = (newTags: Set<string>) => {
+        if (formSync) formSync.updateForm(name, [...newTags], validate, resetToDefault)
+    }
 
     const handleChange = (
         event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
@@ -68,23 +88,34 @@ export const TagInput = (props: Props): JSX.Element => {
     }
 
     const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
-        if (props.maxTags && allTags.size >= props.maxTags) return
         if (event.key === 'Enter') {
             event.preventDefault()
+            if (maxTags && allTags.size >= maxTags) return
+            if (value.trim() === '') return
+
             const newTags = new Set(allTags)
-            newTags.add(value)
+            newTags.add(value.trim().toLowerCase())
+
+            if (newTags.size === allTags.size) return
+
             setAllTags(newTags)
             setValue('')
-            setProgress(getProgress(newTags, props.maxTags))
+            setProgress(getProgress(newTags, maxTags))
+            validate(newTags)
+            syncWithForm(newTags)
+
             if (onChange) onChange([...newTags])
         }
     }
 
     const removeTag = (tagValue: string) => {
-        if (props.disabled || props.readonly) return
+        if (disabled || readonly) return
         const newTags = new Set(allTags)
         newTags.delete(tagValue)
         setAllTags(newTags)
+        setProgress(getProgress(newTags, maxTags))
+        validate(newTags)
+        syncWithForm(newTags)
     }
 
     return (
@@ -99,23 +130,25 @@ export const TagInput = (props: Props): JSX.Element => {
                 size={props.size}
                 optional={props.optional}
                 hideOptionalLabel={props.hideOptionalLabel}
-                readonly={props.readonly}
-                disabled={props.disabled}
+                readonly={readonly}
+                disabled={disabled}
                 help={props.help}
                 info={props.info}
                 prefix={props.hideIcon ? '' : <TagIcon />}
                 invalid={!isValid}
                 progress={progress}
                 error={isValid ? '' : props.requiredMessage}
-                success={showSuccess ? props.successMessage : ''}
                 onChange={handleChange}
                 onKeyPress={handleKeyPress}
             />
-            <div className='-m-2 mt-2'>
+            <div className={tagContainerClasses}>
                 {[...allTags].sort().map((tagValue) => {
+                    const onRemove =
+                        // eslint-disable-next-line no-undefined -- necessary
+                        readonly || disabled ? undefined : () => removeTag(tagValue)
                     return (
                         <div className='m-2' key={tagValue}>
-                            <Tag size='small' onRemove={() => removeTag(tagValue)}>
+                            <Tag size='small' onRemove={onRemove}>
                                 {tagValue}
                             </Tag>
                         </div>
