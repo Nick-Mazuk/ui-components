@@ -38,6 +38,8 @@ type Props = {
     sort?: boolean
     validator?: (value: string) => boolean
     parser?: (value: string) => string
+    normalizer?: (value: string) => string
+    normalize?: boolean
 
     onChange?: (value: string[]) => void
 
@@ -102,12 +104,15 @@ export const TagInput = (props: Props): JSX.Element => {
         if (event.key === 'Enter') {
             event.preventDefault()
             if (maxTags && allTags.size >= maxTags) return
-            const newValue = value.trim()
+            let newValue = value.trim()
+            if (props.normalize && !props.normalizer) newValue = newValue.toLowerCase()
+            else if (props.normalizer) newValue = props.normalizer(newValue)
+
             if (newValue === '') return
             if (props.validator && !props.validator(newValue)) return
 
             const newTags = new Set(allTags)
-            newTags.add(newValue.toLowerCase())
+            newTags.add(newValue)
 
             if (newTags.size === allTags.size) return
 
