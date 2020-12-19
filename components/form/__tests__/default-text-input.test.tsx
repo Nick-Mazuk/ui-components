@@ -269,7 +269,7 @@ test.each(Inputs)('%s allows you to delete all the characters', (_, Input, valid
     const input = screen.getByTestId('text-input-element')
     userEvent.type(input, validText)
     expect(input).toHaveValue(validText)
-    for (const char of validText) userEvent.type(input, '{backspace}')
+    userEvent.clear(input)
     expect(input).toHaveValue('')
 })
 
