@@ -72,7 +72,7 @@ export const TagInput = (props: Props): JSX.Element => {
     const [allTags, setAllTags] = useState(defaultTags ?? new Set<string>())
     const [progress, setProgress] = useState(getProgress(allTags, maxTags, props.progressLabel))
     const tagContainerClasses = classNames('-m-2 flex flex-wrap', {
-        'mt-1': maxTags && allTags.size !== 0,
+        '-mt-1': maxTags && allTags.size !== 0,
         'mt-2': !maxTags && !props.requiredMessage && allTags.size !== 0,
     })
 
