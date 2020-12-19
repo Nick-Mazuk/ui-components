@@ -1,5 +1,5 @@
 import type { ChangeEvent, KeyboardEvent } from 'react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import classNames from 'classnames'
 
@@ -60,8 +60,7 @@ export const TagInput = (props: Props): JSX.Element => {
     const [allTags, setAllTags] = useState(defaultTags ?? new Set<string>())
     const [progress, setProgress] = useState(getProgress(allTags, maxTags))
     const tagContainerClasses = classNames('-m-2 flex flex-wrap', {
-        'mt-2': maxTags,
-        'mt-4': !maxTags && !props.requiredMessage,
+        'mt-2': !maxTags && !props.requiredMessage,
     })
 
     const resetToDefault = () => {
@@ -117,6 +116,11 @@ export const TagInput = (props: Props): JSX.Element => {
         validate(newTags)
         syncWithForm(newTags)
     }
+
+    useEffect(() => {
+        syncWithForm(allTags)
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- should only run once
+    }, [])
 
     return (
         <div>
