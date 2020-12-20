@@ -6,7 +6,8 @@
     "dependencies": {
         "@hcaptcha/react-hcaptcha": "^0.2.1",
         "csstype": "^3.0.5",
-        "parse-full-name": "^1.2.4"
+        "parse-full-name": "^1.2.4",
+        "react-quill": "^2.0.0-beta.2"
     },
     "scripts": {
         "eslint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
