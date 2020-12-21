@@ -6,8 +6,11 @@
     "dependencies": {
         "@hcaptcha/react-hcaptcha": "^0.2.1",
         "csstype": "^3.0.5",
+        "debounce": "^1.2.0",
+        "html2json": "^1.0.2",
         "parse-full-name": "^1.2.4",
-        "react-quill": "^2.0.0-beta.2"
+        "react-quill": "^2.0.0-beta.2",
+        "striptags": "^3.1.1"
     },
     "scripts": {
         "eslint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
@@ -42,6 +45,7 @@
         "@testing-library/react": "^11.1.0",
         "@testing-library/user-event": "^12.1.10",
         "@types/classnames": "^2.2.10",
+        "@types/debounce": "^1.2.0",
         "@types/enzyme": "^3.10.7",
         "@types/enzyme-adapter-react-16": "^1.0.6",
         "@types/hcaptcha__react-hcaptcha": "^0.1.4",

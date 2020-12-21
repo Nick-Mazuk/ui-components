@@ -1,28 +1,52 @@
 /* 
    
-   warning: not fully implemented — do not use in production
+   warning: not fully implemented or tested — do not use in production
+            use at your own risk.
    
     */
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import dynamic from 'next/dynamic'
 
+import { slugify } from '@nick-mazuk/lib/text-styling'
+import debounce from 'debounce'
+import { html2json } from 'html2json'
 import type { ReactQuillProps, Range } from 'react-quill'
+import striptags from 'striptags'
 
 import type { FormSync } from '..'
 import { TextContent } from '../../../elements/text-content'
+import { HelpText } from '../text-input-helpers/text-input-help-text'
+import { LabelGroup } from '../text-input-helpers/text-input-label-group'
+import { Progress } from '../text-input-helpers/text-input-progress'
+import { Status } from '../text-input-helpers/text-input-status'
 import { TextInputWrapper } from '../text-input-helpers/text-input-wrapper'
 import { RichTextToolbar } from './helpers/toolbar'
 
 // eslint-disable-next-line import/exports-last -- used in toolbar.tsx
 export type Heading = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
 
+type SaveFormat = 'plain text' | 'json'
+
 type Props = {
-    name: string
-    defaultValue?: Node[]
+    label?: string
+    name?: string
+    id?: string
+    defaultValue?: string
     formSync?: FormSync
     fullWidth?: boolean
+    responsive?: boolean
+
+    info?: string
+    help?: string
+    optional?: boolean
+    readonly?: boolean
+    disabled?: boolean
+    hideOptionalLabel?: boolean
+    placeholder?: string
+
+    maxCharacters?: number
 
     h1?: boolean | Heading
     h2?: boolean | Heading
@@ -34,6 +58,8 @@ type Props = {
     ul?: boolean
     code?: boolean
     image?: boolean
+
+    saveFormat: SaveFormat | SaveFormat[]
 }
 
 const ReactQuill = dynamic(import('react-quill'), {
@@ -139,16 +165,67 @@ const getFormats = (props: Props): string[] => {
     return formats
 }
 
-export const RichTextInput = (props: Props): JSX.Element => {
-    const [value, setValue] = useState('<p>Text…</p>')
+const getIdentificationData = (props: Props): [string, string, string] => {
+    let { name, label, id } = props
+    if (!label && !name && !id) throw new Error('Input must have a label, name, or id')
+    if (!name) name = id ?? slugify(label ?? '')
+    if (!id) id = name
+    if (!label) label = ''
+    return [name, label, id]
+}
 
-    let content = <textarea value={value} className='outline-none' />
+const getPlainText = (html: string): string => {
+    return striptags(html, [], ' ')
+}
+
+const getMaxCharacterProgress = (html: string, maxCharacters: number | undefined): string => {
+    if (typeof maxCharacters === 'undefined') return ''
+    const plainText = getPlainText(html)
+    return `${plainText.length} / ${maxCharacters}`
+}
+
+// eslint-disable-next-line max-lines-per-function, sonarjs/cognitive-complexity -- it's going to be long
+export const RichTextInput = (props: Props): JSX.Element => {
+    const [label, name] = getIdentificationData(props)
+    const [value, setValue] = useState(props.defaultValue ?? '<p></p>')
+    const [isValid, setIsValid] = useState(true)
+
+    const syncWithForm = (newValue: string): void => {
+        const { formSync } = props
+        if (!formSync) return
+        const parsedValues: { text: string; json: string } = { text: '', json: '' }
+        if (props.saveFormat.includes('plain text')) parsedValues.text = getPlainText(newValue)
+        if (props.saveFormat.includes('json')) parsedValues.json = html2json(newValue)
+
+        formSync.updateForm(
+            name,
+            parsedValues,
+            () => true,
+            () => true
+        )
+    }
+
+    const syncWithFormDebounced = debounce(syncWithForm, 1000)
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- should be called only once, otherwise infinite loop
+    useEffect(() => syncWithForm(value), [])
+
+    const handleChange = (newValue: string) => {
+        if (props.maxCharacters && getPlainText(newValue).length > props.maxCharacters) return
+        setValue(newValue)
+        syncWithFormDebounced(newValue)
+    }
+
+    let content = (
+        <textarea value={value} className='outline-none' placeholder={props.placeholder} />
+    )
     if (typeof window !== 'undefined') {
         content = (
             <ReactQuill
                 value={value}
-                onChange={setValue}
+                onChange={handleChange}
                 modules={modules}
+                placeholder={props.placeholder}
                 theme=''
                 formats={getFormats(props)}
             />
@@ -156,14 +233,32 @@ export const RichTextInput = (props: Props): JSX.Element => {
     }
 
     return (
-        <TextInputWrapper>
-            <div className='w-full px-4 pb-3 text-gray-900 min-h-32'>
-                <TextContent responsive fullwidth>
-                    <RichTextToolbar elements={getElements(props)} />
-                    {content}
-                </TextContent>
+        <div className='flex flex-col space-y-1'>
+            <div className='flex items-baseline'>
+                <div>
+                    <LabelGroup label={label} info={props.info} />
+                    <HelpText text={props.help} />
+                </div>
+                <Status
+                    optional={props.optional && !props.hideOptionalLabel}
+                    readonly={props.readonly && !props.disabled}
+                />
             </div>
-        </TextInputWrapper>
+            <TextInputWrapper hasError={!isValid} disabled={props.disabled}>
+                <div className='w-full px-4 pb-3 text-gray-900 min-h-32'>
+                    <TextContent responsive={props.responsive} fullwidth={props.fullWidth}>
+                        <RichTextToolbar elements={getElements(props)} />
+                        {content}
+                    </TextContent>
+                </div>
+            </TextInputWrapper>
+            <div className='flex'>
+                <Progress
+                    text={getMaxCharacterProgress(value, props.maxCharacters)}
+                    invalid={!isValid}
+                />
+            </div>
+        </div>
     )
 }
 
