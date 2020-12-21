@@ -190,7 +190,6 @@ export const RichTextInput = (props: Props): JSX.Element => {
     const [name, label] = getIdentificationData(props)
     const [value, setValue] = useState(props.defaultValue ?? '<p></p>')
     const [isValid, setIsValid] = useState(true)
-    const [showError, setShowError] = useState(false)
 
     const syncWithForm = (newValue: string, newValid: boolean): void => {
         const { formSync } = props
@@ -198,11 +197,13 @@ export const RichTextInput = (props: Props): JSX.Element => {
         const parsedValues: { text: string; json: string } = { text: '', json: '' }
         if (props.saveFormat.includes('plain text')) parsedValues.text = getPlainText(newValue)
         if (props.saveFormat.includes('json')) parsedValues.json = html2json(newValue)
-        if (!newValid) setShowError(true)
         formSync.updateForm(
             name,
             parsedValues,
-            () => newValid,
+            () => {
+                setIsValid(newValid)
+                return newValid
+            },
             () => true
         )
     }
@@ -218,8 +219,7 @@ export const RichTextInput = (props: Props): JSX.Element => {
             changeIsValid = false
         setValue(newValue)
         syncWithFormDebounced(newValue, changeIsValid)
-        setIsValid(changeIsValid)
-        if (changeIsValid) setShowError(false)
+        if (changeIsValid) setIsValid(true)
     }
 
     let content = (
@@ -260,7 +260,7 @@ export const RichTextInput = (props: Props): JSX.Element => {
             </TextInputWrapper>
             <div className='flex'>
                 <Feedback
-                    error={showError ? `Must be under ${props.maxCharacters} characters` : ''}
+                    error={isValid ? '' : `Must be under ${props.maxCharacters} characters`}
                     success=''
                 />
                 <Progress
