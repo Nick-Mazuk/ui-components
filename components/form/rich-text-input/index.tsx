@@ -175,9 +175,7 @@ const getIdentificationData = (props: Props): [string, string, string] => {
 }
 
 const getPlainText = (html: string): string => {
-    return striptags(html, [], ' ')
-        .replace(/&nbsp;/gu, ' ')
-        .replace(/\s\s/u, ' ')
+    return striptags(html, [], '').replace(/&nbsp;/gu, ' ')
 }
 
 const getMaxCharacterProgress = (html: string, maxCharacters: number | undefined): string => {
