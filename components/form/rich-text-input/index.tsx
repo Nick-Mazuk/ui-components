@@ -17,6 +17,7 @@ import striptags from 'striptags'
 
 import type { FormSync } from '..'
 import { TextContent } from '../../../elements/text-content'
+import { Feedback } from '../text-input-helpers/text-input-feedback'
 import { HelpText } from '../text-input-helpers/text-input-help-text'
 import { LabelGroup } from '../text-input-helpers/text-input-label-group'
 import { Progress } from '../text-input-helpers/text-input-progress'
@@ -189,6 +190,7 @@ export const RichTextInput = (props: Props): JSX.Element => {
     const [name, label] = getIdentificationData(props)
     const [value, setValue] = useState(props.defaultValue ?? '<p></p>')
     const [isValid, setIsValid] = useState(true)
+    const [showError, setShowError] = useState(false)
 
     const syncWithForm = (newValue: string, newValid: boolean): void => {
         const { formSync } = props
@@ -196,7 +198,7 @@ export const RichTextInput = (props: Props): JSX.Element => {
         const parsedValues: { text: string; json: string } = { text: '', json: '' }
         if (props.saveFormat.includes('plain text')) parsedValues.text = getPlainText(newValue)
         if (props.saveFormat.includes('json')) parsedValues.json = html2json(newValue)
-
+        if (!newValid) setShowError(true)
         formSync.updateForm(
             name,
             parsedValues,
@@ -217,6 +219,7 @@ export const RichTextInput = (props: Props): JSX.Element => {
         setValue(newValue)
         syncWithFormDebounced(newValue, changeIsValid)
         setIsValid(changeIsValid)
+        if (changeIsValid) setShowError(false)
     }
 
     let content = (
@@ -256,6 +259,10 @@ export const RichTextInput = (props: Props): JSX.Element => {
                 </div>
             </TextInputWrapper>
             <div className='flex'>
+                <Feedback
+                    error={showError ? `Must be under ${props.maxCharacters} characters` : ''}
+                    success=''
+                />
                 <Progress
                     text={getMaxCharacterProgress(value, props.maxCharacters)}
                     invalid={!isValid}
