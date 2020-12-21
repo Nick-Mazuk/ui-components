@@ -191,7 +191,15 @@ export const RichTextInput = (props: Props): JSX.Element => {
     const [value, setValue] = useState(props.defaultValue ?? '<p></p>')
     const [isValid, setIsValid] = useState(true)
 
-    const syncWithForm = (newValue: string, newValid: boolean): void => {
+    const validate = (newValue: string): boolean => {
+        let changeIsValid = true
+        if (props.maxCharacters && getPlainText(newValue).length > props.maxCharacters)
+            changeIsValid = false
+        setIsValid(changeIsValid)
+        return changeIsValid
+    }
+
+    const syncWithForm = (newValue: string): void => {
         const { formSync } = props
         if (!formSync) return
         const parsedValues: { text: string; json: string } = { text: '', json: '' }
@@ -200,10 +208,7 @@ export const RichTextInput = (props: Props): JSX.Element => {
         formSync.updateForm(
             name,
             parsedValues,
-            () => {
-                setIsValid(newValid)
-                return newValid
-            },
+            () => validate(newValue),
             () => true
         )
     }
@@ -211,15 +216,12 @@ export const RichTextInput = (props: Props): JSX.Element => {
     const syncWithFormDebounced = debounce(syncWithForm, 1000)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps -- should be called only once, otherwise infinite loop
-    useEffect(() => syncWithForm(value, isValid), [])
+    useEffect(() => syncWithForm(value), [])
 
     const handleChange = (newValue: string) => {
-        let changeIsValid = true
-        if (props.maxCharacters && getPlainText(newValue).length > props.maxCharacters)
-            changeIsValid = false
         setValue(newValue)
-        syncWithFormDebounced(newValue, changeIsValid)
-        if (changeIsValid) setIsValid(true)
+        syncWithFormDebounced(newValue)
+        if (!isValid) validate(newValue)
     }
 
     let content = (
@@ -230,6 +232,7 @@ export const RichTextInput = (props: Props): JSX.Element => {
             <ReactQuill
                 value={value}
                 onChange={handleChange}
+                onBlur={() => validate(value)}
                 modules={modules}
                 placeholder={props.placeholder}
                 theme=''
