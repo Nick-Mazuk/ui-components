@@ -176,6 +176,8 @@ const getIdentificationData = (props: Props): [string, string, string] => {
 
 const getPlainText = (html: string): string => {
     return striptags(html, [], ' ')
+        .replace(/&nbsp;/gu, ' ')
+        .replace(/\s\s/u, ' ')
 }
 
 const getMaxCharacterProgress = (html: string, maxCharacters: number | undefined): string => {
@@ -190,7 +192,7 @@ export const RichTextInput = (props: Props): JSX.Element => {
     const [value, setValue] = useState(props.defaultValue ?? '<p></p>')
     const [isValid, setIsValid] = useState(true)
 
-    const syncWithForm = (newValue: string): void => {
+    const syncWithForm = (newValue: string, newValid: boolean): void => {
         const { formSync } = props
         if (!formSync) return
         const parsedValues: { text: string; json: string } = { text: '', json: '' }
@@ -200,7 +202,7 @@ export const RichTextInput = (props: Props): JSX.Element => {
         formSync.updateForm(
             name,
             parsedValues,
-            () => true,
+            () => newValid,
             () => true
         )
     }
@@ -208,12 +210,15 @@ export const RichTextInput = (props: Props): JSX.Element => {
     const syncWithFormDebounced = debounce(syncWithForm, 1000)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps -- should be called only once, otherwise infinite loop
-    useEffect(() => syncWithForm(value), [])
+    useEffect(() => syncWithForm(value, isValid), [])
 
     const handleChange = (newValue: string) => {
-        if (props.maxCharacters && getPlainText(newValue).length > props.maxCharacters) return
+        let changeIsValid = true
+        if (props.maxCharacters && getPlainText(newValue).length > props.maxCharacters)
+            changeIsValid = false
         setValue(newValue)
-        syncWithFormDebounced(newValue)
+        syncWithFormDebounced(newValue, changeIsValid)
+        setIsValid(changeIsValid)
     }
 
     let content = (
