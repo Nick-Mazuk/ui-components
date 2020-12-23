@@ -38,9 +38,11 @@ export const Error = ({ children, label = 'Error', size = 'default' }: Props): J
         SIZE_MAP[size].container
     )
 
+    const iconClasses = classNames('flex-none', SIZE_MAP[size].icon)
+
     return (
         <div className={containerClasses}>
-            <span className={SIZE_MAP[size].icon}>
+            <span className={iconClasses}>
                 <AlertCircle />
             </span>
             <p className='ml-2'>
