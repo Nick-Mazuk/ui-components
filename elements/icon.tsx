@@ -547,6 +547,13 @@ export const Grid = (props: IconProps): JSX.Element => {
     })
 }
 
+export const Hashtag = (props: IconProps): JSX.Element => {
+    return icon('M4 9h16 M4 15h16 M10 3L8 21 M16 3l-2 18', {
+        stroke: true,
+        width: props.width,
+    })
+}
+
 export const Headphones = (props: IconProps): JSX.Element => {
     return icon(
         'M3 18v-6a9 9 0 0118 0v6 M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z',
