@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 
 import type { FormSync } from '.'
-import { Search } from '../../elements/icon'
+import { Refresh, Search } from '../../elements/icon'
 import { TextInput } from './text-input'
 import type { Sizes } from './text-input-helpers/text-input-base'
 
@@ -22,6 +22,8 @@ type Props = {
 
     maxCharacters?: number
 
+    isSearching?: boolean
+
     onChange?: (value: string) => void
 
     formSync?: FormSync
@@ -38,6 +40,14 @@ export const SearchInput = (props: Props): JSX.Element => {
         [onChange]
     )
 
+    const icon = props.isSearching ? (
+        <div className='animate-spin'>
+            <Refresh />
+        </div>
+    ) : (
+        <Search />
+    )
+
     return (
         <TextInput
             id={props.id}
@@ -50,7 +60,7 @@ export const SearchInput = (props: Props): JSX.Element => {
             info={props.info}
             size={props.size}
             disabled={props.disabled}
-            prefix={props.hideIcon ? '' : <Search />}
+            prefix={props.hideIcon ? '' : icon}
             autoComplete='off'
             keyboard='search'
             optional
