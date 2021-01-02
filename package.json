@@ -17,7 +17,10 @@
         "check-types": "tsc --noemit",
         "lint": "npm run eslint && npm run check-types",
         "test": "jest",
-        "test:watch": "npm run test -- --watch"
+        "test:watch": "npm run test -- --watch",
+        "prepublishOnly": "npm run lint && npm run test",
+        "preversion": "npm run lint",
+        "postversion": "git push && git push --tags"
     },
     "jest": {
         "collectCoverage": true,
