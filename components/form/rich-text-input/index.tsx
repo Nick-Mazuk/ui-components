@@ -121,6 +121,7 @@ const keyBindings: KeyBindings = {
         key: 'k',
         shortKey: true,
         handler: function (range, context) {
+            // eslint-disable-next-line no-alert -- NEEDS TO BE FIXED EVENTUALLY
             const newUrl = prompt('Enter link URL:', context.format.link)
             if (newUrl === '') this.quill.formatText(range?.index, range?.length, 'link', false)
             else this.quill.formatText(range?.index, range?.length, 'link', newUrl)
