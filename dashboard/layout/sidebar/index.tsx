@@ -18,7 +18,7 @@ export const Sidebar = ({ items, content }: Props): JSX.Element => {
                     {items}
                 </div>
             </div>
-            <div className='w-full max-h-full mx-6 my-8 overflow-scroll'>{content}</div>
+            <div className='w-full max-h-full mx-6 my-8'>{content}</div>
         </div>
     )
 }
