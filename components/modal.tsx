@@ -58,7 +58,7 @@ const Title = ({ title, onClose }: { title?: string; onClose: OnClose }): JSX.El
     // eslint-disable-next-line react/jsx-no-useless-fragment -- base case
     if (!title) return <></>
     return (
-        <div className='flex justify-between px-6 pt-4 overflow-hidden'>
+        <div className='flex justify-between px-8 pt-6 overflow-hidden'>
             <Text h5 as='p'>
                 {title}
             </Text>
@@ -66,7 +66,7 @@ const Title = ({ title, onClose }: { title?: string; onClose: OnClose }): JSX.El
                 callback={() => {
                     onClose('close')
                 }}
-                className='px-6 py-4 -mx-6 -my-4 transition-colors duration-150 text-gray hover:text-gray-900 hover:bg-gray-20'
+                className='px-8 py-4 -mx-6 -my-4 transition-colors duration-150 text-gray hover:text-gray-900 hover:bg-gray-20'
             >
                 <X width='w-5' />
             </WithClick>
@@ -102,8 +102,8 @@ export const Modal = ({
             <div className='relative w-full max-w-xl max-h-screen'>
                 <Box style='white' padding='none' shadow='large' contain>
                     <Title title={title} onClose={onClose} />
-                    <div className='px-6 py-4'>{children}</div>
-                    <div className='px-6 pb-4 text-right'>
+                    <div className='px-8 py-6'>{children}</div>
+                    <div className='pl-8 pr-4 pb-4 text-right'>
                         <ModalButtons
                             primaryButton={primaryButton}
                             secondaryButton={secondaryButton}
