@@ -9,7 +9,7 @@ type Props = {
     onClick: () => void
 }
 
-export const EmptyState = ({ title, description, buttonText, onClick }: Props): JSX.Element => {
+export const DangerZone = ({ title, description, buttonText, onClick }: Props): JSX.Element => {
     return (
         <div className='p-8 border rounded-lg border-error'>
             <div className='flex items-center justify-between space-x-12'>
