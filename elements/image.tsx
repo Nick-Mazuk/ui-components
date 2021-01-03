@@ -5,7 +5,8 @@ import NextImage from 'next/image'
 import type { Ratios } from './ratio'
 import { Ratio } from './ratio'
 
-type SourceSet = {
+// eslint-disable-next-line import/exports-last -- used on production sites for wrapper components
+export type SourceSet = {
     src: string
     media?: string
     type?: string
