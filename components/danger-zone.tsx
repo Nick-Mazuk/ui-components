@@ -24,6 +24,7 @@ export const EmptyState = ({ title, description, buttonText, onClick }: Props): 
                         size='small'
                         style='text'
                         onClick={onClick}
+                        glue={['right']}
                     />
                 </div>
             </div>
