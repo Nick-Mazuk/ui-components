@@ -66,7 +66,7 @@ const Title = ({ title, onClose }: { title?: string; onClose: OnClose }): JSX.El
                 callback={() => {
                     onClose('close')
                 }}
-                className='px-8 py-4 -mx-6 -my-4 transition-colors duration-150 text-gray hover:text-gray-900 hover:bg-gray-20'
+                className='px-8 py-4 -mx-8 -my-6 transition-colors duration-150 text-gray hover:text-gray-900 hover:bg-gray-20'
             >
                 <X width='w-5' />
             </WithClick>
