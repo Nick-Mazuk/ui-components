@@ -37,6 +37,7 @@ const ModalButtons = ({
                             onClose(secondaryButton)
                         }}
                         color={color}
+                        size='small'
                     />
                     <div className='inline-block w-2' />
                 </>
@@ -47,6 +48,7 @@ const ModalButtons = ({
                 onClick={() => {
                     onClose(primaryButton)
                 }}
+                size='small'
             />
         </>
     )
