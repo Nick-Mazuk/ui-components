@@ -50,7 +50,6 @@ export const Image = ({
     srcSet,
 }: Props): JSX.Element => {
     const classes = classNames({ 'rounded-lg': rounded })
-
     let image = (
         <NextImage
             src={src}
@@ -61,7 +60,6 @@ export const Image = ({
             layout='fill'
         />
     )
-
     if (srcSet) {
         image = (
             <picture>
@@ -75,7 +73,12 @@ export const Image = ({
                         />
                     )
                 })}
-                <img src={src} alt={alt} className={classes} loading={eager ? 'eager' : 'lazy'} />
+                <img
+                    src={src}
+                    alt={alt}
+                    className={`${classes} w-full h-full absolute object-cover`}
+                    loading={eager ? 'eager' : 'lazy'}
+                />
             </picture>
         )
     }
