@@ -5,12 +5,19 @@ import NextImage from 'next/image'
 import type { Ratios } from './ratio'
 import { Ratio } from './ratio'
 
+type SourceSet = {
+    src: string
+    media?: string
+    type?: string
+}[]
+
 type Props = {
     src: string
     alt: string
     rounded?: boolean
     hideSkeleton?: boolean
     sizes?: number[]
+    srcSet?: SourceSet
 } & (
     | { width?: number; height?: number; ratio?: never }
     | {
@@ -39,19 +46,41 @@ export const Image = ({
     ratio,
     preload,
     eager,
+    srcSet,
 }: Props): JSX.Element => {
     const classes = classNames({ 'rounded-lg': rounded })
 
+    let image = (
+        <NextImage
+            src={src}
+            alt={alt}
+            className={classes}
+            loading={eager ? 'eager' : 'lazy'}
+            priority={preload}
+            layout='fill'
+        />
+    )
+
+    if (srcSet) {
+        image = (
+            <picture>
+                {srcSet.map((source) => {
+                    return (
+                        <source
+                            key={source.src}
+                            srcSet={source.src}
+                            media={source.media}
+                            type={source.type}
+                        />
+                    )
+                })}
+                <img src={src} alt={alt} className={classes} loading={eager ? 'eager' : 'lazy'} />
+            </picture>
+        )
+    }
     return (
         <Ratio ratio={ratio} customRatio={(height ?? 1) / (width ?? 1)}>
-            <NextImage
-                src={src}
-                alt={alt}
-                className={classes}
-                loading={eager ? 'eager' : 'lazy'}
-                priority={preload}
-                layout='fill'
-            />
+            {image}
         </Ratio>
     )
 }
