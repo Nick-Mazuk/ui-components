@@ -34,7 +34,7 @@ type Props = {
     label?: string
     name?: string
     id?: string
-    defaultValue?: string
+    defaultValue?: Record<string, unknown>
     formSync?: FormSync
     fullWidth?: boolean
     responsive?: boolean
