@@ -11,7 +11,7 @@ import dynamic from 'next/dynamic'
 
 import { slugify } from '@nick-mazuk/lib/text-styling'
 import debounce from 'debounce'
-import { html2json } from 'html2json'
+import { html2json, json2html } from 'html2json'
 import type { ReactQuillProps, Range } from 'react-quill'
 import striptags from 'striptags'
 
@@ -189,7 +189,7 @@ const getMaxCharacterProgress = (html: string, maxCharacters: number | undefined
 // eslint-disable-next-line max-lines-per-function, sonarjs/cognitive-complexity -- it's going to be long
 export const RichTextInput = (props: Props): JSX.Element => {
     const [name, label] = getIdentificationData(props)
-    const [value, setValue] = useState(props.defaultValue ?? '<p></p>')
+    const [value, setValue] = useState(json2html(props.defaultValue) ?? '<p></p>')
     const [isValid, setIsValid] = useState(true)
 
     const validate = (newValue: string): boolean => {
