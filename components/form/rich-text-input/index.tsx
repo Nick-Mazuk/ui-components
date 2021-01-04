@@ -189,7 +189,9 @@ const getMaxCharacterProgress = (html: string, maxCharacters: number | undefined
 // eslint-disable-next-line max-lines-per-function, sonarjs/cognitive-complexity -- it's going to be long
 export const RichTextInput = (props: Props): JSX.Element => {
     const [name, label] = getIdentificationData(props)
-    const [value, setValue] = useState(json2html(props.defaultValue) ?? '<p></p>')
+    const [value, setValue] = useState(
+        props.defaultValue ? json2html(props.defaultValue) : '<p></p>'
+    )
     const [isValid, setIsValid] = useState(true)
 
     const validate = (newValue: string): boolean => {
