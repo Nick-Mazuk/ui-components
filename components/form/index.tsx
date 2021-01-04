@@ -1,4 +1,4 @@
-import type { Dispatch, MutableRefObject, ReactNode, SetStateAction } from 'react'
+import type { Dispatch, MutableRefObject, ReactNode, RefObject, SetStateAction } from 'react'
 import { useMemo, useCallback, useRef, useState } from 'react'
 
 import HCaptcha from '@hcaptcha/react-hcaptcha'
@@ -70,8 +70,10 @@ const createPublicFormData = (formData: FormData): PublicFormData => {
 
 const clearInputs = (
     formData: FormData,
+    form: RefObject<HTMLFormElement>,
     setPublicFormData: Dispatch<SetStateAction<Record<string, FormDataValue>>>
 ): void => {
+    form.current?.reset()
     for (const inputName in formData) {
         if (Object.prototype.hasOwnProperty.call(formData, inputName)) {
             formData[inputName].clear()
@@ -107,11 +109,12 @@ const successfulSubmit = (
     props: Props,
     setState: Dispatch<SetStateAction<State>>,
     formData: FormData,
+    form: RefObject<HTMLFormElement>,
     setPublicFormData: Dispatch<SetStateAction<Record<string, FormDataValue>>>,
     data?: SubmitResponse
 ) => {
     setState('submitted')
-    if (props.clearOnSubmit) clearInputs(formData, setPublicFormData)
+    if (props.clearOnSubmit) clearInputs(formData, form, setPublicFormData)
     if (props.onSuccess) props.onSuccess(data)
 }
 
@@ -125,11 +128,12 @@ const handleCustomSubmit = async (
     data: PublicFormData,
     setState: Dispatch<SetStateAction<State>>,
     formData: FormData,
+    form: RefObject<HTMLFormElement>,
     setPublicFormData: Dispatch<SetStateAction<Record<string, FormDataValue>>>
 ) => {
     if (!props.handleSubmit) return
     const success = await props.handleSubmit(data)
-    if (success) successfulSubmit(props, setState, formData, setPublicFormData)
+    if (success) successfulSubmit(props, setState, formData, form, setPublicFormData)
     else errorSubmit(props, '', setState)
 }
 
@@ -138,6 +142,7 @@ const handleInternalSubmit = (
     data: PublicFormData,
     setState: Dispatch<SetStateAction<State>>,
     formData: FormData,
+    form: RefObject<HTMLFormElement>,
     setPublicFormData: Dispatch<SetStateAction<Record<string, FormDataValue>>>
 ) => {
     if (!props.action || !props.method) return
@@ -147,7 +152,7 @@ const handleInternalSubmit = (
     })
         .then(async (response) => {
             const json = await response.json()
-            successfulSubmit(props, setState, formData, setPublicFormData, {
+            successfulSubmit(props, setState, formData, form, setPublicFormData, {
                 response: json,
                 status: response.status,
                 data: data,
@@ -165,6 +170,7 @@ const onSubmit = (
     hcaptcha: MutableRefObject<HCaptcha | null>,
     setState: Dispatch<SetStateAction<State>>,
     setPublicFormData: Dispatch<SetStateAction<Record<string, FormDataValue>>>,
+    form: RefObject<HTMLFormElement>,
     options: {
         event?: React.FormEvent<HTMLFormElement>
         token?: string
@@ -180,16 +186,20 @@ const onSubmit = (
         return
     }
     const data = formatDataForSubmit(formData, options.token)
-    if (props.handleSubmit) handleCustomSubmit(props, data, setState, formData, setPublicFormData)
+    if (props.handleSubmit)
+        handleCustomSubmit(props, data, setState, formData, form, setPublicFormData)
     else if (props.method && props.action)
-        handleInternalSubmit(props, data, setState, formData, setPublicFormData)
+        handleInternalSubmit(props, data, setState, formData, form, setPublicFormData)
     else setState('ready')
 }
 
+// eslint-disable-next-line max-lines-per-function -- don't know how to make it shorter without losing clarity
 export const Form = (props: Props): JSX.Element => {
     const [state, setState] = useState<State>('ready')
     const captchaRef = useRef<HCaptcha>(null)
     const [publicFormData, setPublicFormData] = useState<PublicFormData>({})
+    const form = useRef<HTMLFormElement>(null)
+
     const formData: FormData = useMemo(() => {
         return {}
     }, [])
@@ -208,8 +218,11 @@ export const Form = (props: Props): JSX.Element => {
             method={props.method}
             action={props.action}
             onSubmit={(event) => {
-                onSubmit(props, formData, captchaRef, setState, setPublicFormData, { event: event })
+                onSubmit(props, formData, captchaRef, setState, setPublicFormData, form, {
+                    event: event,
+                })
             }}
+            ref={form}
             noValidate
         >
             {props.children({
@@ -224,7 +237,7 @@ export const Form = (props: Props): JSX.Element => {
                     id={props.captcha}
                     ref={captchaRef}
                     onVerify={(token) => {
-                        onSubmit(props, formData, captchaRef, setState, setPublicFormData, {
+                        onSubmit(props, formData, captchaRef, setState, setPublicFormData, form, {
                             token: token,
                         })
                     }}
