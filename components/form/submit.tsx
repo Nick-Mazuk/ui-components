@@ -20,10 +20,10 @@ export const Submit = ({
     formSync,
     progress,
     margin,
-    value = 'Save',
-    successMessage = 'All changes saved',
+    value = 'Submit',
+    successMessage = 'Submitted successfully',
     errorLabel = 'Error',
-    errorMessage = 'Something went wrong, please try again.',
+    errorMessage = 'Something went wrong, please try again',
 }: Props): JSX.Element => {
     const containerClasses = classNames('flex items-baseline justify-end space-x-4', margin)
     return (
