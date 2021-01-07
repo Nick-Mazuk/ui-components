@@ -60,7 +60,7 @@ const getProgress = (
     maxTags: number | undefined,
     progressLabel: string | undefined
 ): string => {
-    if (!maxTags) return ''
+    if (typeof maxTags === 'undefined') return ''
     return `${currentTags.size} / ${formatNumber(maxTags)} ${progressLabel ?? 'tags'}`
 }
 // eslint-disable-next-line max-lines-per-function, sonarjs/cognitive-complexity -- will fix
@@ -71,9 +71,10 @@ export const TagInput = (props: Props): JSX.Element => {
     const [isValid, setIsValid] = useState(true)
     const [allTags, setAllTags] = useState(defaultTags ?? new Set<string>())
     const [progress, setProgress] = useState(getProgress(allTags, maxTags, props.progressLabel))
-    const tagContainerClasses = classNames('-m-2 mt-0 flex flex-wrap', {
-        '-mt-1': maxTags && allTags.size !== 0,
-        'mt-2': !maxTags && !props.requiredMessage && allTags.size !== 0,
+    const tagContainerClasses = classNames('-m-2 flex flex-wrap', {
+        'my-0': allTags.size === 0,
+        '-mt-1': (maxTags || props.requiredMessage) && allTags.size !== 0,
+        'mt-0': !maxTags && !props.requiredMessage && allTags.size !== 0,
     })
 
     const resetToDefault = () => {
