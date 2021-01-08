@@ -33,7 +33,7 @@
         "transformIgnorePatterns": [
             "node_modules*@nick-mazuk*"
         ],
-        "globalSetup": "jest-chance"
+        "globalSetup": "./test-setup.ts"
     },
     "type": "module",
     "devDependencies": {
