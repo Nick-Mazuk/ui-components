@@ -2,7 +2,7 @@ name: Continuous deployment
 
 on:
   schedule:
-    cron: '0 0 * * 0,3'
+    - cron: '0 0 * * 0,3'
 
 jobs:
   test-deployment:
