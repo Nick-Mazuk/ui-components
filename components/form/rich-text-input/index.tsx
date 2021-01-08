@@ -71,13 +71,6 @@ type Context = {
     format: Record<string, string | boolean | number | undefined>
 }
 
-type Handler = {
-    (range: Range, context: Context): void
-    quill: {
-        formatLine: any
-    }
-}
-
 type KeyBindings = Record<
     string,
     {
@@ -85,11 +78,26 @@ type KeyBindings = Record<
         shiftKey?: boolean
         shortKey?: boolean
         handler: (range: Range, context: Context) => void
+        quill: {
+            formatLine: (
+                index: number | undefined,
+                length: number | undefined,
+                block: string,
+                add: boolean | string
+            ) => void
+            formatText: (
+                index: number | undefined,
+                length: number | undefined,
+                block: string,
+                add: boolean | string | null
+            ) => void
+        }
     }
 >
 
 const keyBindings: KeyBindings = {
     header1: {
+        quill: { formatLine: () => null, formatText: () => null },
         key: '1',
         shiftKey: true,
         shortKey: true,
@@ -99,6 +107,7 @@ const keyBindings: KeyBindings = {
         },
     },
     header2: {
+        quill: { formatLine: () => null, formatText: () => null },
         key: '2',
         shiftKey: true,
         shortKey: true,
@@ -108,6 +117,7 @@ const keyBindings: KeyBindings = {
         },
     },
     codeBlock: {
+        quill: { formatLine: () => null, formatText: () => null },
         key: 'e',
         shiftKey: true,
         shortKey: true,
@@ -118,11 +128,12 @@ const keyBindings: KeyBindings = {
         },
     },
     link: {
+        quill: { formatLine: () => null, formatText: () => null },
         key: 'k',
         shortKey: true,
         handler: function (range, context) {
             // eslint-disable-next-line no-alert -- NEEDS TO BE FIXED EVENTUALLY
-            const newUrl = prompt('Enter link URL:', context.format.link)
+            const newUrl = prompt('Enter link URL:', String(context.format.link))
             if (newUrl === '') this.quill.formatText(range?.index, range?.length, 'link', false)
             else this.quill.formatText(range?.index, range?.length, 'link', newUrl)
         },
