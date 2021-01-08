@@ -5,6 +5,7 @@ type Color = 'secondary' | 'error' | 'warning' | 'success'
 type Props = {
     children?: never
     color?: Color
+    ping?: boolean
 }
 
 const COLOR_MAP: Record<Color, string> = {
@@ -14,10 +15,16 @@ const COLOR_MAP: Record<Color, string> = {
     success: 'bg-success-400',
 }
 
-export const StatusDot = ({ color = 'secondary' }: Props): JSX.Element => {
-    const classes = classNames('w-2 h-2 rounded-full', COLOR_MAP[color])
+export const StatusDot = ({ color = 'secondary', ping = false }: Props): JSX.Element => {
+    const dotClasses = classNames('w-2 absolute h-2 rounded-full', COLOR_MAP[color])
+    const pingClasses = classNames(dotClasses, { 'animate-ping': ping })
 
-    return <div className={classes} />
+    return (
+        <div className='relative w-2 h-2'>
+            <div className={dotClasses} />
+            <div className={pingClasses} />
+        </div>
+    )
 }
 
 export type StatusDot = ReturnType<typeof StatusDot>
