@@ -2,8 +2,8 @@ name: Continuous deployment
 
 on:
   schedule:
-    - cron: '0 0 * * 0,3'
-    - branches: [master]
+    cron: '0 0 * * 0,3'
+    branches: [master]
 
 jobs:
   test-deployment:
