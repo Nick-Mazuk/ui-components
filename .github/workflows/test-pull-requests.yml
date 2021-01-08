@@ -26,16 +26,16 @@ jobs:
           # This must be used as GitHub Actions token does not support
           # pushing to protected branches.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  
-  # PRODUCES ERROR
-  # bump-package-version:
-  #   if: github.actor == 'dependabot[bot]'
-  #   name: Bumps as a patch
-  #   needs:
-  #     - merge-dependabot
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: phips28/gh-action-bump-version@v8.0.18
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  bump-package-version:
+    if: github.actor == 'dependabot[bot]'
+    name: Bumps as a patch
+    needs:
+      - merge-dependabot
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: phips28/gh-action-bump-version@v8.0.18
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          target-branch: 'master'
