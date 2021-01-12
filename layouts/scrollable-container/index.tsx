@@ -16,7 +16,7 @@ type GapData = {
 type ColumnWidth = number | { base: number; sm?: number; md?: number; lg?: number; xl?: number }
 
 type Props = {
-    children: ReactNode[]
+    children: ReactNode | ReactNode[]
     columnWidth: ColumnWidth
     gap?: Gap
     shadow?: boolean
@@ -94,7 +94,8 @@ export const ScrollableContainer = ({
     gap = 'default',
     columnWidth,
     shadow,
-}: Props): JSX.Element => {
+}: // eslint-disable-next-line sonarjs/cognitive-complexity -- FIX
+Props): JSX.Element => {
     const containerRef = useRef<HTMLDivElement>(null)
     const [containerWidth, setContainerWidth] = useState(200)
     const [overflowLeft, setOverflowLeft] = useState(false)
@@ -142,20 +143,22 @@ export const ScrollableContainer = ({
         setOverflowRight(scrollLeft !== scrollWidth - clientWidth)
     }, [children])
 
+    const childrenArray = Array.isArray(children) ? children : [children]
+
     return (
         <div className='relative'>
             <div
                 className={containerClasses}
                 style={{
                     gridTemplateColumns: `repeat(${getColumnCount(
-                        children,
+                        childrenArray,
                         count
                     )}, minmax(${width}px, 1fr))`,
                     scrollSnapType: 'x mandatory',
                 }}
                 ref={containerRef}
             >
-                {children.map((child) => (
+                {childrenArray.map((child) => (
                     <div key={child?.toString()} style={{ scrollSnapAlign: 'start' }}>
                         {child}
                     </div>
