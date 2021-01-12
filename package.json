@@ -10,6 +10,7 @@
         "html2json": "^1.0.2",
         "parse-full-name": "^1.2.4",
         "react-quill": "^2.0.0-beta.2",
+        "resize-observer-polyfill": "^1.5.1",
         "striptags": "^3.1.1"
     },
     "scripts": {
@@ -56,7 +57,6 @@
         "@types/node": "^14.11.8",
         "@types/parse-full-name": "^1.2.0",
         "@types/react": "^16.9.52",
-        "@types/resize-observer-browser": "^0.1.5",
         "@types/validator": "^13.1.0",
         "babel-jest": "^26.5.2",
         "classnames": "^2.2.6",

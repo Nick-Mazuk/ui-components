@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState, useRef } from 'react'
 import classNames from 'classnames'
 
 import { debounce } from 'debounce'
+import ResizeObserver from 'resize-observer-polyfill'
 
 import { Arrows } from './arrows'
 import { Gradients } from './gradients'
