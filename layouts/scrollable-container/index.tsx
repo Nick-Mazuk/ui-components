@@ -118,11 +118,13 @@ export const ScrollableContainer = ({
         )
     }, [])
     useEffect(() => {
-        const container = containerRef.current
         if (!observer.current) observer.current = new ResizeObserver(checkForOverflow)
+        const container = containerRef.current
         const resizeObserver = observer.current
-        if (container) container.addEventListener('scroll', checkForOverflow)
-        if (resizeObserver && container) resizeObserver.observe(container)
+        if (container) {
+            container.addEventListener('scroll', checkForOverflow)
+            resizeObserver.observe(container)
+        }
 
         checkForOverflow()
         return () => {
