@@ -6,9 +6,9 @@ import classNames from 'classnames'
 import { ease } from '@nick-mazuk/lib/animation'
 import { motion } from 'framer-motion'
 
-import { WithClick } from '../hoc/with-click'
-import { ChevronDown } from './icon'
-import { Text } from './text'
+import { WithClick } from '../../hoc/with-click'
+import { ChevronDown } from '../icon'
+import { Text } from '../text'
 
 type Props = {
     children: ReactNode | ReactNode[]
@@ -36,7 +36,7 @@ const SIZE_MAP: Record<'small' | 'default', Size> = {
     },
 }
 
-// eslint-disable-next-line max-lines-per-function, import/exports-last -- it's still readable
+// eslint-disable-next-line max-lines-per-function -- it's still readable
 export const Accordion = ({ children, title, subtitle, small = false }: Props): JSX.Element => {
     const [open, setOpen] = useState(false)
     const [contentHeight, setContentHeight] = useState(0)
@@ -70,7 +70,11 @@ export const Accordion = ({ children, title, subtitle, small = false }: Props): 
             animate={open ? 'open' : 'closed'}
             className={containerClasses}
         >
-            <WithClick callback={toggleOpen} className={headerClasses}>
+            <WithClick
+                onClick={toggleOpen}
+                className={headerClasses}
+                name={`${open ? 'Close' : 'Open'} ${typeof title === 'string' ? title : 'section'}`}
+            >
                 <div className='flex items-center justify-between'>
                     {typeof title === 'string' ? (
                         <Text h4={!small} h6={small} as='p'>
@@ -103,15 +107,4 @@ export const Accordion = ({ children, title, subtitle, small = false }: Props): 
     )
 }
 
-// eslint-disable-next-line import/exports-last -- file contains two components
 export type Accordion = ReturnType<typeof Accordion>
-
-type GroupProps = {
-    children: Accordion | Accordion[]
-}
-
-export const AccordionGroup = ({ children }: GroupProps): JSX.Element => {
-    return <div>{children}</div>
-}
-
-export type AccordionGroup = ReturnType<typeof AccordionGroup>

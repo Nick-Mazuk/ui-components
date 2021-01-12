@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { axe } from 'jest-axe'
 
 import type { FormSync } from '..'
 import { DateInput } from '../date-input'
@@ -305,4 +306,11 @@ test.each(Inputs)('%s syncs via formSync', (_, Input) => {
     }
     render(<Input formSync={formSync} />)
     expect(formSync.updateForm).toHaveBeenCalledTimes(1)
+})
+
+test.each(Inputs)('"%s"as no accessibility issues', async (_, Input) => {
+    const { container } = render(<Input />)
+    const results = await axe(container)
+
+    expect(results).toHaveNoViolations()
 })

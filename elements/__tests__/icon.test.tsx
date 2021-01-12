@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react'
 
 import type { FillableIconProps, IconProps } from '../icon'
-// eslint-disable-next-line import/no-namespace -- This way, I can automatically add icons to the test suite
 import * as AllIconsImport from '../icon'
 
 type IconFunction = (props: IconProps | FillableIconProps) => JSX.Element

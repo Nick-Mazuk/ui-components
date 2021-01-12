@@ -477,6 +477,7 @@ describe('when affixes are clicked, the correct action happens', () => {
                 onChange={onChange}
                 prefix='$'
                 prefixOnClick={onClickPrefixMock}
+                prefixName='Prefix button'
                 onKeyPress={jest.fn()}
             />
         )
@@ -494,6 +495,7 @@ describe('when affixes are clicked, the correct action happens', () => {
                 onChange={onChange}
                 suffix='$'
                 suffixOnClick={onClickSuffixMock}
+                suffixName='Suffix button'
                 onKeyPress={jest.fn()}
             />
         )
@@ -512,8 +514,10 @@ describe('when affixes are clicked, the correct action happens', () => {
                 onChange={onChange}
                 prefix='$'
                 prefixOnClick={onClickPrefixMock}
+                prefixName='Prefix button'
                 suffix='.00'
                 suffixOnClick={onClickSuffixMock}
+                suffixName='Suffix button'
                 onKeyPress={jest.fn()}
             />
         )

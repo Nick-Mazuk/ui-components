@@ -48,6 +48,8 @@ type Props = {
     suffix?: AffixContent
     prefixOnClick?: WithClickCallback
     suffixOnClick?: WithClickCallback
+    prefixName?: string
+    suffixName?: string
     keyboard?: Keyboard
     autoComplete?: Autocomplete
 
@@ -254,6 +256,8 @@ export const TextInput = (props: Props): JSX.Element => {
             suffix={props.suffix}
             prefixOnClick={props.prefixOnClick}
             suffixOnClick={props.suffixOnClick}
+            prefixName={props.prefixName}
+            suffixName={props.suffixName}
             keyboard={props.keyboard}
             autoComplete={props.autoComplete}
             tabNums={props.tabNums}

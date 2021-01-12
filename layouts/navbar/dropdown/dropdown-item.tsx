@@ -41,7 +41,7 @@ export const DropdownItem = ({ children, href, onClick }: Props): JSX.Element =>
     }
     if (onClick) {
         return (
-            <WithClick className={classes} callback={onClick}>
+            <WithClick className={classes} onClick={onClick} name={children}>
                 {content}
             </WithClick>
         )

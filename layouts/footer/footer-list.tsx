@@ -26,11 +26,11 @@ export const FooterList = ({ title, links }: Props): JSX.Element => {
     const linkSpanClasses = 'pl-4 md:block md:pl-0 md:w-auto'
     const linkClasses =
         'text-gray-600 dark:text-gray-d600 py-3 block hover:text-primary dark:hover:text-primary-d text-sm md:text-base md:text-gray-600 md:dark:text-gray-d600 md:inline-block md:py-2'
-
+    const headerName = `${collapsed ? 'Open' : 'Close'} ${title}`
     return (
         <div className='border-b border-gray-100 first:border-t dark:border-gray-d100 md:border-none md:w-full md:p-0'>
             <div className='md:hidden'>
-                <WithClick callback={toggleCollapsedState} className='w-full'>
+                <WithClick onClick={toggleCollapsedState} className='w-full' name={headerName}>
                     <div className='flex items-center justify-between py-6 cursor-pointer select-none text-gray dark:text-gray-d width-full'>
                         <Text uppercase tiny>
                             {title}

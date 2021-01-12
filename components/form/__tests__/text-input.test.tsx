@@ -1,6 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { shallow } from 'enzyme'
+import { axe } from 'jest-axe'
 
 import type { FormSync } from '..'
 import { Form } from '..'
@@ -432,25 +433,25 @@ describe('"suffixOnClick" prop is passed down', () => {
 
 describe("typing into the input updates the input's value", () => {
     const inputs = ['', 'this is the input']
-    it.each(inputs)('as a user types "%s", the value shown in the input updates', async (input) => {
+    it.each(inputs)('as a user types "%s", the value shown in the input updates', (input) => {
         render(<TextInput type='text' label='text-input' />)
-        await userEvent.type(screen.getByRole('textbox'), input)
+        userEvent.type(screen.getByRole('textbox'), input)
         expect(screen.getByRole('textbox').getAttribute('value')).toBe(input)
     })
 })
 
 describe('user can delete text', () => {
-    it('as a user deletes, the value shown in the input updates', async () => {
+    it('as a user deletes, the value shown in the input updates', () => {
         render(<TextInput type='text' label='text-input' defaultValue='starting value' />)
-        await userEvent.type(screen.getByRole('textbox'), '{backspace}')
+        userEvent.type(screen.getByRole('textbox'), '{backspace}')
         expect(screen.getByRole('textbox').getAttribute('value')).toBe('starting valu')
-        await userEvent.type(screen.getByRole('textbox'), '{backspace}')
+        userEvent.type(screen.getByRole('textbox'), '{backspace}')
         expect(screen.getByRole('textbox').getAttribute('value')).toBe('starting val')
-        await userEvent.type(screen.getByRole('textbox'), '{backspace}')
+        userEvent.type(screen.getByRole('textbox'), '{backspace}')
         expect(screen.getByRole('textbox').getAttribute('value')).toBe('starting va')
-        await userEvent.type(screen.getByRole('textbox'), '{backspace}')
+        userEvent.type(screen.getByRole('textbox'), '{backspace}')
         expect(screen.getByRole('textbox').getAttribute('value')).toBe('starting v')
-        await userEvent.type(screen.getByRole('textbox'), '{backspace}')
+        userEvent.type(screen.getByRole('textbox'), '{backspace}')
         expect(screen.getByRole('textbox').getAttribute('value')).toBe('starting ')
     })
 })
@@ -479,28 +480,28 @@ describe('input is invalid when input is empty and field is required', () => {
         expect(screen.getByText('Error:')).toBeTruthy()
         expect(screen.getByText('Name is required.')).toBeTruthy()
     })
-    test('input is marked as valid after typing a valid input', async () => {
+    test('input is marked as valid after typing a valid input', () => {
         render(<TextInput type='text' label='Name' requiredMessage='Name is required' />)
         userEvent.click(screen.getByRole('textbox'))
         userEvent.tab()
         expect(screen.getByText('Name is required.')).toBeTruthy()
-        await userEvent.type(screen.getByRole('textbox'), 's')
+        userEvent.type(screen.getByRole('textbox'), 's')
         expect(screen.queryByText('Name is required.')).toBeFalsy()
         expect(screen.getByRole('textbox')).toHaveFocus()
     })
 })
 
 describe('success message is shown when field is valid', () => {
-    test('custom success message is shown', async () => {
+    test('custom success message is shown', () => {
         render(<TextInput type='text' label='Name' successMessage='That looks good!' />)
-        await userEvent.type(screen.getByRole('textbox'), 'some valid input')
+        userEvent.type(screen.getByRole('textbox'), 'some valid input')
         userEvent.tab()
         expect(screen.getByText('That looks good!')).toBeTruthy()
         expect(screen.getByTestId('success')).toBeTruthy()
     })
-    test('success message is not shown if not provided', async () => {
+    test('success message is not shown if not provided', () => {
         render(<TextInput type='text' label='Name' />)
-        await userEvent.type(screen.getByRole('textbox'), 'some valid input')
+        userEvent.type(screen.getByRole('textbox'), 'some valid input')
         userEvent.tab()
         expect(screen.queryByTestId('success')).toBeFalsy()
     })
@@ -792,4 +793,21 @@ describe('formSync works', () => {
         await waitFor(() => expect(screen.getByText('Form state: submitted')).toBeTruthy())
         expect(input).toHaveValue(defaultValue)
     })
+})
+
+/* 
+   
+   
+   
+   test accessibility
+   
+   
+   
+    */
+
+test('Has no accessibility issues', async () => {
+    const { container } = render(<TextInput type='text' label='Name' />)
+    const results = await axe(container)
+
+    expect(results).toHaveNoViolations()
 })

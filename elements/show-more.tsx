@@ -24,8 +24,9 @@ export const ShowMore = ({ expanded, onClick }: Props): JSX.Element => {
         <div className='relative text-center'>
             <div className='absolute w-full transform -translate-y-1/2 border-b-2 border-gray-30 top-1/2' />
             <WithClick
-                callback={onClick}
+                onClick={onClick}
                 className='relative inline-block px-4 py-2 transition-all duration-150 bg-white rounded-full shadow-md text-gray hover:text-gray-900 hover:shadow-lg'
+                name='Show more'
             >
                 <div className='flex space-x-2'>
                     <Text tiny uppercase>

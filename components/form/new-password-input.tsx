@@ -61,6 +61,7 @@ export const NewPasswordInput = (props: Props): JSX.Element => {
             prefix={props.hideIcon ? '' : <Lock />}
             suffix={showPassword ? <EyeOff /> : <Eye />}
             suffixOnClick={toggleShowPassword}
+            suffixName={showPassword ? 'Hide password' : 'Show password'}
             requiredMessage={props.requiredMessage ?? 'Enter your password'}
             successMessage={props.successMessage ?? ''}
             autoComplete={props.disableAutocomplete ? '' : 'new-password'}

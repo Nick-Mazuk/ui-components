@@ -10,7 +10,8 @@ export type WithClickCallback = (
 
 type Props = {
     children: ReactNode | ReactNode[]
-    callback: WithClickCallback
+    onClick: WithClickCallback
+    name: string
     tabIndex?: number
     key?: string
     role?: string
@@ -20,7 +21,8 @@ type Props = {
 
 export const WithClick = ({
     children,
-    callback,
+    onClick,
+    name,
     tabIndex = 0,
     key = 'Enter',
     role = 'button',
@@ -32,9 +34,9 @@ export const WithClick = ({
 
     const handleKeyPress = useCallback(
         (event) => {
-            if (event.key === key) callback(event)
+            if (event.key === key) onClick(event)
         },
-        [callback, key]
+        [onClick, key]
     )
     const handleFocus = useCallback(
         (event) => {
@@ -47,7 +49,7 @@ export const WithClick = ({
 
     return (
         <Tag
-            onClick={callback}
+            onClick={onClick}
             onKeyPress={handleKeyPress}
             onFocus={handleFocus}
             onMouseDown={handleMouseDown}
@@ -55,7 +57,9 @@ export const WithClick = ({
             role={role}
             tabIndex={tabIndex}
             className={className}
-            type='button'
+            aria-label={name}
+            // eslint-disable-next-line no-undefined -- necessary
+            type={Tag === 'button' ? 'button' : undefined}
         >
             {children}
         </Tag>

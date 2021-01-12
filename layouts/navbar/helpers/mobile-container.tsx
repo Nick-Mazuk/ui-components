@@ -35,7 +35,11 @@ export const MobileContainer = ({
                         <Text h6 as='p' color='text-gray'>
                             {title}
                         </Text>
-                        <WithClick callback={toggle} className='p-4 -m-4 text-gray'>
+                        <WithClick
+                            onClick={toggle}
+                            className='p-4 -m-4 text-gray'
+                            name='Close menu'
+                        >
                             <X width='w-5' />
                         </WithClick>
                     </div>

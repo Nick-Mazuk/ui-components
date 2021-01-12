@@ -49,20 +49,44 @@ describe('onClick event works', () => {
 
     it('When onClick is defined, it should have a role of button', () => {
         const testFunction = jest.fn()
-        render(<Affix content='$' size='default' type='prefix' onClick={testFunction} />)
+        render(
+            <Affix
+                content='$'
+                size='default'
+                type='prefix'
+                onClick={testFunction}
+                buttonName='Name'
+            />
+        )
         expect(screen.queryByRole('button')).toBeTruthy()
     })
 
     it('function runs when clicked', () => {
         const testFunction = jest.fn()
-        render(<Affix content='$' size='default' type='prefix' onClick={testFunction} />)
+        render(
+            <Affix
+                content='$'
+                size='default'
+                type='prefix'
+                onClick={testFunction}
+                buttonName='Button'
+            />
+        )
         userEvent.click(screen.getByRole('button'))
         expect(testFunction).toHaveBeenCalledTimes(1)
     })
 
     it.each(contentItems)('if content is %s, clicking still works', (_, content) => {
         const testFunction = jest.fn()
-        render(<Affix content={content} size='default' type='prefix' onClick={testFunction} />)
+        render(
+            <Affix
+                content={content}
+                size='default'
+                type='prefix'
+                onClick={testFunction}
+                buttonName='Name'
+            />
+        )
         userEvent.click(screen.getByRole('button'))
         expect(testFunction).toHaveBeenCalledTimes(1)
     })

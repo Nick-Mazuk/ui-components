@@ -12,12 +12,13 @@ export type AffixContent = string | Icon
 type Props = {
     children?: never
     size: Sizes
-    onClick: WithClickCallback | undefined
     content: AffixContent | undefined
     type: 'prefix' | 'suffix'
+    onClick?: WithClickCallback
+    buttonName?: string
 }
 
-export const Affix = ({ content, size, onClick, type }: Props): JSX.Element => {
+export const Affix = ({ content, size, onClick, type, buttonName }: Props): JSX.Element => {
     // eslint-disable-next-line react/jsx-no-useless-fragment --  base case if Affix doesn't exist
     if (!content) return <></>
 
@@ -32,9 +33,9 @@ export const Affix = ({ content, size, onClick, type }: Props): JSX.Element => {
     )
     if (typeof content === 'string') contentElement = content
 
-    if (onClick) {
+    if (onClick && buttonName) {
         return (
-            <WithClick className={classes} callback={onClick}>
+            <WithClick className={classes} onClick={onClick} name={buttonName}>
                 {contentElement}
             </WithClick>
         )

@@ -17,10 +17,18 @@ export const Arrows = ({ showLeft, showRight, setScroll }: Props): JSX.Element =
     const rightArrowClasses = classNames(arrowClasses, '-right-6', { hidden: !showRight })
     return (
         <>
-            <WithClick callback={() => setScroll('left')} className={leftArrowClasses}>
+            <WithClick
+                onClick={() => setScroll('left')}
+                className={leftArrowClasses}
+                name='Scroll left'
+            >
                 <ChevronLeft width='w-8' />
             </WithClick>
-            <WithClick callback={() => setScroll('right')} className={rightArrowClasses}>
+            <WithClick
+                onClick={() => setScroll('right')}
+                className={rightArrowClasses}
+                name='Scroll right'
+            >
                 <ChevronRight width='w-8' />
             </WithClick>
         </>

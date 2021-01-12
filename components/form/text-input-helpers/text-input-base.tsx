@@ -104,7 +104,9 @@ type Props = {
     prefix?: AffixContent
     suffix?: AffixContent
     prefixOnClick?: WithClickCallback
+    prefixName?: string
     suffixOnClick?: WithClickCallback
+    suffixName?: string
     keyboard?: Keyboard
     autoComplete?: Autocomplete
     onChange: (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void
@@ -177,6 +179,7 @@ const getInputProps = (props: Props, size: Sizes): InputProps => {
         className: classes,
         onChange: props.onChange,
         'aria-invalid': props.invalid,
+        'aria-label': props.id,
     }
     if (props.readonly) inputProps.readOnly = true
     if (props.disabled) inputProps.disabled = true
@@ -198,7 +201,6 @@ export const TextInputBase = (props: Props): JSX.Element => {
     const inputProps = getInputProps(props, size)
 
     return (
-        // eslint-disable-next-line jsx-a11y/label-has-for -- works in final HTML since input is wrapped in a component
         <label htmlFor={props.id} className='flex flex-col space-y-1'>
             <div className='flex items-baseline'>
                 <div>
@@ -217,6 +219,7 @@ export const TextInputBase = (props: Props): JSX.Element => {
                     content={props.prefix}
                     size={size}
                     onClick={props.prefixOnClick}
+                    buttonName={props.prefixName}
                     type='prefix'
                 />
                 <TextInputElement
@@ -229,6 +232,7 @@ export const TextInputBase = (props: Props): JSX.Element => {
                     content={props.suffix}
                     size={size}
                     onClick={props.suffixOnClick}
+                    buttonName={props.suffixName}
                     type='suffix'
                 />
             </TextInputWrapper>

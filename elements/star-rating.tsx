@@ -40,9 +40,10 @@ const createStars = (
                 <Fragment key={`${index}${index <= currentRating}`}>
                     <WithClick
                         className={starClasses}
-                        callback={() => {
+                        onClick={() => {
                             setCurrentRating(index + 1)
                         }}
+                        name={`Rate ${index + 1} stars`}
                     >
                         <Star fill />
                     </WithClick>

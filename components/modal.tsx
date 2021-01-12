@@ -63,10 +63,11 @@ const Title = ({ title, onClose }: { title?: string; onClose: OnClose }): JSX.El
                 {title}
             </Text>
             <WithClick
-                callback={() => {
+                onClick={() => {
                     onClose('close')
                 }}
                 className='px-8 py-4 -mx-8 -my-6 transition-colors duration-150 text-gray hover:text-gray-900 hover:bg-gray-20'
+                name='Close modal'
             >
                 <X width='w-5' />
             </WithClick>
