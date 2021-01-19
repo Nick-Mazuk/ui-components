@@ -604,7 +604,7 @@ describe('function hooks work when called', () => {
                 onKeyDown={jest.fn()}
                 onSuggestionClick={onClickMock}
                 suggestions={suggestionTexts}
-                isInputFocused
+                showSuggestions
             />
         )
         userEvent.click(screen.getByRole('textbox'))

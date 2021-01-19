@@ -9,7 +9,7 @@ type Props = {
     activeSuggestion?: number
     suggestions?: string[]
     icon?: Icon
-    isInputFocused?: boolean
+    showSuggestions?: boolean
     onSuggestionClick?: (value: string) => void
     size: Sizes
 }
@@ -38,12 +38,12 @@ export const TextInputSuggestions = ({
     suggestions,
     icon,
     activeSuggestion,
-    isInputFocused,
+    showSuggestions,
     onSuggestionClick,
     size,
 }: Props): JSX.Element => {
     if (
-        !isInputFocused ||
+        !showSuggestions ||
         typeof suggestions === 'undefined' ||
         suggestions.length === 0 ||
         typeof onSuggestionClick === 'undefined'
@@ -55,7 +55,7 @@ export const TextInputSuggestions = ({
     return (
         <>
             <div
-                className='absolute z-10 w-full -mt-3 overflow-hidden text-gray-900 rounded-b'
+                className='absolute z-10 w-full -top-3 overflow-hidden text-gray-900 rounded-b bg-white'
                 data-testid='text-input-suggestions'
             >
                 <div className={suggestionClasses}>
@@ -76,7 +76,7 @@ export const TextInputSuggestions = ({
                 </div>
             </div>
             <div
-                className='absolute left-0 right-0 z-20 flex flex-col justify-around h-2 -mt-3 bg-white'
+                className='absolute left-0 right-0 z-20 flex flex-col justify-around h-2 -top-3 bg-white'
                 style={{ marginLeft: '2px', marginRight: '2px' }}
             >
                 <div className={dividerClasses} />

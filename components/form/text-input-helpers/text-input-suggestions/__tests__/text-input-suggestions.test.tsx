@@ -32,7 +32,7 @@ describe('is hidden when appropriate', () => {
         const { container } = render(
             <TextInputSuggestions
                 suggestions={suggestionTexts}
-                isInputFocused={false}
+                showSuggestions={false}
                 onSuggestionClick={jest.fn()}
                 size='default'
             />
@@ -46,7 +46,7 @@ describe('suggestion text is rendered correctly', () => {
         render(
             <TextInputSuggestions
                 suggestions={suggestionTexts}
-                isInputFocused
+                showSuggestions
                 onSuggestionClick={jest.fn()}
                 size='default'
             />
@@ -60,7 +60,7 @@ describe('suggestion text is rendered correctly', () => {
         render(
             <TextInputSuggestions
                 suggestions={suggestionTexts}
-                isInputFocused
+                showSuggestions
                 onSuggestionClick={jest.fn()}
                 size='default'
             />
@@ -78,7 +78,7 @@ describe('icons are rendered correctly', () => {
             <TextInputSuggestions
                 suggestions={suggestionTexts}
                 icon={<Search />}
-                isInputFocused
+                showSuggestions
                 onSuggestionClick={jest.fn()}
                 size='default'
             />
@@ -89,7 +89,7 @@ describe('icons are rendered correctly', () => {
         render(
             <TextInputSuggestions
                 suggestions={suggestionTexts}
-                isInputFocused
+                showSuggestions
                 onSuggestionClick={jest.fn()}
                 size='default'
             />
@@ -107,7 +107,7 @@ describe('active icons are shown correctly', () => {
             <TextInputSuggestions
                 suggestions={suggestionTexts}
                 activeSuggestion={activeSuggestion}
-                isInputFocused
+                showSuggestions
                 onSuggestionClick={jest.fn()}
                 size='default'
             />
@@ -127,7 +127,7 @@ describe('active icons are shown correctly', () => {
             <TextInputSuggestions
                 suggestions={suggestionTexts}
                 activeSuggestion={-1}
-                isInputFocused
+                showSuggestions
                 onSuggestionClick={jest.fn()}
                 size='default'
             />
@@ -145,7 +145,7 @@ test('clicking on suggestion calls callback', () => {
         <TextInputSuggestions
             suggestions={suggestionTexts}
             activeSuggestion={-1}
-            isInputFocused
+            showSuggestions
             onSuggestionClick={onClickMock}
             size='default'
         />

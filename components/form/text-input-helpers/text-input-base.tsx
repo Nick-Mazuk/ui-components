@@ -110,7 +110,7 @@ type Props = {
     suffixName?: string
     suggestions?: string[]
     activeSuggestion?: number
-    isInputFocused?: boolean
+    showSuggestions?: boolean
     keyboard?: Keyboard
     autoComplete?: Autocomplete
     onChange: (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void
@@ -206,7 +206,7 @@ export const TextInputBase = (props: Props): JSX.Element => {
     const inputProps = getInputProps(props, size)
 
     return (
-        <label htmlFor={props.id} className='flex flex-col space-y-1 relative'>
+        <label htmlFor={props.id} className='flex flex-col space-y-1'>
             <div className='flex items-baseline'>
                 <div>
                     <LabelGroup label={props.label} info={props.info} />
@@ -243,21 +243,23 @@ export const TextInputBase = (props: Props): JSX.Element => {
             </TextInputWrapper>
             {/* eslint-enable react/jsx-handler-names -- done down the functions */}
 
-            <TextInputSuggestions
-                suggestions={props.suggestions}
-                activeSuggestion={props.activeSuggestion}
-                isInputFocused={props.isInputFocused}
-                icon={
-                    // eslint-disable-next-line no-undefined -- necessary
-                    !props.prefix || typeof props.prefix === 'string' ? undefined : props.prefix
-                }
-                onSuggestionClick={props.onSuggestionClick}
-                size={size}
-            />
+            <div className='relative'>
+                <TextInputSuggestions
+                    suggestions={props.suggestions}
+                    activeSuggestion={props.activeSuggestion}
+                    showSuggestions={props.showSuggestions}
+                    icon={
+                        // eslint-disable-next-line no-undefined -- necessary
+                        !props.prefix || typeof props.prefix === 'string' ? undefined : props.prefix
+                    }
+                    onSuggestionClick={props.onSuggestionClick}
+                    size={size}
+                />
 
-            <div className='flex'>
-                <Feedback error={props.error} success={props.success} />
-                <Progress text={props.progress} invalid={hasError} />
+                <div className='flex'>
+                    <Feedback error={props.error} success={props.success} />
+                    <Progress text={props.progress} invalid={hasError} />
+                </div>
             </div>
         </label>
     )

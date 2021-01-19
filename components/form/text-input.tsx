@@ -138,7 +138,7 @@ export const TextInput = (props: Props): JSX.Element => {
     const [valid, setValid] = useState(true)
     const [showSuccess, setShowSuccess] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
-    const [isInputFocused, setIsInputFocused] = useState(false)
+    const [showSuggestions, setShowSuggestions] = useState(false)
     const [activeSuggestion, setActiveSuggestion] = useState(-1)
     const [progress, setProgress] = useState(
         getProgress(defaultValue, props.progress, props.maxCharacters)
@@ -210,17 +210,18 @@ export const TextInput = (props: Props): JSX.Element => {
             )
             updateValue(newValue)
             if (!valid) updateValidation(newValue)
+            setShowSuggestions(true)
         },
         [value, props.onUpdate, props.maxCharacters, updateValue, valid, updateValidation]
     )
 
     const handleFocus = useCallback(() => {
-        setIsInputFocused(true)
+        setShowSuggestions(true)
     }, [])
 
     const handleBlur = useCallback(
         (event: FocusEvent<HTMLInputElement> | FocusEvent<HTMLTextAreaElement>): void => {
-            setIsInputFocused(false)
+            setShowSuggestions(false)
             const newValue = event.target.value
             const isValid = updateValidation(newValue)
             if (isValid) {
@@ -235,6 +236,7 @@ export const TextInput = (props: Props): JSX.Element => {
         (newValue: string) => {
             if (props.onSuggestionSelected) props.onSuggestionSelected(newValue)
             updateValue(newValue)
+            setShowSuggestions(false)
         },
         [props, updateValue]
     )
@@ -329,7 +331,7 @@ export const TextInput = (props: Props): JSX.Element => {
             onFocus={handleFocus}
             onBlur={handleBlur}
             onKeyDown={handleKeyDown}
-            isInputFocused={isInputFocused}
+            showSuggestions={showSuggestions}
         />
     )
 }
