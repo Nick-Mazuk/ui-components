@@ -18,8 +18,10 @@ type Props = {
     className?: string
     testId?: string
     as?: 'span' | 'div' | 'button'
+    mouseDown?: boolean
 }
 
+// eslint-disable-next-line max-lines-per-function -- future fix
 export const WithClick = ({
     children,
     onClick,
@@ -30,10 +32,10 @@ export const WithClick = ({
     className = '',
     as = 'button',
     testId,
+    mouseDown,
 }: Props): JSX.Element => {
     const [mouseIsDown, setMouseIsDown] = useState(false)
     const Tag = as
-
     const handleKeyPress = useCallback(
         (event) => {
             if (event.key === key) onClick(event)
@@ -46,9 +48,14 @@ export const WithClick = ({
         },
         [mouseIsDown]
     )
-    const handleMouseDown = useCallback(() => setMouseIsDown(true), [])
+    const handleMouseDown = useCallback(
+        (event) => {
+            setMouseIsDown(true)
+            if (mouseDown) onClick(event)
+        },
+        [mouseDown, onClick]
+    )
     const handleMouseUp = useCallback(() => setMouseIsDown(false), [])
-
     return (
         <Tag
             onClick={onClick}

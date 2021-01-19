@@ -549,8 +549,9 @@ describe('function hooks work when called', () => {
 
         const input = screen.getByRole('textbox')
         expect(input.getAttribute('value')).toBe('')
-        userEvent.type(input, 'value')
-        expect(onChangeMock).toHaveBeenCalledTimes(5)
+        const typedText = 'value'
+        userEvent.type(input, typedText)
+        expect(onChangeMock).toHaveBeenCalledTimes(typedText.length)
     })
     it('onFocus is called when focused for input', () => {
         const onFocusMock = jest.fn()
@@ -589,5 +590,26 @@ describe('function hooks work when called', () => {
         expect(onBlurMock).toHaveBeenCalledTimes(0)
         userEvent.tab()
         expect(onBlurMock).toHaveBeenCalledTimes(1)
+    })
+    test('clicking on suggestion calls callback', () => {
+        const suggestionTexts = ['suggestion 1', 'suggestion 2']
+        const onClickMock = jest.fn()
+        render(
+            <TextInputBase
+                type='text'
+                name='name'
+                id='id'
+                value='value'
+                onChange={onChange}
+                onKeyDown={jest.fn()}
+                onSuggestionClick={onClickMock}
+                suggestions={suggestionTexts}
+                isInputFocused
+            />
+        )
+        userEvent.click(screen.getByRole('textbox'))
+        userEvent.click(screen.getAllByTestId('text-input-suggestion')[0])
+        expect(onClickMock).toHaveBeenCalled()
+        expect(onClickMock).toHaveBeenLastCalledWith(suggestionTexts[0])
     })
 })

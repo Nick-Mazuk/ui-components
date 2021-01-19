@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 import { TextInputSuggestions } from '..'
 import { Search } from '../../../../../elements/icon'
@@ -136,4 +137,20 @@ describe('active icons are shown correctly', () => {
             expect(suggestion.classList.toString()).not.toMatch(activeClass)
         })
     })
+})
+
+test('clicking on suggestion calls callback', () => {
+    const onClickMock = jest.fn()
+    render(
+        <TextInputSuggestions
+            suggestions={suggestionTexts}
+            activeSuggestion={-1}
+            isInputFocused
+            onSuggestionClick={onClickMock}
+            size='default'
+        />
+    )
+    userEvent.click(screen.getAllByRole('button')[0])
+    expect(onClickMock).toHaveBeenCalled()
+    expect(onClickMock).toHaveBeenLastCalledWith(suggestionTexts[0])
 })

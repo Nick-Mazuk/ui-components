@@ -10,7 +10,7 @@ import type { Autocomplete, Keyboard, Sizes, Type } from './text-input-helpers/t
 import { TextInputBase } from './text-input-helpers/text-input-base'
 
 /* props - 
-   coolness - persist, suggestion text, autocomplete
+   coolness - persist
 */
 
 /* eslint-disable import/exports-last -- used in other text-input components */
@@ -231,10 +231,13 @@ export const TextInput = (props: Props): JSX.Element => {
         [updateValidation, updateValue, props.formatter]
     )
 
-    const handleSuggestionClick = (newValue: string) => {
-        if (props.onSuggestionSelected) props.onSuggestionSelected(newValue)
-        updateValue(newValue)
-    }
+    const handleSuggestionClick = useCallback(
+        (newValue: string) => {
+            if (props.onSuggestionSelected) props.onSuggestionSelected(newValue)
+            updateValue(newValue)
+        },
+        [props, updateValue]
+    )
 
     const handleKeyDown = useCallback(
         (event: KeyboardEvent<HTMLInputElement>) => {

@@ -98,6 +98,6 @@ test('when clicked, it triggers onClick', () => {
         </Suggestion>
     )
     userEvent.click(screen.getByTestId('text-input-suggestion'))
-    expect(onClickMock).toHaveBeenCalledTimes(1)
+    expect(onClickMock).toHaveBeenCalled()
     expect(onClickMock).toHaveBeenCalledWith(text)
 })

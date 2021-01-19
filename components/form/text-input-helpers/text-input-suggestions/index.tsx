@@ -16,12 +16,22 @@ type Props = {
 
 type Size = {
     suggestionContainer: string
+    divider: string
 }
 
 const SIZE_MAP: Record<Sizes, Size> = {
-    small: { suggestionContainer: 'pt-2' },
-    default: { suggestionContainer: 'pt-3' },
-    large: { suggestionContainer: 'pt-4' },
+    small: {
+        suggestionContainer: 'pt-2',
+        divider: 'mx-3',
+    },
+    default: {
+        suggestionContainer: 'pt-3',
+        divider: 'mx-4',
+    },
+    large: {
+        suggestionContainer: 'pt-4',
+        divider: 'mx-4',
+    },
 }
 
 export const TextInputSuggestions = ({
@@ -40,8 +50,8 @@ export const TextInputSuggestions = ({
     )
         // eslint-disable-next-line react/jsx-no-useless-fragment -- base case
         return <></>
-
     const suggestionClasses = classNames('relative', SIZE_MAP[size].suggestionContainer)
+    const dividerClasses = classNames('border-t border-gray-100', SIZE_MAP[size].divider)
     return (
         <>
             <div
@@ -69,7 +79,7 @@ export const TextInputSuggestions = ({
                 className='absolute left-0 right-0 z-20 flex flex-col justify-around h-2 -mt-3 bg-white'
                 style={{ marginLeft: '2px', marginRight: '2px' }}
             >
-                <div className='mx-4 border-t border-gray-100' />
+                <div className={dividerClasses} />
             </div>
         </>
     )

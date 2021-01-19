@@ -744,7 +744,6 @@ describe('users can select suggestions', () => {
         )
         const input = screen.getByRole('textbox')
         userEvent.click(input)
-
         userEvent.click(screen.getAllByTestId('text-input-suggestion')[0])
 
         expect(input).toHaveValue(suggestionTexts[0])

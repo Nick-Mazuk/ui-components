@@ -55,6 +55,7 @@ export const Suggestion = ({ children, icon, isActive, onClick, size }: Props): 
             className={containerClasses}
             tabIndex={-1}
             testId='text-input-suggestion'
+            mouseDown
         >
             {icon && <div className={iconClasses}>{icon}</div>}
             <Text>{children}</Text>
