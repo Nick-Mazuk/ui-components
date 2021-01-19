@@ -58,7 +58,7 @@ export const Suggestion = ({ children, icon, isActive, onClick, size }: Props): 
             mouseDown
         >
             {icon && <div className={iconClasses}>{icon}</div>}
-            <Text>{children}</Text>
+            <Text small={size !== 'large'}>{children}</Text>
         </WithClick>
     )
 }

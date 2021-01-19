@@ -72,7 +72,7 @@ export const TextInputSuggestions = ({
                             </Suggestion>
                         )
                     })}
-                    <div className='absolute inset-0 rounded pointer-events-none user-select-none shadow-input-outline' />
+                    <div className='absolute inset-0 -top-1 rounded pointer-events-none user-select-none shadow-input-outline' />
                 </div>
             </div>
             <div
