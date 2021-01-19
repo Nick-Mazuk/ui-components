@@ -206,7 +206,7 @@ export const TextInputBase = (props: Props): JSX.Element => {
     const inputProps = getInputProps(props, size)
 
     return (
-        <label htmlFor={props.id} className='flex flex-col space-y-1'>
+        <label htmlFor={props.id} className='flex flex-col space-y-1 relative'>
             <div className='flex items-baseline'>
                 <div>
                     <LabelGroup label={props.label} info={props.info} />
