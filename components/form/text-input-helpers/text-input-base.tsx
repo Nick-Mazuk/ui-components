@@ -233,17 +233,6 @@ export const TextInputBase = (props: Props): JSX.Element => {
                     props={inputProps}
                     onKeyDown={props.onKeyDown}
                 />
-                <TextInputSuggestions
-                    suggestions={props.suggestions}
-                    activeSuggestion={props.activeSuggestion}
-                    isInputFocused={props.isInputFocused}
-                    icon={
-                        // eslint-disable-next-line no-undefined -- necessary
-                        !props.prefix || typeof props.prefix === 'string' ? undefined : props.prefix
-                    }
-                    onSuggestionClick={props.onSuggestionClick}
-                    size={size}
-                />
                 <Affix
                     content={props.suffix}
                     size={size}
@@ -253,6 +242,18 @@ export const TextInputBase = (props: Props): JSX.Element => {
                 />
             </TextInputWrapper>
             {/* eslint-enable react/jsx-handler-names -- done down the functions */}
+
+            <TextInputSuggestions
+                suggestions={props.suggestions}
+                activeSuggestion={props.activeSuggestion}
+                isInputFocused={props.isInputFocused}
+                icon={
+                    // eslint-disable-next-line no-undefined -- necessary
+                    !props.prefix || typeof props.prefix === 'string' ? undefined : props.prefix
+                }
+                onSuggestionClick={props.onSuggestionClick}
+                size={size}
+            />
 
             <div className='flex'>
                 <Feedback error={props.error} success={props.success} />
