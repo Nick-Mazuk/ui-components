@@ -5,7 +5,7 @@ import { Refresh, Search } from '../../elements/icon'
 import { TextInput } from './text-input'
 import type { Sizes } from './text-input-helpers/text-input-base'
 
-type Props = {
+export type Props = {
     children?: never
     label?: string
     name?: string
@@ -21,6 +21,7 @@ type Props = {
     hideIcon?: boolean
 
     maxCharacters?: number
+    suggestions?: string[]
 
     isSearching?: boolean
 
@@ -61,6 +62,7 @@ export const SearchInput = (props: Props): JSX.Element => {
             size={props.size}
             disabled={props.disabled}
             prefix={props.hideIcon ? '' : icon}
+            suggestions={props.suggestions}
             autoComplete='off'
             keyboard='search'
             optional

@@ -50,6 +50,8 @@ type Props = {
     suffixOnClick?: WithClickCallback
     prefixName?: string
     suffixName?: string
+    suggestions?: string[]
+    onSuggestionSelected?: (value: string) => void
     keyboard?: Keyboard
     autoComplete?: Autocomplete
 
@@ -136,6 +138,8 @@ export const TextInput = (props: Props): JSX.Element => {
     const [valid, setValid] = useState(true)
     const [showSuccess, setShowSuccess] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
+    const [isInputFocused, setIsInputFocused] = useState(false)
+    const [activeSuggestion, setActiveSuggestion] = useState(-1)
     const [progress, setProgress] = useState(
         getProgress(defaultValue, props.progress, props.maxCharacters)
     )
@@ -210,8 +214,13 @@ export const TextInput = (props: Props): JSX.Element => {
         [value, props.onUpdate, props.maxCharacters, updateValue, valid, updateValidation]
     )
 
+    const handleFocus = useCallback(() => {
+        setIsInputFocused(true)
+    }, [])
+
     const handleBlur = useCallback(
         (event: FocusEvent<HTMLInputElement> | FocusEvent<HTMLTextAreaElement>): void => {
+            setIsInputFocused(false)
             const newValue = event.target.value
             const isValid = updateValidation(newValue)
             if (isValid) {
@@ -222,12 +231,57 @@ export const TextInput = (props: Props): JSX.Element => {
         [updateValidation, updateValue, props.formatter]
     )
 
-    const handleKeyPress = useCallback(
+    const handleSuggestionClick = (newValue: string) => {
+        if (props.onSuggestionSelected) props.onSuggestionSelected(newValue)
+        updateValue(newValue)
+    }
+
+    const handleKeyDown = useCallback(
         (event: KeyboardEvent<HTMLInputElement>) => {
-            if (event.key === 'Enter')
-                syncWithForm(props.formSync, name, value, props.parser, updateValidation, clearData)
+            switch (event.key) {
+                case 'Enter':
+                    if (props.suggestions && activeSuggestion >= 0) {
+                        handleSuggestionClick(props.suggestions[activeSuggestion])
+                    } else {
+                        syncWithForm(
+                            props.formSync,
+                            name,
+                            value,
+                            props.parser,
+                            updateValidation,
+                            clearData
+                        )
+                    }
+                    break
+                case 'ArrowDown':
+                case 'Down':
+                    if (props.suggestions)
+                        setActiveSuggestion((activeSuggestion + 1) % props.suggestions.length)
+                    break
+                case 'ArrowUp':
+                case 'Up':
+                    if (props.suggestions) {
+                        setActiveSuggestion(
+                            (Math.max(activeSuggestion, 0) - 1 + props.suggestions.length) %
+                                props.suggestions.length
+                        )
+                    }
+                    break
+                default:
+                    setActiveSuggestion(-1)
+            }
         },
-        [clearData, name, props.formSync, props.parser, updateValidation, value]
+        [
+            activeSuggestion,
+            clearData,
+            handleSuggestionClick,
+            name,
+            props.formSync,
+            props.parser,
+            props.suggestions,
+            updateValidation,
+            value,
+        ]
     )
 
     // registers the input with the form on mount
@@ -258,6 +312,9 @@ export const TextInput = (props: Props): JSX.Element => {
             suffixOnClick={props.suffixOnClick}
             prefixName={props.prefixName}
             suffixName={props.suffixName}
+            suggestions={props.suggestions}
+            activeSuggestion={activeSuggestion}
+            onSuggestionClick={handleSuggestionClick}
             keyboard={props.keyboard}
             autoComplete={props.autoComplete}
             tabNums={props.tabNums}
@@ -266,8 +323,10 @@ export const TextInput = (props: Props): JSX.Element => {
             error={errorMessage}
             success={showSuccess ? props.successMessage : ''}
             onChange={handleChange}
+            onFocus={handleFocus}
             onBlur={handleBlur}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyDown}
+            isInputFocused={isInputFocused}
         />
     )
 }

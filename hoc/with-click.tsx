@@ -16,6 +16,7 @@ type Props = {
     key?: string
     role?: string
     className?: string
+    testId?: string
     as?: 'span' | 'div' | 'button'
 }
 
@@ -28,6 +29,7 @@ export const WithClick = ({
     role = 'button',
     className = '',
     as = 'button',
+    testId,
 }: Props): JSX.Element => {
     const [mouseIsDown, setMouseIsDown] = useState(false)
     const Tag = as
@@ -60,6 +62,7 @@ export const WithClick = ({
             aria-label={name}
             // eslint-disable-next-line no-undefined -- necessary
             type={Tag === 'button' ? 'button' : undefined}
+            data-testid={testId}
         >
             {children}
         </Tag>

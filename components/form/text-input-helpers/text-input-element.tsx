@@ -14,10 +14,10 @@ type Props = {
     type: Type
     value: string
     props: InputProps
-    onKeyPress: (event: KeyboardEvent<HTMLInputElement>) => void
+    onKeyDown: (event: KeyboardEvent<HTMLInputElement>) => void
 }
 
-export const TextInputElement = ({ type, props, value, onKeyPress }: Props): JSX.Element => {
+export const TextInputElement = ({ type, props, value, onKeyDown }: Props): JSX.Element => {
     if (type === 'textarea') {
         return (
             <textarea rows={4} {...props} data-testid='text-input-element'>
@@ -30,7 +30,7 @@ export const TextInputElement = ({ type, props, value, onKeyPress }: Props): JSX
             type={type}
             value={value}
             {...props}
-            onKeyPress={onKeyPress}
+            onKeyDown={onKeyDown}
             data-testid='text-input-element'
         />
     )

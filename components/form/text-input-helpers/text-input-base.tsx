@@ -12,6 +12,7 @@ import { HelpText } from './text-input-help-text'
 import { LabelGroup } from './text-input-label-group'
 import { Progress } from './text-input-progress'
 import { Status } from './text-input-status'
+import { TextInputSuggestions } from './text-input-suggestions'
 import { TextInputWrapper } from './text-input-wrapper'
 
 // eslint-disable-next-line import/exports-last -- used by text-input
@@ -107,12 +108,16 @@ type Props = {
     prefixName?: string
     suffixOnClick?: WithClickCallback
     suffixName?: string
+    suggestions?: string[]
+    activeSuggestion?: number
+    isInputFocused?: boolean
     keyboard?: Keyboard
     autoComplete?: Autocomplete
     onChange: (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void
     onFocus?: (event: FocusEvent<HTMLInputElement> | FocusEvent<HTMLTextAreaElement>) => void
     onBlur?: (event: FocusEvent<HTMLInputElement> | FocusEvent<HTMLTextAreaElement>) => void
-    onKeyPress: (event: KeyboardEvent<HTMLInputElement>) => void
+    onKeyDown: (event: KeyboardEvent<HTMLInputElement>) => void
+    onSuggestionClick?: (value: string) => void
 }
 
 type Size = {
@@ -124,7 +129,7 @@ type Size = {
     icon: string
 }
 
-// eslint-disable-next-line import/exports-last -- used in text-input-affix
+// eslint-disable-next-line import/exports-last -- used in text-input-affix & test-input-suggestion
 export const SIZE_MAP: Record<Sizes, Size> = {
     small: {
         base: 'py-2 text-sm',
@@ -226,7 +231,18 @@ export const TextInputBase = (props: Props): JSX.Element => {
                     type={props.type}
                     value={props.value}
                     props={inputProps}
-                    onKeyPress={props.onKeyPress}
+                    onKeyDown={props.onKeyDown}
+                />
+                <TextInputSuggestions
+                    suggestions={props.suggestions}
+                    activeSuggestion={props.activeSuggestion}
+                    isInputFocused={props.isInputFocused}
+                    icon={
+                        // eslint-disable-next-line no-undefined -- necessary
+                        !props.prefix || typeof props.prefix === 'string' ? undefined : props.prefix
+                    }
+                    onSuggestionClick={props.onSuggestionClick}
+                    size={size}
                 />
                 <Affix
                     content={props.suffix}

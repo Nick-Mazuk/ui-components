@@ -6,7 +6,7 @@ import { TextInputElement } from '../text-input-element'
 
 test('renders without crashing', () => {
     const { baseElement } = render(
-        <TextInputElement type='text' value='' props={{ readOnly: true }} onKeyPress={jest.fn()} />
+        <TextInputElement type='text' value='' props={{ readOnly: true }} onKeyDown={jest.fn()} />
     )
     expect(baseElement).not.toBeEmptyDOMElement()
 })
@@ -20,7 +20,7 @@ describe('displays correct tag and type', () => {
                 type={type as Type}
                 value=''
                 props={{ readOnly: true }}
-                onKeyPress={jest.fn()}
+                onKeyDown={jest.fn()}
             />
         )
         expect(screen.getByTestId('text-input-element').getAttribute('type')).toEqual(type)
@@ -31,7 +31,7 @@ describe('displays correct tag and type', () => {
                 type='textarea'
                 value=''
                 props={{ readOnly: true }}
-                onKeyPress={jest.fn()}
+                onKeyDown={jest.fn()}
             />
         )
         expect(container.querySelector('textarea')).toBeTruthy()
@@ -46,7 +46,7 @@ describe('value is always displayed correctly', () => {
                 type='text'
                 value={value}
                 props={{ readOnly: true }}
-                onKeyPress={jest.fn()}
+                onKeyDown={jest.fn()}
             />
         )
         expect(screen.getByTestId('text-input-element')).toHaveValue(value)
@@ -57,7 +57,7 @@ describe('value is always displayed correctly', () => {
                 type='textarea'
                 value={value}
                 props={{ readOnly: true }}
-                onKeyPress={jest.fn()}
+                onKeyDown={jest.fn()}
             />
         )
         expect(screen.getByTestId('text-input-element')).toHaveValue(value)

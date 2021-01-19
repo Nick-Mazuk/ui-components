@@ -163,7 +163,7 @@ export const TagInput = (props: Props): JSX.Element => {
                 progress={progress}
                 error={isValid ? '' : props.requiredMessage}
                 onChange={handleChange}
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyPress}
             />
             <div className={tagContainerClasses}>
                 {(props.sort ? [...allTags].sort() : [...allTags]).map((tagValue) => {

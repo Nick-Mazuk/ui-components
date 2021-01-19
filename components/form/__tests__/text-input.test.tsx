@@ -5,6 +5,7 @@ import { axe } from 'jest-axe'
 
 import type { FormSync } from '..'
 import { Form } from '..'
+import { Button } from '../../../elements/button'
 import { User } from '../../../elements/icon'
 import { TextInput } from '../text-input'
 import type { Autocomplete, Type } from '../text-input-helpers/text-input-base'
@@ -644,6 +645,161 @@ describe('maxCharacters stops a user from typing too much text', () => {
     })
 })
 
+describe('suggestions are shown', () => {
+    test('only when the input is focused', () => {
+        render(<TextInput type='text' label='Name' suggestions={['suggestion 1']} />)
+
+        expect(screen.queryByTestId('text-input-suggestions')).toBeFalsy()
+        userEvent.click(screen.getByRole('textbox'))
+        expect(screen.getByTestId('text-input-suggestions')).toBeTruthy()
+        userEvent.tab()
+        expect(screen.queryByTestId('text-input-suggestions')).toBeFalsy()
+    })
+})
+
+const getActiveSuggestion = () => {
+    const suggestions = screen.queryAllByTestId('text-input-suggestion')
+    for (const [index, suggestion] of suggestions.entries())
+        if (suggestion.classList.contains('bg-gray-30')) return index
+    return -1
+}
+
+describe('users can navigate the suggestions with their keyboard', () => {
+    const suggestionTexts = ['suggestion 1', 'suggestion 2', 'suggestion 3', 'suggestion 4']
+    test('can use down arrow to select the next suggestion', () => {
+        render(<TextInput type='text' label='Name' suggestions={suggestionTexts} />)
+        expect(getActiveSuggestion()).toBe(-1)
+        const input = screen.getByRole('textbox')
+        userEvent.type(input, '{arrowdown}')
+        expect(getActiveSuggestion()).toBe(0)
+        userEvent.type(input, '{arrowdown}')
+        expect(getActiveSuggestion()).toBe(1)
+    })
+    test('can use up arrow to select the previous suggestion', () => {
+        render(<TextInput type='text' label='Name' suggestions={suggestionTexts} />)
+        expect(getActiveSuggestion()).toBe(-1)
+        const input = screen.getByRole('textbox')
+        userEvent.type(input, '{arrowup}')
+        expect(getActiveSuggestion()).toBe(3)
+        userEvent.type(input, '{arrowup}')
+        expect(getActiveSuggestion()).toBe(2)
+    })
+    test('selection wraps around after getting to the top or bottom', () => {
+        render(<TextInput type='text' label='Name' suggestions={suggestionTexts} />)
+        expect(getActiveSuggestion()).toBe(-1)
+        const input = screen.getByRole('textbox')
+        userEvent.type(input, '{arrowup}')
+        expect(getActiveSuggestion()).toBe(3)
+        userEvent.type(input, '{arrowdown}')
+        expect(getActiveSuggestion()).toBe(0)
+    })
+    test('when using the arrow keys, the text input remains focused', () => {
+        render(<TextInput type='text' label='Name' suggestions={suggestionTexts} />)
+        const input = screen.getByRole('textbox')
+        userEvent.type(input, '{arrowup}')
+        expect(input).toHaveFocus()
+        userEvent.type(input, '{arrowdown}')
+        expect(input).toHaveFocus()
+    })
+})
+
+describe('activeSuggestion is reset appropriately', () => {
+    const suggestionTexts = ['suggestion 1', 'suggestion 2', 'suggestion 3', 'suggestion 4']
+    test('the input value changes', () => {
+        render(<TextInput type='text' label='Name' suggestions={suggestionTexts} />)
+        const input = screen.getByRole('textbox')
+        userEvent.type(input, '{arrowdown}')
+        expect(getActiveSuggestion()).toBe(0)
+        userEvent.type(input, 'a')
+        expect(getActiveSuggestion()).toBe(-1)
+    })
+    test('when the input refocuses', () => {
+        render(<TextInput type='text' label='Name' suggestions={suggestionTexts} />)
+        const input = screen.getByRole('textbox')
+        userEvent.type(input, '{arrowdown}')
+        expect(getActiveSuggestion()).toBe(0)
+        expect(input).toHaveFocus()
+        userEvent.tab()
+        expect(input).not.toHaveFocus()
+        userEvent.click(input)
+        expect(input).toHaveFocus()
+        expect(getActiveSuggestion()).toBe(-1)
+        userEvent.type(input, '{arrowdown}')
+        expect(getActiveSuggestion()).toBe(0)
+    })
+})
+
+// eslint-disable-next-line max-lines-per-function -- individual tests are short
+describe('users can select suggestions', () => {
+    const suggestionTexts = ['suggestion 1', 'suggestion 2', 'suggestion 3', 'suggestion 4']
+    test('users can select a suggestion by clicking it', () => {
+        const suggestionMock = jest.fn()
+        render(
+            <TextInput
+                type='text'
+                label='Name'
+                onSuggestionSelected={suggestionMock}
+                suggestions={suggestionTexts}
+            />
+        )
+        const input = screen.getByRole('textbox')
+        userEvent.click(input)
+
+        userEvent.click(screen.getAllByTestId('text-input-suggestion')[0])
+
+        expect(input).toHaveValue(suggestionTexts[0])
+
+        expect(suggestionMock).toHaveBeenCalledTimes(1)
+        expect(suggestionMock).toHaveBeenCalledWith(suggestionTexts[0])
+    })
+    test('users can select a suggestion by pressing enter', () => {
+        const suggestionMock = jest.fn()
+        render(
+            <TextInput
+                type='text'
+                label='Name'
+                onSuggestionSelected={suggestionMock}
+                suggestions={suggestionTexts}
+            />
+        )
+        const input = screen.getByRole('textbox')
+        userEvent.type(input, '{arrowdown}')
+        expect(getActiveSuggestion()).toBe(0)
+        userEvent.type(input, '{enter}')
+
+        expect(input).toHaveValue(suggestionTexts[0])
+
+        expect(suggestionMock).toHaveBeenCalledTimes(1)
+        expect(suggestionMock).toHaveBeenCalledWith(suggestionTexts[0])
+    })
+    test('pressing enter when a suggestion is selected does not submit a form', () => {
+        const suggestionMock = jest.fn()
+        const handleSubmitMock = jest.fn()
+        render(
+            <Form handleSubmit={handleSubmitMock}>
+                {(formSync) => (
+                    <>
+                        <TextInput
+                            type='text'
+                            label='Name'
+                            onSuggestionSelected={suggestionMock}
+                            suggestions={suggestionTexts}
+                            formSync={formSync}
+                        />
+                        <Button value='submit' type='submit' />
+                    </>
+                )}
+            </Form>
+        )
+        const input = screen.getByRole('textbox')
+        userEvent.type(input, '{arrowdown}')
+        expect(getActiveSuggestion()).toBe(0)
+        userEvent.type(input, '{enter}')
+
+        expect(handleSubmitMock).toHaveBeenCalledTimes(0)
+    })
+})
+
 /* 
    
    
@@ -654,7 +810,7 @@ describe('maxCharacters stops a user from typing too much text', () => {
    
     */
 
-// eslint-disable-next-line max-lines-per-function -- still readable
+// eslint-disable-next-line max-lines-per-function -- every test is short
 describe('formSync works', () => {
     test('input is synced and parsed', () => {
         const formSync: FormSync = {
@@ -806,7 +962,9 @@ describe('formSync works', () => {
     */
 
 test('Has no accessibility issues', async () => {
-    const { container } = render(<TextInput type='text' label='Name' />)
+    const { container } = render(
+        <TextInput type='text' label='Name' suggestions={['Suggestion 1']} />
+    )
     const results = await axe(container)
 
     expect(results).toHaveNoViolations()
