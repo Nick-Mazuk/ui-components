@@ -36,6 +36,7 @@ type SpecialOptions = {
     hasProgress?: boolean
     maxCharacters?: boolean
 
+    suggestions?: boolean
     hasIcon?: boolean
 }
 
@@ -65,6 +66,7 @@ const Inputs: InputArray[] = [
             readonly: false,
             successMessage: false,
             requiredMessage: false,
+            suggestions: true,
         },
     ],
     ['textarea input', TextAreaInput, 'This is some random text', {}],
@@ -283,10 +285,31 @@ test.each(Inputs.filter((array) => array[EXCEPTION_INDEX].hasIcon))(
 )
 
 test.each(Inputs.filter((array) => array[EXCEPTION_INDEX].hasIcon))(
-    "%s renders let's you hide the icon",
+    "%s let's you hide the icon",
     (_, Input) => {
         const { container } = render(<Input hideIcon />)
         expect(container.querySelector('svg')).toBeFalsy()
+    }
+)
+
+test.each(Inputs.filter((array) => array[EXCEPTION_INDEX].suggestions))(
+    '%s renders suggestions',
+    (_, Input) => {
+        render(<Input suggestions={['suggestion 1']} />)
+        userEvent.click(screen.getByRole('searchbox'))
+        expect(screen.getAllByTestId('text-input-suggestion')).toBeTruthy()
+    }
+)
+
+test.each(Inputs.filter((array) => array[EXCEPTION_INDEX].suggestions))(
+    '%s calls callback when suggestion is clicked',
+    (_, Input) => {
+        const onClickMock = jest.fn()
+        render(<Input suggestions={['suggestion 1']} onSuggestionSelected={onClickMock} />)
+        userEvent.click(screen.getByRole('searchbox'))
+        userEvent.click(screen.getAllByTestId('text-input-suggestion')[0])
+        expect(onClickMock).toHaveBeenCalledTimes(1)
+        expect(onClickMock).toHaveBeenCalledWith('suggestion 1')
     }
 )
 

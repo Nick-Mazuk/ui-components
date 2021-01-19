@@ -22,6 +22,7 @@ export type Props = {
 
     maxCharacters?: number
     suggestions?: string[]
+    onSuggestionSelected?: (value: string) => void
 
     isSearching?: boolean
 
@@ -63,6 +64,7 @@ export const SearchInput = (props: Props): JSX.Element => {
             disabled={props.disabled}
             prefix={props.hideIcon ? '' : icon}
             suggestions={props.suggestions}
+            onSuggestionSelected={props.onSuggestionSelected}
             autoComplete='off'
             keyboard='search'
             optional
