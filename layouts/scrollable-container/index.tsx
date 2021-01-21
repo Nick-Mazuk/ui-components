@@ -159,8 +159,8 @@ Props): JSX.Element => {
                 }}
                 ref={containerRef}
             >
-                {childrenArray.map((child) => (
-                    <div key={child?.toString()} style={{ scrollSnapAlign: 'start' }}>
+                {childrenArray.map((child, index) => (
+                    <div key={index} style={{ scrollSnapAlign: 'start' }}>
                         {child}
                     </div>
                 ))}
