@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import { Pagination } from '../pagination'
+import { Pagination } from '..'
 
 const handlePageChange = jest.fn()
 
@@ -117,5 +117,58 @@ test.each(invalidPageCombos)(
             <Pagination current={current} pageCount={pageCount} onPageChange={handlePageChange} />
         )
         expect(container).toBeEmptyDOMElement()
+    }
+)
+
+/* eslint-disable no-magic-numbers -- defining the magic numbers*/
+// current, pageCount, surroundCurrent = 1, expectedButtons, number of separators
+const startOnlyCombos: PageCombo[] = [
+    [1, 10, undefined, [1, 2, 'Next'], 0],
+    [4, 10, undefined, ['Previous', 1, 3, 4, 5, 'Next'], 1],
+    [4, 4, undefined, ['Previous', 1, 3, 4], 1],
+    [2, 3, undefined, ['Previous', 1, 2, 3, 'Next'], 0],
+    [1, 11, 2, [1, 2, 3, 'Next'], 0],
+    [4, 11, 2, ['Previous', 1, 2, 3, 4, 5, 6, 'Next'], 0],
+    [5, 5, 2, ['Previous', 1, 3, 4, 5], 1],
+]
+/* eslint-enable no-magic-numbers -- defining the magic numbers*/
+
+test.each(startOnlyCombos)(
+    'correct buttons are shown. current: "%s", pageCount: "%s", surroundCurrent: "%s", startOnly: "true"',
+    (current, pageCount, surroundCurrent, shownButtons) => {
+        render(
+            <Pagination
+                current={current}
+                pageCount={pageCount}
+                surroundCurrent={surroundCurrent}
+                onPageChange={handlePageChange}
+                startOnly
+            />
+        )
+        const buttons = screen.getAllByRole('button')
+        expect(buttons).toHaveLength(shownButtons.length)
+        for (const button of buttons) {
+            const content = button.textContent
+            if (content === 'Previous' || content === 'Next')
+                expect(shownButtons.includes(content)).toBeTruthy()
+            else if (content) expect(shownButtons.includes(parseInt(content))).toBeTruthy()
+            else expect(false).toBeTruthy()
+        }
+    }
+)
+
+test.each(startOnlyCombos)(
+    'correct separators are shown. current: "%s", pageCount: "%s", surroundCurrent: "%s", startOnly: "true"',
+    (current, pageCount, surroundCurrent, _, separatorCount) => {
+        render(
+            <Pagination
+                current={current}
+                pageCount={pageCount}
+                surroundCurrent={surroundCurrent}
+                onPageChange={handlePageChange}
+                startOnly
+            />
+        )
+        expect(screen.queryAllByText('…')).toHaveLength(separatorCount)
     }
 )
