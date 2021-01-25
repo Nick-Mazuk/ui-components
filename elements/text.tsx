@@ -9,6 +9,8 @@ type Tags = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span'
 // eslint-disable-next-line import/exports-last -- used by other components
 export type TextChildren = SupportedChildren | SupportedChildren[]
 
+type LineHeight = 'tightest' | 'tighter' | 'tight' | 'normal' | 'loose' | 'looser' | 'loosest'
+
 type Props = {
     children: TextChildren
     as?: Tags
@@ -29,6 +31,8 @@ type Props = {
     large?: boolean
     small?: boolean
     tiny?: boolean
+
+    lineHeight?: LineHeight
 
     hidden?: boolean
     center?: boolean
@@ -72,10 +76,10 @@ export const SIZE_MAP: Record<Tags, FontSize> = {
         size: '',
     },
     p: {
-        size: 'text-base leading-19',
-        tiny: 'text-xs leading-19',
-        small: 'text-sm leading-19',
-        large: 'md:text-lg leading-19',
+        size: 'text-base',
+        tiny: 'text-xs',
+        small: 'text-sm',
+        large: 'md:text-lg',
     },
 }
 
@@ -85,6 +89,16 @@ export const WEIGHT_MAP: Record<FontWeights, string> = {
     semibold: 'font-medium',
     bold: 'font-semibold',
     black: 'font-bold',
+}
+
+const LINE_HEIGHT_MAP: Record<LineHeight, string> = {
+    tightest: 'leading-1',
+    tighter: 'leading-3',
+    tight: 'leading-6',
+    normal: 'leading-8',
+    loose: 'leading-11',
+    looser: 'leading-13',
+    loosest: 'leading-15',
 }
 
 const getTag = (props: Props): Tags => {
@@ -123,10 +137,17 @@ const getFontWeight = (tag: Tags, props: Props): string => {
     return ''
 }
 
+const getLineHeight = (tag: Tags, props: Props): string => {
+    if (props.lineHeight) return LINE_HEIGHT_MAP[props.lineHeight]
+    if (tag === 'p') return 'leading-19'
+    return ''
+}
+
 const getTextClasses = (tag: Tags, props: Props): string => {
     return classNames(
         getFontWeight(tag, props),
         getFontSize(tag, props),
+        getLineHeight(tag, props),
         {
             'sr-only': props.hidden,
             'text-center': props.center,
