@@ -92,13 +92,13 @@ export const WEIGHT_MAP: Record<FontWeights, string> = {
 }
 
 const LINE_HEIGHT_MAP: Record<LineHeight, string> = {
-    tightest: 'leading-1',
-    tighter: 'leading-3',
-    tight: 'leading-6',
-    normal: 'leading-8',
-    loose: 'leading-11',
-    looser: 'leading-13',
-    loosest: 'leading-15',
+    tightest: 'leading-1 sm:leading-1 md:leading-1 lg:leading-1 xl:leading-1',
+    tighter: 'leading-3 sm:leading-3 md:leading-3 lg:leading-3 xl:leading-3',
+    tight: 'leading-6 sm:leading-6 md:leading-6 lg:leading-6 xl:leading-6',
+    normal: 'leading-8 sm:leading-8 md:leading-8 lg:leading-8 xl:leading-8',
+    loose: 'leading-11 sm:leading-11 md:leading-11 lg:leading-11 xl:leading-11',
+    looser: 'leading-13 sm:leading-13 md:leading-13 lg:leading-13 xl:leading-13',
+    loosest: 'leading-15 sm:leading-15 md:leading-15 lg:leading-15 xl:leading-15',
 }
 
 const getTag = (props: Props): Tags => {
