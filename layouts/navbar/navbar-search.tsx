@@ -16,6 +16,7 @@ type Props = {
     breakpoint?: Breakpoint
     fullWidthResults?: boolean
     onChange?: (value: string) => void
+    name?: string
 }
 
 type ElementColors = {
@@ -44,6 +45,7 @@ export const NavbarSearch = ({
     children,
     fullWidthResults,
     onChange,
+    name,
 }: Props): JSX.Element => {
     const [isFocused, setIsFocused] = useState(false)
     const { color } = useHeaderContext()
@@ -70,6 +72,7 @@ export const NavbarSearch = ({
                         </span>
                         <input
                             type='text'
+                            name={name ?? 'site-search'}
                             className={inputClasses}
                             placeholder={placeholder ?? 'Search'}
                             onFocus={handleFocus}
