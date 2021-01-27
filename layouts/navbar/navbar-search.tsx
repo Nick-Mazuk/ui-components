@@ -1,14 +1,20 @@
+import type { ReactNode } from 'react'
+import { useState } from 'react'
+
 import classNames from 'classnames'
 
 import { Search } from '../../elements/icon'
 import type { Color } from '../header'
 import { useHeaderContext } from '../header'
+import { NavbarDropdown } from './dropdown'
 import type { Breakpoint } from './navbar-item-wrapper'
 import { NavbarItemWrapper } from './navbar-item-wrapper'
 
 type Props = {
+    children: ReactNode | ReactNode[]
     placeholder?: string
     breakpoint?: Breakpoint
+    fullWidthResults?: boolean
 }
 
 type ElementColors = {
@@ -31,7 +37,13 @@ const COLOR_MAP: Record<Color, ElementColors> = {
     },
 }
 
-export const NavbarSearch = ({ placeholder, breakpoint }: Props): JSX.Element => {
+export const NavbarSearch = ({
+    placeholder,
+    breakpoint,
+    children,
+    fullWidthResults,
+}: Props): JSX.Element => {
+    const [isFocused, setIsFocused] = useState(false)
     const { color } = useHeaderContext()
     const wrapperClasses = classNames(
         'rounded flex items-center transition-color duration-150',
@@ -41,15 +53,31 @@ export const NavbarSearch = ({ placeholder, breakpoint }: Props): JSX.Element =>
         'outline-none bg-transparent py-2 text-sm pr-3 w-64',
         COLOR_MAP[color].input
     )
+    const handleFocus = () => setIsFocused(true)
+    const handleBlur = () => setIsFocused(false)
     return (
-        <NavbarItemWrapper breakpoint={breakpoint}>
-            <div className={wrapperClasses}>
-                <span className='pl-2 mx-1 pr-1'>
-                    <Search width='w-4' />
-                </span>
-                <input type='text' className={inputClasses} placeholder={placeholder ?? 'Search'} />
-            </div>
-        </NavbarItemWrapper>
+        <NavbarDropdown
+            item={
+                <NavbarItemWrapper breakpoint={breakpoint}>
+                    <div className={wrapperClasses}>
+                        <span className='pl-2 mx-1 pr-1'>
+                            <Search width='w-4' />
+                        </span>
+                        <input
+                            type='text'
+                            className={inputClasses}
+                            placeholder={placeholder ?? 'Search'}
+                            onFocus={handleFocus}
+                            onBlur={handleBlur}
+                        />
+                    </div>
+                </NavbarItemWrapper>
+            }
+            isVisible={isFocused}
+            fullWidth={fullWidthResults}
+        >
+            {children}
+        </NavbarDropdown>
     )
 }
 

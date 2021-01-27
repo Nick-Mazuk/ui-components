@@ -5,17 +5,14 @@ import classNames from 'classnames'
 import { useNavbarContext } from '..'
 import type { Color } from '../../header'
 import { useHeaderContext } from '../../header'
-import type { DropdownDivider } from './dropdown-divider'
-import type { DropdownItem } from './dropdown-item'
-
-type DropdownChildren = DropdownDivider | DropdownItem
 
 type Props = {
-    children: DropdownChildren | DropdownChildren[]
+    children: ReactNode | ReactNode[]
     item: ReactNode
     width?: string
     align?: 'left' | 'right'
     fullWidth?: boolean
+    isVisible?: boolean
 }
 
 const COLOR_MAP: Record<Color, string> = {
@@ -30,12 +27,13 @@ export const NavbarDropdown = ({
     width = 'w-64',
     align = 'left',
     fullWidth = false,
+    isVisible,
 }: Props): JSX.Element => {
     const { size } = useNavbarContext()
     const { color } = useHeaderContext()
     const containerClasses = classNames('group self-stretch flex', { relative: !fullWidth })
     const dropdownClasses = classNames(
-        'absolute group-hover:block overflow-hidden hidden shadow-md rounded-b-lg border-t-0',
+        'absolute shadow-md overflow-hidden rounded-b-lg border-t-0',
         fullWidth ? '' : width,
         COLOR_MAP[color],
         {
@@ -43,6 +41,9 @@ export const NavbarDropdown = ({
             'top-12': size === 'small',
             'top-16': size === 'default',
             'left-0 right-0': fullWidth,
+            'group-hover:block hidden': typeof isVisible === 'undefined',
+            block: isVisible === true,
+            hidden: isVisible === false,
         }
     )
     return (
