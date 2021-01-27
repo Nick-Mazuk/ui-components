@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { ChangeEvent, ReactNode } from 'react'
 import { useState } from 'react'
 
 import classNames from 'classnames'
@@ -15,6 +15,7 @@ type Props = {
     placeholder?: string
     breakpoint?: Breakpoint
     fullWidthResults?: boolean
+    onChange?: (value: string) => void
 }
 
 type ElementColors = {
@@ -42,6 +43,7 @@ export const NavbarSearch = ({
     breakpoint,
     children,
     fullWidthResults,
+    onChange,
 }: Props): JSX.Element => {
     const [isFocused, setIsFocused] = useState(false)
     const { color } = useHeaderContext()
@@ -55,6 +57,9 @@ export const NavbarSearch = ({
     )
     const handleFocus = () => setIsFocused(true)
     const handleBlur = () => setIsFocused(false)
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        if (onChange) onChange(event.target.value)
+    }
     return (
         <NavbarDropdown
             item={
@@ -69,6 +74,7 @@ export const NavbarSearch = ({
                             placeholder={placeholder ?? 'Search'}
                             onFocus={handleFocus}
                             onBlur={handleBlur}
+                            onChange={handleChange}
                         />
                     </div>
                 </NavbarItemWrapper>
