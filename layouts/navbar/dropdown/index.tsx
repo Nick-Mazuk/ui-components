@@ -48,7 +48,7 @@ export const NavbarDropdown = ({
     return (
         <div className={containerClasses}>
             <div className={dropdownClasses}>{children}</div>
-            <div className='flex items-center cursor-pointer pl-3'>{item}</div>
+            <div className='flex items-center cursor-pointer'>{item}</div>
         </div>
     )
 }
