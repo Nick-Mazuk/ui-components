@@ -7,11 +7,14 @@
         "@hcaptcha/react-hcaptcha": "^0.3.0",
         "csstype": "^3.0.5",
         "debounce": "^1.2.0",
+        "html-to-md": "^0.3.8",
         "html2json": "^1.0.2",
+        "html2plaintext": "^2.1.2",
+        "markdown-it": "^12.0.4",
+        "markdown-to-jsx": "^7.1.1",
         "parse-full-name": "^1.2.4",
         "react-quill": "^2.0.0-beta.2",
-        "resize-observer-polyfill": "^1.5.1",
-        "striptags": "^3.1.1"
+        "resize-observer-polyfill": "^1.5.1"
     },
     "scripts": {
         "eslint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
@@ -55,6 +58,7 @@
         "@types/hcaptcha__react-hcaptcha": "^0.1.4",
         "@types/jest": "^26.0.14",
         "@types/jest-axe": "^3.5.1",
+        "@types/markdown-it": "^12.0.1",
         "@types/node": "^14.11.8",
         "@types/parse-full-name": "^1.2.0",
         "@types/react": "^17.0.0",

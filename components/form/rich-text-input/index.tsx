@@ -11,9 +11,10 @@ import dynamic from 'next/dynamic'
 
 import { slugify } from '@nick-mazuk/lib/text-styling'
 import debounce from 'debounce'
-import { html2json, json2html } from 'html2json'
+import htmlToMarkdown from 'html-to-md'
+import getPlainText from 'html2plaintext'
+import MarkdownToHtml from 'markdown-it'
 import type { ReactQuillProps, Range } from 'react-quill'
-import striptags from 'striptags'
 
 import type { FormSync } from '..'
 import { TextContent } from '../../../elements/text-content'
@@ -28,13 +29,13 @@ import { RichTextToolbar } from './helpers/toolbar'
 // eslint-disable-next-line import/exports-last -- used in toolbar.tsx
 export type Heading = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
 
-type SaveFormat = 'plain text' | 'json'
+type SaveFormat = 'plain text' | 'markdown'
 
 type Props = {
     label?: string
     name?: string
     id?: string
-    defaultValue?: Record<string, unknown>
+    defaultValue?: string
     formSync?: FormSync
     fullWidth?: boolean
     responsive?: boolean
@@ -187,21 +188,18 @@ const getIdentificationData = (props: Props): [string, string, string] => {
     return [name, label, id]
 }
 
-const getPlainText = (html: string): string => {
-    return striptags(html, [], '').replace(/&nbsp;/gu, ' ')
-}
-
 const getMaxCharacterProgress = (html: string, maxCharacters: number | undefined): string => {
     if (typeof maxCharacters === 'undefined') return ''
     const plainText = getPlainText(html)
     return `${plainText.length} / ${maxCharacters}`
 }
 
+const markdownToHtml = new MarkdownToHtml()
 // eslint-disable-next-line max-lines-per-function, sonarjs/cognitive-complexity -- it's going to be long
 export const RichTextInput = (props: Props): JSX.Element => {
     const [name, label] = getIdentificationData(props)
     const [value, setValue] = useState(
-        props.defaultValue ? json2html(props.defaultValue) : '<p></p>'
+        props.defaultValue ? markdownToHtml.render(props.defaultValue) : '<p></p>'
     )
     const [isValid, setIsValid] = useState(true)
 
@@ -216,9 +214,9 @@ export const RichTextInput = (props: Props): JSX.Element => {
     const syncWithForm = (newValue: string): void => {
         const { formSync } = props
         if (!formSync) return
-        const parsedValues: { text: string; json: string } = { text: '', json: '' }
+        const parsedValues: { text: string; markdown: string } = { text: '', markdown: '' }
         if (props.saveFormat.includes('plain text')) parsedValues.text = getPlainText(newValue)
-        if (props.saveFormat.includes('json')) parsedValues.json = html2json(newValue)
+        if (props.saveFormat.includes('markdown')) parsedValues.markdown = htmlToMarkdown(newValue)
         formSync.updateForm(
             name,
             parsedValues,
