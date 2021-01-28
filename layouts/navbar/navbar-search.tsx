@@ -1,5 +1,5 @@
 import type { ChangeEvent, KeyboardEvent, ReactNode } from 'react'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 import classNames from 'classnames'
 
@@ -51,6 +51,7 @@ export const NavbarSearch = ({
     onSubmit,
 }: Props): JSX.Element => {
     const [isFocused, setIsFocused] = useState(false)
+    const inputElementRef = useRef<HTMLInputElement>(null)
     const { color } = useHeaderContext()
     const [value, setValue] = useState('')
     const wrapperClasses = classNames(
@@ -62,13 +63,14 @@ export const NavbarSearch = ({
         COLOR_MAP[color].input
     )
     const handleFocus = () => setIsFocused(true)
-    const handleBlur = () => setTimeout(() => setIsFocused(false), 50)
+    const handleBlur = () => setIsFocused(false)
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (onChange) onChange(event.target.value)
         setValue(event.target.value)
     }
     const handleKeydown = (event: KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter' && onSubmit) onSubmit(value)
+        if (event.key === 'Escape') inputElementRef.current?.blur()
     }
     return (
         <NavbarDropdown
@@ -87,6 +89,7 @@ export const NavbarSearch = ({
                             onBlur={handleBlur}
                             onChange={handleChange}
                             onKeyDown={handleKeydown}
+                            ref={inputElementRef}
                         />
                     </div>
                 </NavbarItemWrapper>
