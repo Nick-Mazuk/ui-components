@@ -39,13 +39,13 @@ export const Header = ({ children, sticky = false, color = 'white' }: Props): JS
 
     return (
         <>
-            {sticky && (
+            {/* {sticky && (
                 <style>{`
                     html {
                         scroll-padding-top: 96px
                     }
                 `}</style>
-            )}
+            )} */}
             <header className={headerClasses} style={{ transform: 'translateZ(10000px)' }}>
                 <HeaderContext.Provider value={{ color: color }}>
                     <div className={shadowClasses} />
