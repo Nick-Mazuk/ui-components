@@ -58,7 +58,7 @@ export const NavbarSearch = ({
         COLOR_MAP[color].input
     )
     const handleFocus = () => setIsFocused(true)
-    const handleBlur = () => setIsFocused(false)
+    const handleBlur = () => setTimeout(() => setIsFocused(false), 50)
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (onChange) onChange(event.target.value)
     }
