@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "dependencies": {
-        "@hcaptcha/react-hcaptcha": "^0.2.1",
+        "@hcaptcha/react-hcaptcha": "^0.3.0",
         "csstype": "^3.0.5",
         "debounce": "^1.2.0",
         "html2json": "^1.0.2",
