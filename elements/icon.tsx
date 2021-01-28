@@ -719,6 +719,17 @@ export const ListNumbered = (props: IconProps): JSX.Element => {
     })
 }
 
+export const Loader = (props: IconProps): JSX.Element => {
+    return icon(
+        'M12 2v4 M12 18v4 M4.93 4.93l2.83 2.83 M16.24 16.24l2.83 2.83 M2 12h4 M18 12h4 M4.93 19.07l2.83-2.83 M16.24 7.76l2.83-2.83',
+        {
+            stroke: true,
+            width: props.width,
+            name: 'Loader',
+        }
+    )
+}
+
 export const Lock = (props: IconProps): JSX.Element => {
     return icon(
         'M21,13C21,11.896 20.104,11 19,11L5,11C3.896,11 3,11.896 3,13L3,20C3,21.104 3.896,22 5,22L19,22C20.104,22 21,21.104 21,20L21,13Z M7 11V7a5 5 0 0110 0v4',
