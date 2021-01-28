@@ -1,4 +1,4 @@
-import type { ChangeEvent, ReactNode } from 'react'
+import type { ChangeEvent, KeyboardEvent, ReactNode } from 'react'
 import { useState } from 'react'
 
 import classNames from 'classnames'
@@ -17,6 +17,7 @@ type Props = {
     fullWidthResults?: boolean
     onChange?: (value: string) => void
     name?: string
+    onSubmit?: (value: string) => void
 }
 
 type ElementColors = {
@@ -39,6 +40,7 @@ const COLOR_MAP: Record<Color, ElementColors> = {
     },
 }
 
+// eslint-disable-next-line max-lines-per-function -- will fix
 export const NavbarSearch = ({
     placeholder,
     breakpoint,
@@ -46,9 +48,11 @@ export const NavbarSearch = ({
     fullWidthResults,
     onChange,
     name,
+    onSubmit,
 }: Props): JSX.Element => {
     const [isFocused, setIsFocused] = useState(false)
     const { color } = useHeaderContext()
+    const [value, setValue] = useState('')
     const wrapperClasses = classNames(
         'rounded flex items-center transition-color duration-150',
         COLOR_MAP[color].wrapper
@@ -61,6 +65,10 @@ export const NavbarSearch = ({
     const handleBlur = () => setTimeout(() => setIsFocused(false), 50)
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (onChange) onChange(event.target.value)
+        setValue(event.target.value)
+    }
+    const handleKeydown = (event: KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter' && onSubmit) onSubmit(value)
     }
     return (
         <NavbarDropdown
@@ -78,6 +86,7 @@ export const NavbarSearch = ({
                             onFocus={handleFocus}
                             onBlur={handleBlur}
                             onChange={handleChange}
+                            onKeyDown={handleKeydown}
                         />
                     </div>
                 </NavbarItemWrapper>
