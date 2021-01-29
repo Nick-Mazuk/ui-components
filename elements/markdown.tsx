@@ -61,12 +61,7 @@ export const Markdown = (props: Props): JSX.Element => {
                 disableParsingRawHTML: true,
                 createElement: getCreateElementFunction(props),
                 overrides: {
-                    a: {
-                        component: Link,
-                        props: {
-                            styled: true,
-                        },
-                    },
+                    a: Link,
                 },
             }}
         >
