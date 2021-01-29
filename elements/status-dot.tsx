@@ -22,7 +22,7 @@ export const StatusDot = ({ color = 'secondary', ping = false }: Props): JSX.Ele
     return (
         <div className='relative w-2 h-2'>
             <div className={dotClasses} />
-            <div className={pingClasses} />
+            {ping && <div className={pingClasses} />}
         </div>
     )
 }
