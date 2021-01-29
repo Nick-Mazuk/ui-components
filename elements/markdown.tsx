@@ -44,9 +44,10 @@ const getCreateElementFunction = (props: Props) => {
     if (props.ul) allowedTags.add('ul')
     if (props.ol || props.ul) allowedTags.add('li')
     if (props.code) allowedTags.add('code')
-    return (type: any, innerProps?: Attributes | null, children?: ReactNode) => {
-        return typeof type === 'string' && allowedTags.has(type)
-            ? React.createElement(type, props, children)
+    return (Type: any, innerProps?: Attributes | null, children?: ReactNode) => {
+        if (typeof Type === 'function') return <Type {...innerProps}>{children}</Type>
+        return typeof Type === 'string' && allowedTags.has(Type)
+            ? React.createElement(Type, props, children)
             : (React.createElement(Fragment, { key: innerProps?.key }, children) as any)
     }
 }
@@ -59,8 +60,7 @@ export const Markdown = (props: Props): JSX.Element => {
                 forceWrapper: props.forceWrapper,
                 slugify: slugify,
                 disableParsingRawHTML: true,
-
-                // createElement: getCreateElementFunction(props),
+                createElement: getCreateElementFunction(props),
                 overrides: {
                     a: Link,
                 },
