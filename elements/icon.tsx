@@ -795,6 +795,14 @@ export const MessageSquare = (props: IconProps): JSX.Element => {
     })
 }
 
+export const Minus = (props: IconProps): JSX.Element => {
+    return icon('M5 12h14', {
+        stroke: true,
+        width: props.width,
+        name: 'Minus',
+    })
+}
+
 export const Music = (props: IconProps): JSX.Element => {
     return icon(
         'M9 18V5l12-2v13 M3,18a3,3 0 1,0 6,0a3,3 0 1,0 -6,0 M15,16a3,3 0 1,0 6,0a3,3 0 1,0 -6,0',
@@ -999,6 +1007,16 @@ export const Trash = (props: FillableIconProps): JSX.Element => {
             fill: props.fill,
             width: props.width,
             name: 'Trash',
+        }
+    )
+}
+export const Trash2 = (props: IconProps): JSX.Element => {
+    return icon(
+        'M3 6h18 M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2 M10 11v6 M14 11v6',
+        {
+            stroke: true,
+            width: props.width,
+            name: 'Trash2',
         }
     )
 }
