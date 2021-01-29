@@ -10,6 +10,7 @@ import {
 } from '@nick-mazuk/lib/number-styling'
 
 import type { FormSync } from '.'
+import type { WithClickCallback } from '../../hoc/with-click'
 import type { Progress, ValidationRules } from './text-input'
 import { TextInput } from './text-input'
 import type { AffixContent } from './text-input-helpers/text-input-affix'
@@ -37,6 +38,9 @@ type Props = {
     disallowNegatives?: boolean
 
     prefix?: AffixContent
+    prefixOnClick?: WithClickCallback
+    suffix?: AffixContent
+    suffixOnClick?: WithClickCallback
     requiredMessage?: string
     successMessage?: string
     validationRules?: ValidationRules
@@ -102,14 +106,12 @@ export const NumberInput = (props: Props): JSX.Element => {
         },
         [maxDecimals, onChange, props.disallowNegatives]
     )
-
     const formatter = useCallback(
         (number: string): string => {
             return onFormat(number, props.decimals)
         },
         [props.decimals]
     )
-
     return (
         <TextInput
             id={props.id}
@@ -126,6 +128,9 @@ export const NumberInput = (props: Props): JSX.Element => {
             readonly={props.readonly}
             disabled={props.disabled}
             prefix={props.prefix}
+            prefixOnClick={props.prefixOnClick}
+            suffix={props.suffix}
+            suffixOnClick={props.prefixOnClick}
             successMessage={props.successMessage}
             requiredMessage={props.requiredMessage}
             formatter={formatter}
