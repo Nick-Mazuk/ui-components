@@ -59,7 +59,8 @@ export const Markdown = (props: Props): JSX.Element => {
                 forceWrapper: props.forceWrapper,
                 slugify: slugify,
                 disableParsingRawHTML: true,
-                createElement: getCreateElementFunction(props),
+
+                // createElement: getCreateElementFunction(props),
                 overrides: {
                     a: Link,
                 },
