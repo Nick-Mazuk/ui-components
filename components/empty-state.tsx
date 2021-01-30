@@ -86,7 +86,9 @@ export const EmptyState = ({
                     {text}
                 </Text>
             </div>
-            <div className='mt-8 text-center'>{ctaElements}</div>
+            <div className='mt-8 flex justify-around'>
+                <div className='flex space-x-4'>{ctaElements}</div>
+            </div>
         </div>
     )
 }
