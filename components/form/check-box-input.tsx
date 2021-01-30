@@ -99,6 +99,7 @@ export const CheckBoxInput = ({
                     {label}
                     {optional ? (
                         <Text span color='text-gray'>
+                            {' '}
                             (optional)
                         </Text>
                     ) : (
