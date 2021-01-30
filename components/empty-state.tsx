@@ -36,15 +36,6 @@ const getCtaElements = (
 
     return (
         <>
-            {typeof cta !== 'undefined' && (
-                <Button
-                    value={cta.value}
-                    href={cta.href}
-                    icon={cta.icon}
-                    onClick={cta.onClick}
-                    color='primary'
-                />
-            )}
             {typeof secondaryCta !== 'undefined' && (
                 <Button
                     value={secondaryCta.value}
@@ -53,6 +44,15 @@ const getCtaElements = (
                     onClick={secondaryCta.onClick}
                     color='primary'
                     style='text'
+                />
+            )}
+            {typeof cta !== 'undefined' && (
+                <Button
+                    value={cta.value}
+                    href={cta.href}
+                    icon={cta.icon}
+                    onClick={cta.onClick}
+                    color='primary'
                 />
             )}
         </>
