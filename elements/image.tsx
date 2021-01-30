@@ -19,6 +19,7 @@ type Props = {
     hideSkeleton?: boolean
     sizes?: number[]
     srcSet?: SourceSet
+    fit?: 'contain' | 'cover'
 } & (
     | { width?: number; height?: number; ratio?: never }
     | {
@@ -38,6 +39,7 @@ type Props = {
           }
     )
 
+// eslint-disable-next-line max-lines-per-function -- will fix
 export const Image = ({
     src,
     alt,
@@ -48,6 +50,7 @@ export const Image = ({
     preload,
     eager,
     srcSet,
+    fit = 'cover',
 }: Props): JSX.Element => {
     const classes = classNames({ 'rounded-lg': rounded })
     let image = (
@@ -76,7 +79,9 @@ export const Image = ({
                 <img
                     src={src}
                     alt={alt}
-                    className={`${classes} w-full h-full absolute object-cover`}
+                    className={`${classes} w-full h-full absolute ${
+                        fit === 'cover' ? 'object-cover' : 'object-scale-down'
+                    }`}
                     loading={eager ? 'eager' : 'lazy'}
                 />
             </picture>

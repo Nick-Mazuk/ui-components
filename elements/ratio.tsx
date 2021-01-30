@@ -11,6 +11,7 @@ type PropsBase = {
     ratio?: Ratios
     customRatio?: number
     as?: 'div' | 'figure'
+    fit?: 'contain' | 'cover'
 }
 
 type RequireProperty<T, Property extends keyof T> = T & { [key in Property]-?: T[key] }
@@ -27,7 +28,13 @@ const RATIO_MAP: Record<Ratios, number> = {
     screen: 0.625,
 }
 
-export const Ratio = ({ children, ratio, customRatio, as = 'div' }: Props): JSX.Element => {
+export const Ratio = ({
+    children,
+    ratio,
+    customRatio,
+    as = 'div',
+    fit = 'cover',
+}: Props): JSX.Element => {
     const ratioClasses = classNames('relative block w-full h-0 overflow-hidden')
     const padding = ratio ? RATIO_MAP[ratio] : customRatio ?? 1
     const Tag = as
@@ -39,7 +46,7 @@ export const Ratio = ({ children, ratio, customRatio, as = 'div' }: Props): JSX.
                         height: '100%',
                         width: '100%',
                         position: 'absolute',
-                        objectFit: 'cover',
+                        objectFit: fit === 'cover' ? fit : 'scale-down',
                     },
                 })
             )}
