@@ -99,7 +99,7 @@ const STYLES_MAP: Record<Styles, ButtonStyling> = {
             highlight:
                 'bg-transparent text-highlight hover:text-highlight-600 hover:bg-highlight-50 focus:text-highlight-600 focus:bg-highlight-50 dark:text-highlight-d dark:hover:text-highlight-d600 dark:hover:bg-highlight-d50 dark:focus:text-highlight-d600 dark:focus:bg-highlight-d50',
             white:
-                'bg-transparent text-gray-900 hover:bg-gray-50 focus:bg-gray-50 dark:text-gray-d900 dark:hover:bg-gray-d50 dark:focus:bg-gray-d50',
+                'bg-white bg-opacity-0 text-white hover:bg-opacity-20 focus:bg-opacity-20 dark:text-gray-d900 dark:hover:bg-gray-d50 dark:focus:bg-gray-d50',
             default:
                 'bg-transparent text-gray hover:text-gray-600 hover:bg-gray-50 focus:text-gray-600 focus:bg-gray-50 dark:text-gray-d dark:hover:text-gray-d600 dark:hover:bg-gray-d50 dark:focus:text-gray-d600 dark:focus:bg-gray-d50',
         },
