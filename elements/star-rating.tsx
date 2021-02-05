@@ -1,4 +1,3 @@
-import type { Dispatch, SetStateAction } from 'react'
 import { Fragment, useState } from 'react'
 
 import classNames from 'classnames'
@@ -11,18 +10,21 @@ import { Text } from './text'
 
 type Size = 'default' | 'small'
 
+type OnClick = (rating: number) => void
+
 type Props = {
     rating: number
     reviews?: number
     editable?: boolean
     size?: Size
+    onClick?: OnClick
 }
 
 const STAR_COUNT = 5
 
 const createStars = (
     currentRating: number,
-    setCurrentRating: Dispatch<SetStateAction<number>>,
+    setCurrentRating: OnClick,
     editable: boolean,
     size: Size
 ): JSX.Element[] => {
@@ -65,10 +67,16 @@ export const StarRating = ({
     reviews,
     editable = false,
     size = 'default',
+    onClick,
 }: Props): JSX.Element => {
     const [currentRating, setCurrentRating] = useState(rating)
 
-    const stars = createStars(currentRating, setCurrentRating, editable, size)
+    const handleClick: OnClick = (newRating) => {
+        setCurrentRating(newRating)
+        if (onClick) onClick(newRating)
+    }
+
+    const stars = createStars(currentRating, handleClick, editable, size)
 
     return (
         <div className='flex items-center'>
