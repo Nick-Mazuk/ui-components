@@ -7,6 +7,7 @@ import { DateInput } from '../date-input'
 import { DollarInput } from '../dollar-input'
 import { EmailInput } from '../email-input'
 import { FacebookPageInput } from '../facebook-page-input'
+import { LinkedInInput } from '../linked-in-input'
 import { NameInput } from '../name-input'
 import { NewPasswordInput } from '../new-password-input'
 import { NumberInput } from '../number-input'
@@ -52,6 +53,8 @@ const Inputs: InputArray[] = [
     ['date input', DateInput, 'October 27, 2021', { hasIcon: true, maxCharacters: false }],
     ['dollar input', DollarInput, '1', { hasProgress: true, maxCharacters: false }],
     ['email input', EmailInput, 'example@email.com', { hasIcon: true }],
+    ['facebook page input', FacebookPageInput, 'https://facebook.com/facebook', { hasIcon: true }],
+    ['linked in input', LinkedInInput, 'https://www.linkedin.com/in/person', { hasIcon: true }],
     ['name input', NameInput, 'Jane Smith', { hasIcon: true }],
     ['new password input', NewPasswordInput, 'letMeIn12345', { defaultValue: false }],
     ['number input', NumberInput, '1', { hasProgress: true, maxCharacters: false }],
@@ -70,11 +73,10 @@ const Inputs: InputArray[] = [
         },
     ],
     ['textarea input', TextAreaInput, 'This is some random text', {}],
-    ['url input', UrlInput, 'https://example.com', { hasIcon: true }],
-    ['youtube video input', YouTubeVideoInput, 'https://youtu.be/videoId', { hasIcon: true }],
-    ['youtube channel input', YouTubeChannelInput, 'https://youtube.com/mkbhd', { hasIcon: true }],
-    ['facebook page input', FacebookPageInput, 'https://facebook.com/facebook', { hasIcon: true }],
     ['twitter profile input', TwitterProfileInput, 'https://twitter.com/hello', { hasIcon: true }],
+    ['url input', UrlInput, 'https://example.com', { hasIcon: true }],
+    ['youtube channel input', YouTubeChannelInput, 'https://youtube.com/mkbhd', { hasIcon: true }],
+    ['youtube video input', YouTubeVideoInput, 'https://youtu.be/videoId', { hasIcon: true }],
 ]
 
 const EXCEPTION_INDEX = 3
