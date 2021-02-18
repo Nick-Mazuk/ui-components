@@ -40,6 +40,7 @@ const parser = (email: string): string => {
     /* eslint-disable camelcase -- 3rd-party api */
     const parsedEmail = normalizeEmail(email, {
         gmail_lowercase: true,
+        gmail_remove_dots: false,
         outlookdotcom_lowercase: true,
         yahoo_lowercase: true,
         icloud_lowercase: true,
