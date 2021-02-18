@@ -53,7 +53,7 @@ test.each(invalidEmails)('"%s" is marked as invalid', (email) => {
 
 const validEmails = [
     ['hello@gmail.com', 'hello@gmail.com'],
-    ['Hel.lo@gmail.com', 'hello@gmail.com'],
+    ['Hel.lo@gmail.com', 'hel.lo@gmail.com'],
     ['hello@example.com', 'hello@example.com'],
     ['foo@bar.com', 'foo@bar.com'],
     ['x@x.au', 'x@x.au'],
@@ -63,7 +63,7 @@ const validEmails = [
     ['hans@m端ller.com', 'hans@m端ller.com'],
     ['test|123@m端ller.com', 'test|123@m端ller.com'],
     ['test123+ext@gmail.com', 'test123@gmail.com'],
-    ['some.name.midd.leNa.me+extension@GoogleMail.com', 'somenamemiddlename@gmail.com'],
+    ['some.name.midd.leNa.me+extension@GoogleMail.com', 'some.name.midd.lena.me@gmail.com'],
     ['"foobar"@example.com', '"foobar"@example.com'],
     ['"  foo  m端ller "@example.com', '"  foo  m端ller "@example.com'],
     ['"foo\\@bar"@example.com', '"foo\\@bar"@example.com'],
@@ -72,7 +72,7 @@ const validEmails = [
         'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.com',
     ],
     ['test@gmail.com', 'test@gmail.com'],
-    ['test.1@gmail.com', 'test1@gmail.com'],
+    ['test.1@gmail.com', 'test.1@gmail.com'],
 ]
 test.each(validEmails)('"%s" is marked as valid', (email) => {
     render(<EmailInput />)
