@@ -5,6 +5,7 @@
     "main": "index.js",
     "dependencies": {
         "@hcaptcha/react-hcaptcha": "^0.3.0",
+        "@tinymce/tinymce-react": "^3.10.2",
         "csstype": "^3.0.5",
         "debounce": "^1.2.0",
         "html-to-md": "^0.3.8",
@@ -13,7 +14,6 @@
         "markdown-it": "^12.0.4",
         "markdown-to-jsx": "^7.1.1",
         "parse-full-name": "^1.2.4",
-        "react-quill": "^2.0.0-beta.2",
         "resize-observer-polyfill": "^1.5.1"
     },
     "scripts": {
