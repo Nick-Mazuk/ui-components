@@ -42,7 +42,7 @@ export const Suggestion = ({ children, icon, isActive, onClick, size }: Props): 
         onClick(children)
     }
     const containerClasses = classNames(
-        'flex items-center w-full cursor-pointer hover:bg-gray-30',
+        'flex items-center w-full cursor-pointer hover:bg-gray-30 justify-end',
         SIZE_MAP[size].container,
         icon ? '' : SIZE_MAP[size].noIcon,
         { 'bg-gray-30': isActive }
