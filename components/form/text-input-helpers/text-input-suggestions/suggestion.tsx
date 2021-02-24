@@ -42,7 +42,7 @@ export const Suggestion = ({ children, icon, isActive, onClick, size }: Props): 
         onClick(children)
     }
     const containerClasses = classNames(
-        'flex items-center w-full cursor-pointer hover:bg-gray-30',
+        'flex items-center w-full cursor-pointer hover:bg-gray-30 text-left',
         SIZE_MAP[size].container,
         icon ? '' : SIZE_MAP[size].noIcon,
         { 'bg-gray-30': isActive }
@@ -58,11 +58,10 @@ export const Suggestion = ({ children, icon, isActive, onClick, size }: Props): 
             mouseDown
         >
             {icon && <div className={iconClasses}>{icon}</div>}
-            <div>
-                <Text small={size !== 'large'} truncate>
-                    {children}
-                </Text>
-            </div>
+
+            <Text small={size !== 'large'} truncate>
+                {children}
+            </Text>
         </WithClick>
     )
 }
