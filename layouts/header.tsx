@@ -42,7 +42,7 @@ export const Header = ({ children, sticky = false, color = 'white' }: Props): JS
             {sticky && (
                 <style>{`
                     :target {
-                        scroll-padding-top: 96px
+                        scroll-margin-top: 96px
                     }
                 `}</style>
             )}
