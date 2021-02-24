@@ -171,6 +171,14 @@ export const RichTextInput = (props: Props): JSX.Element => {
                     invalid={!isValid}
                 />
             </div>
+            <style>{`
+                .mce-notification, .tox-notifications-container {
+                    display: none !important;
+                }
+                .mce-edit-focus {
+                    outline: none !important;
+                }
+            `}</style>
         </div>
     )
 }
