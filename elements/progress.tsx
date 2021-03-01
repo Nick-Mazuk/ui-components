@@ -1,6 +1,14 @@
 import classNames from 'classnames'
 
-type Colors = 'primary' | 'secondary' | 'success' | 'error' | 'warning' | 'dark' | 'white'
+type Colors =
+    | 'primary'
+    | 'secondary'
+    | 'success'
+    | 'error'
+    | 'highlight'
+    | 'warning'
+    | 'dark'
+    | 'white'
 
 type Properties = {
     value: number
@@ -15,6 +23,7 @@ const COLORS_MAP: Record<Colors, string> = {
     secondary: 'bg-gray dark:bg-gray-d',
     success: 'bg-success dark:bg-success-d',
     error: 'bg-error dar:bg-error-d',
+    highlight: 'bg-highlight dar:bg-highlight-d',
     warning: 'bg-warning dark:bg-warning-d',
     dark: 'bg-gray-700 dark:bg-gray-d700',
     white: 'bg-white dark:bg-gray-d50',
