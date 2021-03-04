@@ -45,7 +45,7 @@ jobs:
           node-version: 12
       - run: npm i -g pnpm
       - run: pnpm i
-      - uses: phips28/gh-action-bump-version@v8.0.18
+      - uses: phips28/gh-action-bump-version@v8.1.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
