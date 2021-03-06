@@ -164,7 +164,7 @@ const handleInternalSubmit = (
         })
 }
 
-const onSubmit = (
+const onSubmit = async (
     props: Props,
     formData: FormData,
     hcaptcha: MutableRefObject<HCaptcha | null>,
@@ -187,7 +187,7 @@ const onSubmit = (
     }
     const data = formatDataForSubmit(formData, options.token)
     if (props.handleSubmit)
-        handleCustomSubmit(props, data, setState, formData, form, setPublicFormData)
+        await handleCustomSubmit(props, data, setState, formData, form, setPublicFormData)
     else if (props.method && props.action)
         handleInternalSubmit(props, data, setState, formData, form, setPublicFormData)
     else setState('ready')
@@ -217,11 +217,11 @@ export const Form = (props: Props): JSX.Element => {
         <form
             method={props.method}
             action={props.action}
-            onSubmit={(event) => {
+            onSubmit={(event) =>
                 onSubmit(props, formData, captchaRef, setState, setPublicFormData, form, {
                     event: event,
                 })
-            }}
+            }
             ref={form}
             noValidate
         >
@@ -236,11 +236,11 @@ export const Form = (props: Props): JSX.Element => {
                     size='invisible'
                     id={props.captcha}
                     ref={captchaRef}
-                    onVerify={(token) => {
+                    onVerify={(token) =>
                         onSubmit(props, formData, captchaRef, setState, setPublicFormData, form, {
                             token: token,
                         })
-                    }}
+                    }
                     onError={(event) => {
                         errorSubmit(props, event, setState)
                     }}
