@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Merge me!
-        uses: ridedott/merge-me-action@v2.2.14
+        uses: ridedott/merge-me-action@v2.2.18
         with:
           GITHUB_LOGIN: dependabot[bot]
           # This must be used as GitHub Actions token does not support
@@ -45,7 +45,7 @@ jobs:
           node-version: 12
       - run: npm i -g pnpm
       - run: pnpm i
-      - uses: phips28/gh-action-bump-version@v8.0.18
+      - uses: phips28/gh-action-bump-version@v8.1.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
