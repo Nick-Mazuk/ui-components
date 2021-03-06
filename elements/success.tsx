@@ -38,9 +38,11 @@ export const Success = ({ children, label, size = 'default' }: Props): JSX.Eleme
         SIZE_MAP[size].container
     )
 
+    const iconClasses = classNames('flex-none', SIZE_MAP[size].icon)
+
     return (
         <div className={containerClasses} data-testid='success'>
-            <span className={SIZE_MAP[size].icon}>
+            <span className={iconClasses}>
                 <CheckCircle />
             </span>
             <p className='ml-2'>
