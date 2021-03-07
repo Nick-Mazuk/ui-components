@@ -4,8 +4,10 @@
         ":preserveSemverRanges"
     ],
     "automerge": true,
+    "automergeType": "branch",
     "ignorePaths": ["strapi"],
     "lockFileMaintenance": {
         "enabled": true
-    }
+    },
+    "bumpVersion": "patch"
 }
