@@ -8,5 +8,10 @@
     "lockFileMaintenance": {
         "enabled": true
     },
-    "bumpVersion": "patch"
+    "bumpVersion": "patch",
+    "schedule": [
+        "after 10pm every weekday",
+        "before 5am every weekday",
+        "every weekend"
+    ]
 }
