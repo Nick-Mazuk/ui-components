@@ -15,8 +15,7 @@ jobs:
       - uses: actions/setup-node@v2.1.5
         with:
           node-version: ${{ matrix.node }}
-      - run: npm i -g pnpm
-      - run: pnpm i
+      - run: npx pnpm i
       - run: npm run lint
       - run: npm run test
   deploy:
@@ -28,8 +27,7 @@ jobs:
       - uses: actions/setup-node@v2.1.5
         with:
           node-version: 14
-      - run: npm i -g pnpm
-      - run: pnpm i
+      - run: npx pnpm i
       - uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
