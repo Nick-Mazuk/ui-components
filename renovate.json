@@ -1,5 +1,11 @@
 {
-  "extends": [
-    "config:base"
-  ]
+    "extends": [
+        "config:base",
+        ":preserveSemverRanges"
+    ],
+    "automerge": true,
+    "ignorePaths": ["strapi"],
+    "lockFileMaintenance": {
+        "enabled": true
+    }
 }
