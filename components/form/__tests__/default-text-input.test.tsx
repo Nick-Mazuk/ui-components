@@ -25,7 +25,7 @@ type SpecialOptions = {
     id?: boolean
 
     placeholder?: boolean
-    defaultValue?: boolean
+    defaultValue?: boolean | string
     help?: boolean
     info?: boolean
     size?: boolean
@@ -75,7 +75,12 @@ const Inputs: InputArray[] = [
     ['textarea input', TextAreaInput, 'This is some random text', {}],
     ['twitter profile input', TwitterProfileInput, 'https://twitter.com/hello', { hasIcon: true }],
     ['url input', UrlInput, 'https://example.com', { hasIcon: true }],
-    ['youtube channel input', YouTubeChannelInput, 'https://youtube.com/mkbhd', { hasIcon: true }],
+    [
+        'youtube channel input',
+        YouTubeChannelInput,
+        'https://youtube.com/mkbhd',
+        { hasIcon: true, defaultValue: 'https://youtube.com/defaultValue' },
+    ],
     ['youtube video input', YouTubeVideoInput, 'https://youtu.be/videoId', { hasIcon: true }],
 ]
 
@@ -122,9 +127,11 @@ test.each(Inputs.filter((array) => array[EXCEPTION_INDEX].placeholder !== false)
 
 test.each(Inputs.filter((array) => array[EXCEPTION_INDEX].defaultValue !== false))(
     '%s renders defaultValue',
-    (_, Input) => {
+    (_, Input, __, exceptions) => {
         render(<Input defaultValue='defaultValue' />)
-        expect(screen.getByTestId('text-input-element')).toHaveValue('defaultValue')
+        expect(screen.getByTestId('text-input-element')).toHaveValue(
+            typeof exceptions.defaultValue === 'string' ? exceptions.defaultValue : 'defaultValue'
+        )
     }
 )
 
