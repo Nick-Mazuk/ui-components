@@ -12,6 +12,7 @@ type ButtonProps = {
     href?: string
     onClick?: () => void
     icon?: Icon
+    iconPosition?: 'before' | 'after'
 }
 
 type Props = {
@@ -42,6 +43,7 @@ const getCtaElements = (
                     href={secondaryCta.href}
                     icon={secondaryCta.icon}
                     onClick={secondaryCta.onClick}
+                    iconPosition={secondaryCta.iconPosition}
                     color='primary'
                     style='text'
                 />
@@ -52,6 +54,7 @@ const getCtaElements = (
                     href={cta.href}
                     icon={cta.icon}
                     onClick={cta.onClick}
+                    iconPosition={cta.iconPosition}
                     color='primary'
                 />
             )}
