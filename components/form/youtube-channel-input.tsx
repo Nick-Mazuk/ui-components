@@ -5,6 +5,7 @@ import {
     getYouTubeChannelId,
     isYouTubeChannelUrl,
     isYouTubeUrl,
+    createYouTubeChannelUrl,
 } from '@nick-mazuk/lib/youtube'
 import isURL from 'validator/lib/isURL'
 
@@ -79,7 +80,7 @@ export const YouTubeChannelInput = (props: Props): JSX.Element => {
             name={props.name}
             type='url'
             placeholder={props.placeholder}
-            defaultValue={props.defaultValue}
+            defaultValue={props.defaultValue ? createYouTubeChannelUrl(props.defaultValue) : ''}
             help={props.help}
             info={props.info}
             size={props.size}
