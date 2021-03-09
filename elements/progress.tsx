@@ -45,9 +45,10 @@ export const Progress = ({
         'h-full transition-all duration-150 rounded-full',
         COLORS_MAP[color]
     )
+    const constrainedValue = Math.max(0, Math.min(value, max))
     return (
         <div className={containerClasses}>
-            <div className={barClasses} style={{ width: `${(value / max) * 100}%` }} />
+            <div className={barClasses} style={{ width: `${(constrainedValue / max) * 100}%` }} />
         </div>
     )
 }
