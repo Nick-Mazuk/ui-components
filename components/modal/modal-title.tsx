@@ -1,17 +1,14 @@
 import { Text } from '../../elements/text'
 
 type Props = {
-    children?: never
-    title?: string
+    children: string
 }
 
-export const ModalTitle = ({ title }: Props): JSX.Element => {
-    // eslint-disable-next-line react/jsx-no-useless-fragment -- base case
-    if (!title) return <></>
+export const ModalTitle = ({ children }: Props): JSX.Element => {
     return (
         <div className='flex justify-between px-8 pt-6 overflow-hidden'>
             <Text h5 as='p'>
-                {title}
+                {children}
             </Text>
         </div>
     )
