@@ -39,13 +39,15 @@ export const Submit = ({
                     <Progress value={progress} max={1} />
                 </div>
             )}
-            <Button
-                value={value}
-                color='primary'
-                type='submit'
-                size='small'
-                disabled={formSync.state === 'submitting'}
-            />
+            <div className='flex-none'>
+                <Button
+                    value={value}
+                    color='primary'
+                    type='submit'
+                    size='small'
+                    disabled={formSync.state === 'submitting'}
+                />
+            </div>
         </div>
     )
 }
