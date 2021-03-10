@@ -4,7 +4,7 @@ import classNames from 'classnames'
 
 import { Box } from '../../elements/box'
 
-type OnClose = (value: string) => void
+type OnClose = () => void
 // eslint-disable-next-line import/exports-last -- used later in file
 export type ModalColor = 'primary' | 'warning' | 'error' | 'default'
 
@@ -12,21 +12,9 @@ type Props = {
     children: ReactNode | ReactNode[]
     isOpen: boolean
     onClose: OnClose
-    title?: string
-    color?: ModalColor
-    primaryButton: string
-    secondaryButton?: string
 }
 
-export const Modal = ({
-    children,
-    isOpen,
-
-    color = 'default',
-    primaryButton,
-    secondaryButton,
-    onClose,
-}: Props): JSX.Element => {
+export const Modal = ({ children, isOpen, onClose }: Props): JSX.Element => {
     const buttonClasses = classNames(
         'h-screen absolute w-screen cursor-default opacity-50 bg-black'
     )
@@ -39,7 +27,7 @@ export const Modal = ({
             <button
                 className={buttonClasses}
                 onClick={() => {
-                    onClose('close')
+                    onClose()
                 }}
                 data-testid='modal-scrim'
             />
