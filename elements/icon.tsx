@@ -803,6 +803,14 @@ export const Minus = (props: IconProps): JSX.Element => {
     })
 }
 
+export const MousePointer = (props: IconProps): JSX.Element => {
+    return icon('M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z M13 13l6 6', {
+        stroke: true,
+        width: props.width,
+        name: 'MousePointer',
+    })
+}
+
 export const Music = (props: IconProps): JSX.Element => {
     return icon(
         'M9 18V5l12-2v13 M3,18a3,3 0 1,0 6,0a3,3 0 1,0 -6,0 M15,16a3,3 0 1,0 6,0a3,3 0 1,0 -6,0',
@@ -820,6 +828,17 @@ export const PauseCircle = (props: IconProps): JSX.Element => {
         width: props.width,
         name: 'PauseCircle',
     })
+}
+
+export const Percentage = (props: IconProps): JSX.Element => {
+    return icon(
+        'M19 5L5 19 M4,6.5a2.5,2.5 0 1,0 5,0a2.5,2.5 0 1,0 -5,0 M15,17.5a2.5,2.5 0 1,0 5,0a2.5,2.5 0 1,0 -5,0',
+        {
+            stroke: true,
+            width: props.width,
+            name: 'Percentage',
+        }
+    )
 }
 
 export const Phone = (props: FillableIconProps): JSX.Element => {
