@@ -1,14 +1,16 @@
 {
     "extends": [
-        "config:base",
-        ":preserveSemverRanges"
+        "config:base"
     ],
     "automerge": true,
     "automergeType": "branch",
     "lockFileMaintenance": {
         "enabled": true
     },
+    "dependencyDashboard": true,
+    "rangeStrategy": "bump",
     "bumpVersion": "patch",
+    "prConcurrentLimit": 2,
     "schedule": [
         "after 10pm every weekday",
         "before 5am every weekday",
