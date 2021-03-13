@@ -8598,7 +8598,7 @@ specifiers:
   '@nick-mazuk/eslint-config': ^0.7.19
   '@nick-mazuk/lib': ^0.8.19
   '@nick-mazuk/tsconfig': ^0.1.1
-  '@testing-library/jest-dom': ^5.11.5
+  '@testing-library/jest-dom': ^5.11.9
   '@testing-library/react': ^11.1.0
   '@testing-library/user-event': ^12.1.10
   '@tinymce/tinymce-react': ^3.10.2
