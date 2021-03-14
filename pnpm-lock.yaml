@@ -1,6 +1,6 @@
 dependencies:
   '@hcaptcha/react-hcaptcha': 0.3.5_react-dom@17.0.1+react@17.0.1
-  '@tinymce/tinymce-react': 3.10.3_react-dom@17.0.1+react@17.0.1
+  '@tinymce/tinymce-react': 3.10.4_react-dom@17.0.1+react@17.0.1
   csstype: 3.0.7
   debounce: 1.2.0
   html-to-md: 0.3.9
@@ -1750,7 +1750,7 @@ packages:
       '@testing-library/dom': '>=7.21.4'
     resolution:
       integrity: sha512-IR0iWbFkgd56Bu5ZI/ej8yQwrkCv8Qydx6RzwbKz9faXazR/+5tvYKsZQgyXJiwgpcva127YO6JcWy7YlCfofQ==
-  /@tinymce/tinymce-react/3.10.3_react-dom@17.0.1+react@17.0.1:
+  /@tinymce/tinymce-react/3.10.4_react-dom@17.0.1+react@17.0.1:
     dependencies:
       prop-types: 15.7.2
       react: 17.0.1
@@ -1761,7 +1761,7 @@ packages:
       react: ^17.0.1
       react-dom: ^17.0.1
     resolution:
-      integrity: sha512-Rn7dKd7+0IzDLqYAj+GzOzIZPDJ5F/ojviRk0HH7MvKLZWtAj+sBQP5Xv8SFGlxA9B6Cj1Rpv+Zyhuj3lo9p3w==
+      integrity: sha512-4GgNIYezC0UFjXSiTSoT8/x8UmroAYRisZASZlZ+uXTB2qN1JSmVRoOWOQrkV9/XWZkVQQhQiHu2lkQ2PblZVw==
   /@types/aria-query/4.2.1:
     dev: true
     resolution:
@@ -8667,7 +8667,7 @@ specifiers:
   '@testing-library/jest-dom': ^5.11.9
   '@testing-library/react': ^11.2.5
   '@testing-library/user-event': ^12.8.3
-  '@tinymce/tinymce-react': ^3.10.2
+  '@tinymce/tinymce-react': ^3.10.4
   '@types/classnames': ^2.2.10
   '@types/debounce': ^1.2.0
   '@types/enzyme': ^3.10.7
