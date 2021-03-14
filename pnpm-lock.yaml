@@ -20,7 +20,7 @@ devDependencies:
   '@nick-mazuk/tsconfig': 0.1.1_typescript@4.2.3
   '@testing-library/jest-dom': 5.11.9
   '@testing-library/react': 11.2.5_react-dom@17.0.1+react@17.0.1
-  '@testing-library/user-event': 12.8.1
+  '@testing-library/user-event': 12.8.3
   '@types/classnames': 2.2.11
   '@types/debounce': 1.2.0
   '@types/enzyme': 3.10.8
@@ -1739,7 +1739,7 @@ packages:
       react-dom: '*'
     resolution:
       integrity: sha512-yEx7oIa/UWLe2F2dqK0FtMF9sJWNXD+2PPtp39BvE0Kh9MJ9Kl0HrZAgEuhUJR+Lx8Di6Xz+rKwSdEPY2UV8ZQ==
-  /@testing-library/user-event/12.8.1:
+  /@testing-library/user-event/12.8.3:
     dependencies:
       '@babel/runtime': 7.13.9
     dev: true
@@ -1749,7 +1749,7 @@ packages:
     peerDependencies:
       '@testing-library/dom': '>=7.21.4'
     resolution:
-      integrity: sha512-u521YhkCKip0DQNDpfj9V97PU7UlCTkW5jURUD4JipuVe/xDJ32dJSIHlT2pqAs/I91OFB8p6LtqaLZpOu8BWQ==
+      integrity: sha512-IR0iWbFkgd56Bu5ZI/ej8yQwrkCv8Qydx6RzwbKz9faXazR/+5tvYKsZQgyXJiwgpcva127YO6JcWy7YlCfofQ==
   /@tinymce/tinymce-react/3.10.3_react-dom@17.0.1+react@17.0.1:
     dependencies:
       prop-types: 15.7.2
@@ -8666,7 +8666,7 @@ specifiers:
   '@nick-mazuk/tsconfig': ^0.1.1
   '@testing-library/jest-dom': ^5.11.9
   '@testing-library/react': ^11.2.5
-  '@testing-library/user-event': ^12.1.10
+  '@testing-library/user-event': ^12.8.3
   '@tinymce/tinymce-react': ^3.10.2
   '@types/classnames': ^2.2.10
   '@types/debounce': ^1.2.0
