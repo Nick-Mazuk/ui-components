@@ -1,6 +1,6 @@
 {
     "name": "@nick-mazuk/ui",
-    "version": "0.14.19",
+    "version": "0.14.20",
     "description": "",
     "main": "index.js",
     "dependencies": {
@@ -45,7 +45,7 @@
         "@babel/preset-react": "^7.12.13",
         "@babel/preset-typescript": "^7.13.0",
         "@nick-mazuk/eslint-config": "^0.7.25",
-        "@nick-mazuk/lib": "^0.8.19",
+        "@nick-mazuk/lib": "^0.8.27",
         "@nick-mazuk/tsconfig": "^0.1.1",
         "@testing-library/jest-dom": "^5.11.9",
         "@testing-library/react": "^11.2.5",
@@ -81,7 +81,7 @@
         "validator": "^13.1.17"
     },
     "peerDependencies": {
-        "@nick-mazuk/lib": ">= 0.8.19",
+        "@nick-mazuk/lib": ">= 0.8.27",
         "@nick-mazuk/ui-config": ">= 0.6.12",
         "classnames": ">= 2.2.0",
         "framer-motion": ">= 2.6.0",
