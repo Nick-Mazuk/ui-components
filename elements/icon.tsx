@@ -982,6 +982,17 @@ export const Tag = (props: IconProps): JSX.Element => {
     )
 }
 
+export const Target = (props: IconProps): JSX.Element => {
+    return icon(
+        'M2,12a10,10 0 1,0 20,0a10,10 0 1,0 -20,0 M6,12a6,6 0 1,0 12,0a6,6 0 1,0 -12,0 M10,12a2,2 0 1,0 4,0a2,2 0 1,0 -4,0',
+        {
+            stroke: true,
+            width: props.width,
+            name: 'Target',
+        }
+    )
+}
+
 export const ThumbsDown = (props: FillableIconProps): JSX.Element => {
     return icon(
         'M10 15v4a3 3 0 003 3l4-9V2H5.72a2 2 0 00-2 1.7l-1.38 9a2 2 0 002 2.3zm7-13h2.67A2.31 2.31 0 0122 4v7a2.31 2.31 0 01-2.33 2H17',
