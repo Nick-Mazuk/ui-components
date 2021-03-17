@@ -26,7 +26,7 @@ devDependencies:
   '@types/enzyme': 3.10.8
   '@types/enzyme-adapter-react-16': 1.0.6
   '@types/hcaptcha__react-hcaptcha': 0.1.4
-  '@types/jest': 26.0.20
+  '@types/jest': 26.0.21
   '@types/jest-axe': 3.5.1
   '@types/markdown-it': 12.0.1
   '@types/node': 14.14.35
@@ -1550,7 +1550,7 @@ packages:
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.3
       '@types/istanbul-reports': 3.0.0
-      '@types/node': 14.14.32
+      '@types/node': 14.14.35
       '@types/yargs': 15.0.13
       chalk: 4.1.0
     dev: true
@@ -1868,6 +1868,13 @@ packages:
     dev: true
     resolution:
       integrity: sha512-9zi2Y+5USJRxd0FsahERhBwlcvFh6D2GLQnY2FH2BzK8J9s9omvNHIbvABwIluXa0fD8XVKMLTO0aOEuUfACAA==
+  /@types/jest/26.0.21:
+    dependencies:
+      jest-diff: 26.6.2
+      pretty-format: 26.6.2
+    dev: true
+    resolution:
+      integrity: sha512-ab9TyM/69yg7eew9eOwKMUmvIZAKEGZYlq/dhe5/0IMUd/QLJv5ldRMdddSn+u22N13FP3s5jYyktxuBwY0kDA==
   /@types/json-schema/7.0.7:
     dev: true
     resolution:
@@ -8677,7 +8684,7 @@ specifiers:
   '@types/enzyme': ^3.10.8
   '@types/enzyme-adapter-react-16': ^1.0.6
   '@types/hcaptcha__react-hcaptcha': ^0.1.4
-  '@types/jest': ^26.0.20
+  '@types/jest': ^26.0.21
   '@types/jest-axe': ^3.5.1
   '@types/markdown-it': ^12.0.1
   '@types/node': ^14.14.35
