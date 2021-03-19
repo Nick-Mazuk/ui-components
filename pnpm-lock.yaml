@@ -2,7 +2,7 @@ dependencies:
   '@hcaptcha/react-hcaptcha': 0.3.6_react-dom@17.0.1+react@17.0.1
   '@tinymce/tinymce-react': 3.10.4_react-dom@17.0.1+react@17.0.1
   csstype: 3.0.7
-  debounce: 1.2.0
+  debounce: 1.2.1
   html-to-md: 0.3.9
   html2json: 1.0.2
   html2plaintext: 2.1.2
@@ -3347,10 +3347,10 @@ packages:
       node: '>=10'
     resolution:
       integrity: sha512-X5eWTSXO/BJmpdIKCRuKUgSCgAN0OwliVK3yPKbwIWU1Tdw5BRajxlzMidvh+gwko9AfQ9zIj52pzF91Q3YAvQ==
-  /debounce/1.2.0:
+  /debounce/1.2.1:
     dev: false
     resolution:
-      integrity: sha512-mYtLl1xfZLi1m4RtQYlZgJUNQjl4ZxVnHzIR8nLLgi4q1YT8o/WM+MK/f8yfcc9s5Ir5zRaPZyZU6xs1Syoocg==
+      integrity: sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==
   /debug/2.6.9:
     dependencies:
       ms: 2.0.0
@@ -8694,7 +8694,7 @@ specifiers:
   babel-jest: ^26.5.2
   classnames: ^2.2.6
   csstype: ^3.0.7
-  debounce: ^1.2.0
+  debounce: ^1.2.1
   enzyme: ^3.11.0
   enzyme-adapter-react-16: ^1.15.5
   enzyme-to-json: ^3.6.1
