@@ -1,6 +1,6 @@
 {
     "name": "@nick-mazuk/ui",
-    "version": "0.14.36",
+    "version": "0.14.37",
     "description": "",
     "main": "index.js",
     "dependencies": {
@@ -72,7 +72,7 @@
         "jest": "^26.5.3",
         "jest-axe": "^4.1.0",
         "jest-chance": "^0.1.8",
-        "next": "^10.0.3",
+        "next": "^10.0.9",
         "react": "^17.0.1",
         "react-dom": "^17.0.1",
         "react-test-renderer": "^17.0.1",
@@ -85,7 +85,7 @@
         "@nick-mazuk/ui-config": ">= 0.6.12",
         "classnames": ">= 2.2.6",
         "framer-motion": ">= 2.9.5",
-        "next": ">= 10.0.0",
+        "next": ">= 10.0.9",
         "validator": ">= 13.1.0"
     },
     "keywords": [],
