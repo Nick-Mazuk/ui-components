@@ -7,7 +7,7 @@ dependencies:
   html2json: 1.0.2
   html2plaintext: 2.1.2
   markdown-it: 12.0.4
-  markdown-to-jsx: 7.1.1_react@17.0.1
+  markdown-to-jsx: 7.1.2_react@17.0.1
   parse-full-name: 1.2.5
   resize-observer-polyfill: 1.5.1
 devDependencies:
@@ -6047,7 +6047,7 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-34RwOXZT8kyuOJy25oJNJoulO8L0bTHYWXcdZBYZqFnjIy3NgjeoM3FmPXIOFQ26/lSHYMr8oc62B6adxXcb3Q==
-  /markdown-to-jsx/7.1.1_react@17.0.1:
+  /markdown-to-jsx/7.1.2_react@17.0.1:
     dependencies:
       react: 17.0.1
     dev: false
@@ -6056,7 +6056,7 @@ packages:
     peerDependencies:
       react: '>= 0.14.0'
     resolution:
-      integrity: sha512-PJgNmvdKM7f7dFDgr4N2ZQv5OuJ2dwwBZvKel61BO7JLh2QQLDs880uQO+OjsEKNmhCZ0ZOIKkCXFEuY9G0yEA==
+      integrity: sha512-O8DMCl32V34RrD+ZHxcAPc2+kYytuDIoQYjY36RVdsLK7uHjgNVvFec4yv0X6LgB4YEZgSvK5QtFi5YVqEpoMA==
   /md5.js/1.3.5:
     dependencies:
       hash-base: 3.1.0
@@ -8721,7 +8721,7 @@ specifiers:
   jest-axe: ^4.1.0
   jest-chance: ^0.1.8
   markdown-it: ^12.0.4
-  markdown-to-jsx: ^7.1.1
+  markdown-to-jsx: ^7.1.2
   next: ^10.0.3
   parse-full-name: ^1.2.4
   react: ^17.0.1
