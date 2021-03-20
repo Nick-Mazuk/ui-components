@@ -1,6 +1,6 @@
 {
     "name": "@nick-mazuk/ui",
-    "version": "0.14.32",
+    "version": "0.14.33",
     "description": "",
     "main": "index.js",
     "dependencies": {
@@ -68,7 +68,7 @@
         "enzyme-adapter-react-16": "^1.15.6",
         "enzyme-to-json": "^3.6.1",
         "eslint": "^7.22.0",
-        "framer-motion": "^3.2.1",
+        "framer-motion": "^3.10.6",
         "jest": "^26.5.3",
         "jest-axe": "^4.1.0",
         "jest-chance": "^0.1.8",

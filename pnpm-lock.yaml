@@ -39,7 +39,7 @@ devDependencies:
   enzyme-adapter-react-16: 1.15.6_ed988ebff08079c40ff9e87e2acc78b3
   enzyme-to-json: 3.6.1_enzyme@3.11.0
   eslint: 7.22.0
-  framer-motion: 3.10.0_react-dom@17.0.1+react@17.0.1
+  framer-motion: 3.10.6_react-dom@17.0.1+react@17.0.1
   jest: 26.6.3
   jest-axe: 4.1.0
   jest-chance: 0.1.8
@@ -4468,7 +4468,7 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-QpD60n8T6Jvn8zeZxrxaCr//DRk=
-  /framer-motion/3.10.0_react-dom@17.0.1+react@17.0.1:
+  /framer-motion/3.10.6_react-dom@17.0.1+react@17.0.1:
     dependencies:
       framesync: 5.2.0
       hey-listen: 1.0.8
@@ -4484,7 +4484,7 @@ packages:
       react: '>=16.8 || ^17.0.0'
       react-dom: '>=16.8 || ^17.0.0'
     resolution:
-      integrity: sha512-i+Pp3bwMGHFZw3OnsMJGWeAxlAg6ye6Hbek3xRuoCmGjpOQrGKG7Ra249YFAk32wMSwmAbGUzxTE1fgP3ZOmnQ==
+      integrity: sha512-OxOtKgQS4km9a8dm0IMBtNNp4f0DiHfQ/IzxKs818+Kg9V/Ve/pRUJ2dtWBb6+W4lIPNLgRSpbOwOACVj15XcQ==
   /framesync/5.2.0:
     dev: true
     resolution:
@@ -8713,7 +8713,7 @@ specifiers:
   enzyme-adapter-react-16: ^1.15.6
   enzyme-to-json: ^3.6.1
   eslint: ^7.22.0
-  framer-motion: ^3.2.1
+  framer-motion: ^3.10.6
   html-to-md: ^0.3.8
   html2json: ^1.0.2
   html2plaintext: ^2.1.2
