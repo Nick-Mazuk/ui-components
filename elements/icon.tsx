@@ -197,6 +197,14 @@ export const YouTube = (props: IconProps): JSX.Element => {
    
     */
 
+export const Activity = (props: IconProps): JSX.Element => {
+    return icon('M22 12h-4l-3 9L9 3l-3 9H2', {
+        stroke: true,
+        width: props.width,
+        name: 'Activity',
+    })
+}
+
 export const Alert = (props: IconProps): JSX.Element => {
     return icon('M12 8v4 M12 16h.01', {
         stroke: true,
