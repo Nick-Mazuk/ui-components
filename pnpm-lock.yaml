@@ -39,7 +39,7 @@ devDependencies:
   enzyme-adapter-react-16: 1.15.6_ed988ebff08079c40ff9e87e2acc78b3
   enzyme-to-json: 3.6.1_enzyme@3.11.0
   eslint: 7.22.0
-  framer-motion: 3.10.6_react-dom@17.0.1+react@17.0.1
+  framer-motion: 4.0.0_react-dom@17.0.1+react@17.0.1
   jest: 26.6.3
   jest-axe: 4.1.0
   jest-chance: 0.1.8
@@ -4260,7 +4260,7 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-QpD60n8T6Jvn8zeZxrxaCr//DRk=
-  /framer-motion/3.10.6_react-dom@17.0.1+react@17.0.1:
+  /framer-motion/4.0.0_react-dom@17.0.1+react@17.0.1:
     dependencies:
       framesync: 5.2.0
       hey-listen: 1.0.8
@@ -4268,7 +4268,7 @@ packages:
       react: 17.0.1
       react-dom: 17.0.1_react@17.0.1
       style-value-types: 4.1.1
-      tslib: 1.14.1
+      tslib: 2.1.0
     dev: true
     optionalDependencies:
       '@emotion/is-prop-valid': 0.8.8
@@ -4276,7 +4276,7 @@ packages:
       react: '>=16.8 || ^17.0.0'
       react-dom: '>=16.8 || ^17.0.0'
     resolution:
-      integrity: sha512-OxOtKgQS4km9a8dm0IMBtNNp4f0DiHfQ/IzxKs818+Kg9V/Ve/pRUJ2dtWBb6+W4lIPNLgRSpbOwOACVj15XcQ==
+      integrity: sha512-j7lPnXEZdpkAelLRU8FhaZC3UbqnZwSTT/W9rSRwb3cKX4eWrekakK86cVkUE79v1HRE9IPzdPVNP9/e8CPRag==
   /framesync/5.2.0:
     dev: true
     resolution:
@@ -8003,6 +8003,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
+  /tslib/2.1.0:
+    dev: true
+    resolution:
+      integrity: sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A==
   /tsutils/3.21.0_typescript@4.2.3:
     dependencies:
       tslib: 1.14.1
@@ -8505,7 +8509,7 @@ specifiers:
   enzyme-adapter-react-16: ^1.15.6
   enzyme-to-json: ^3.6.1
   eslint: ^7.22.0
-  framer-motion: ^3.10.6
+  framer-motion: ^4.0.0
   html-to-md: ^0.3.9
   html2json: ^1.0.2
   html2plaintext: ^2.1.2
