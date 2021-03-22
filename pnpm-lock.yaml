@@ -16,7 +16,7 @@ devDependencies:
   '@babel/preset-react': 7.12.13_@babel+core@7.13.10
   '@babel/preset-typescript': 7.13.0_@babel+core@7.13.10
   '@nick-mazuk/eslint-config': 0.7.27_eslint@7.22.0+typescript@4.2.3
-  '@nick-mazuk/lib': 0.8.29
+  '@nick-mazuk/lib': 0.8.30
   '@nick-mazuk/tsconfig': 0.1.1_typescript@4.2.3
   '@testing-library/jest-dom': 5.11.9
   '@testing-library/react': 11.2.5_react-dom@17.0.1+react@17.0.1
@@ -1471,12 +1471,12 @@ packages:
       typescript: '>= 4.2.3'
     resolution:
       integrity: sha512-+IfUm8insvXr9p0d4o8ggjk/+KRFa4Alf9KK7uM+MDmi6fGzk2WgRKZ3gi3xKTbb8AEm2FI9Yv5VkigFXTnVbg==
-  /@nick-mazuk/lib/0.8.29:
+  /@nick-mazuk/lib/0.8.30:
     dependencies:
       validator: 13.5.2
     dev: true
     resolution:
-      integrity: sha512-yj078yR7tMJoSklwW8kjc5g7zxbfXE2ccdK7GmMqQ8a1U/wmHG0QyoKjcwphY2mDHhm7jiBVzHnsBW2Tk4KR+w==
+      integrity: sha512-lduw7bQTMwNnmlCF5jf1UBRsQ0AgNj0HWtu1pkfIdL8GvO4od39ex+sQMSEk/mG0FTYtoQp8qA5wH6FpvHKcgw==
   /@nick-mazuk/tsconfig/0.1.1_typescript@4.2.3:
     dependencies:
       typescript: 4.2.3
@@ -8483,7 +8483,7 @@ specifiers:
   '@babel/preset-typescript': ^7.13.0
   '@hcaptcha/react-hcaptcha': ^0.3.6
   '@nick-mazuk/eslint-config': ^0.7.27
-  '@nick-mazuk/lib': ^0.8.29
+  '@nick-mazuk/lib': ^0.8.30
   '@nick-mazuk/tsconfig': ^0.1.1
   '@testing-library/jest-dom': ^5.11.9
   '@testing-library/react': ^11.2.5
