@@ -926,6 +926,25 @@ export const Settings = (props: IconProps): JSX.Element => {
     )
 }
 
+export const Share = (props: IconProps): JSX.Element => {
+    return icon('M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8 M16 6l-4-4-4 4 M12 2v13', {
+        stroke: true,
+        width: props.width,
+        name: 'Share',
+    })
+}
+
+export const Share2 = (props: IconProps): JSX.Element => {
+    return icon(
+        'M8.59 13.51l6.83 3.98 M15.41 6.51l-6.82 3.98 M15,5a3,3 0 1,0 6,0a3,3 0 1,0 -6,0 M3,12a3,3 0 1,0 6,0a3,3 0 1,0 -6,0 M15,19a3,3 0 1,0 6,0a3,3 0 1,0 -6,0',
+        {
+            stroke: true,
+            width: props.width,
+            name: 'Share2',
+        }
+    )
+}
+
 export const ShoppingBag = (props: IconProps): JSX.Element => {
     return icon('M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z M3 6h18 M16 10a4 4 0 01-8 0', {
         stroke: true,
