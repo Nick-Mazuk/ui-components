@@ -15,6 +15,7 @@ type Props = {
     instant?: boolean
     center?: boolean
     position?: Positions
+    block?: boolean
 }
 
 const POSITION_MAP: Record<Positions, string> = {
@@ -40,6 +41,7 @@ export const Tooltip = ({
     color = 'default',
     center = false,
     position = 'top',
+    block = false,
 }: Props): JSX.Element => {
     const tooltipContainerClasses = classNames(
         'absolute',
@@ -69,7 +71,7 @@ export const Tooltip = ({
             <div className={tooltipContainerClasses}>
                 <div className={tooltipClasses}>{content}</div>
             </div>
-            <span className='inline-block'>{children}</span>
+            <span className={block ? '' : 'inline-block'}>{children}</span>
         </div>
     )
 }
