@@ -1,6 +1,6 @@
 {
     "name": "@nick-mazuk/ui",
-    "version": "0.14.45",
+    "version": "0.14.46",
     "description": "",
     "main": "index.js",
     "dependencies": {
