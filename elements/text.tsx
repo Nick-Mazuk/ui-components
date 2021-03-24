@@ -152,7 +152,7 @@ const getTextClasses = (tag: Tags, props: Props): string => {
             'sr-only': props.hidden,
             'text-center': props.center,
             'uppercase tracking-wider': props.uppercase,
-            'whitespace-no-wrap': props.noWrap,
+            'whitespace-nowrap': props.noWrap,
         },
         props.color ?? ''
     )
