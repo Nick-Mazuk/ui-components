@@ -1,6 +1,6 @@
 {
     "name": "@nick-mazuk/ui",
-    "version": "0.15.0",
+    "version": "0.15.1",
     "description": "",
     "main": "index.js",
     "dependencies": {
@@ -40,10 +40,10 @@
     },
     "type": "module",
     "devDependencies": {
-        "@babel/core": "^7.13.10",
-        "@babel/preset-env": "^7.13.10",
-        "@babel/preset-react": "^7.12.13",
-        "@babel/preset-typescript": "^7.13.0",
+        "@babel/core": "^7.14.5",
+        "@babel/preset-env": "^7.14.5",
+        "@babel/preset-react": "^7.14.5",
+        "@babel/preset-typescript": "^7.14.5",
         "@nick-mazuk/eslint-config": "^0.7.27",
         "@nick-mazuk/lib": "^0.8.30",
         "@nick-mazuk/tsconfig": "^0.1.1",
